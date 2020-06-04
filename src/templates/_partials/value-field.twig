@@ -1,0 +1,29 @@
+
+{# This particular parameter may not always be set. Let's set it. #}
+{% if filterType is not defined %}
+	{% set filterType = '' %}
+{% endif %}
+{# For the default filter state, there may not even be a fieldHandle. #}
+{% if fieldHandle is not defined %}
+	{% set fieldHandle = '' %}
+{% endif %}
+{# The field value is another parameter that might be absent. #}
+{% if fieldValue is not defined %}
+	{% set fieldValue = '' %}
+{% endif %}
+
+
+{# Fetch the field options by handle. #}
+{% set fieldOptions = fieldHandle ? craft.cpfilters.fieldOptions(fieldHandle) : [] %}
+
+{% if fieldOptions is empty %}
+	<input class="text filterValue" type="text" name="filters[{{ index }}][value]" {% if 'empty' in filterType %}readonly="readonly"{% endif %} data-filter-value data-idx="{{ index }}" value="{{ fieldValue }}"  >
+{% else %}
+	<div class="select" >
+		<select class="filterValue" name="filters[{{ index }}][value]" {% if 'empty' in filterType %}readonly="readonly"{% endif %} data-filter-value data-idx="{{ index }}" >
+		{% for opValue,opLabel in fieldOptions %}
+			<option value="{{ opValue }}" {% if opValue|t is same as(fieldValue|t) %}selected="selected"{% endif %} >{{ opLabel|e }}</option>
+		{% endfor %}
+		</select>
+	</div>
+{% endif %}

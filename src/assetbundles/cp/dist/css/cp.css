@@ -1,0 +1,55 @@
+
+.filterContainer {
+	margin-bottom: 5rem;
+}
+
+.filterFields {
+	margin-bottom: 1rem;
+}
+
+.filterControls {
+	min-height: 2rem;
+	margin-bottom: 1rem;
+}
+
+.filterControls .filterFormControls {
+	float: left;
+}
+
+.filterControls .filterExportControls {
+	float: right;
+}
+
+.filterFields .filterField {
+	margin-bottom: .5rem;
+}
+
+.filterFields .filterField .filterType {
+	min-width: 150px;
+}
+
+.filterFields .filterField .valueFieldContainer {
+	display: inline-block;
+}
+
+.filterFields .filterField .valueFieldContainer .filterValue {
+	min-width: 250px;
+}
+
+.filterFields .filterField input.filterValue:read-only {
+	background: #eee;
+}
+
+.filteredTable td.filtered, .filteredTable th.filtered {
+	background-color: #e7eef3;
+}
+
+.filterResultsCount {
+	margin-bottom: 1rem;
+	float:left;
+}
+
+.filterPagination {
+	margin-bottom: 1rem;
+	float:right;
+}
