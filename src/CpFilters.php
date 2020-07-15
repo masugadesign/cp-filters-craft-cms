@@ -103,6 +103,7 @@ class CpFilters extends Plugin
 		});
 		// Register CP routes.
 		Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
+			$event->rules['cpfilters'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/entries'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/field-filter-options'] = 'cpfilters/cp/field-filter-options';
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';

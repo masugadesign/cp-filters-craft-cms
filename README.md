@@ -19,3 +19,15 @@ Add the following to your composer.json requirements. Be sure to adjust the vers
 ```
 
 ### Settings
+
+### Config
+
+#### filterableEntryTypeIds
+
+This is an array of entry __type__ IDs, not to be confused with the __section__ IDs.
+
+```
+<?php
+
+'filterableEntryTypeIds' => [1,5,10]
+```

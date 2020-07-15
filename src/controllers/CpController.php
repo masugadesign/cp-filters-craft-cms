@@ -3,6 +3,7 @@
 namespace Masuga\CpFilters\controllers;
 
 use Craft;
+use Exception;
 use craft\helpers\ArrayHelper;
 use craft\helpers\UrlHelper;
 use Masuga\CpFilters\CpFilters;
@@ -45,7 +46,7 @@ class CpController extends Controller
 				'mimeType' => 'text/csv'
 			]);
 		} else {
-			$response = $this->renderTemplate('cpfilters/index');
+			$response = $this->renderTemplate('cpfilters/_index');
 		}
 		return $response;
 	}
