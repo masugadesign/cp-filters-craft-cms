@@ -1,7 +1,7 @@
 # CP Filters for Craft CMS
 
 ### Advanced filtering for elements in the control panel.
-This is a commercial plugin for Craft CMS 3.
+This is a commercial plugin for Craft CMS 3 that is in BETA. The plugin has not yet been released for public use and is not supported.
 
 ### Table of Contents
 
