@@ -6,9 +6,9 @@ use Craft;
 use Exception;
 use craft\helpers\ArrayHelper;
 use craft\helpers\UrlHelper;
-use Masuga\CpFilters\CpFilters;
 use craft\web\Controller;
 use craft\web\Response;
+use Masuga\CpFilters\CpFilters;
 use yii\web\NotFoundHttpException;
 
 class CpController extends Controller
@@ -21,6 +21,7 @@ class CpController extends Controller
 
 	public function init()
 	{
+		parent::init();
 		$this->plugin = CpFilters::getInstance();
 	}
 

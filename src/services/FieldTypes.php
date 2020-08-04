@@ -265,8 +265,13 @@ class FieldTypes extends Service
 			$preview = $value->format('Y-m-d H:i:s');
 		} elseif ( $type === 'craft\elements\db\AssetQuery' ) {
 			$oneFile = $value->anyStatus()->one();
-			$thumbUrl = $oneFile ? Craft::$app->getAssets()->getThumbUrl($oneFile, 100) : null;
 			if ( $oneFile ) {
+				$thumbUrl = $oneFile->kind === 'image' ? $oneFile->getUrl([
+					'width' => 100,
+					'height' => 100,
+					'mode' => 'fit',
+					'quality' => 80
+				]) : Craft::$app->getAssets()->getThumbUrl($oneFile, 100);
 				$preview = (string) $oneFile->kind === 'image' ?
 					'<a href="'.$oneFile->url.'" target="_blank" ><img src="'.$thumbUrl.'" alt="'.$oneFile->filename.'" title="'.$oneFile->filename.'" ></a>' :
 					$oneFile->filename;
