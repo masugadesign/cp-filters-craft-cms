@@ -48,7 +48,7 @@ abstract class Service extends Component
 	 * @param array $criteria
 	 * @return Entry|null
 	 */
-	public function fetchEntryByCriteria($criteria): ?Entry
+	public function fetchEntryByCriteria($criteria)
 	{
 		$query = Entry::find();
 		Craft::configure($query, $criteria);

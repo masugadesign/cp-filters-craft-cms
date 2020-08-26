@@ -60,7 +60,7 @@ class Filters extends Service
 			}
 		}
 		$csvContent = $this->arrayToCsv($arrayContent);
-		$filePath = Craft::$app->path->getTempPath().'/'.$basename.'.csv';
+		$filePath = Craft::$app->path->getTempPath().DIRECTORY_SEPARATOR.$basename.'.csv';
 		FileHelper::writeToFile($filePath, $csvContent);
 		return file_exists($filePath) ? $filePath : null;
 	}

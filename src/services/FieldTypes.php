@@ -103,7 +103,7 @@ class FieldTypes extends Service
 	 * @param string $handle
 	 * @return FieldInterface|null
 	 */
-	public function getFieldByHandle($handle): ?FieldInterface
+	public function getFieldByHandle($handle)
 	{
 		$field = null;
 		if ( !empty($this->cachedFields[$handle]) ) {

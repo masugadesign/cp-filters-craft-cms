@@ -15,6 +15,7 @@ class Settings extends Model
 
 	/**
 	 * An array of Asset volume IDs that should appear as filterable options.
+	 * (FFU)
 	 * @var mixed
 	 */
 	public $filterableAssetVolumeIds = '*';

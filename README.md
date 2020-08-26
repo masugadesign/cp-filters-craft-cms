@@ -7,7 +7,7 @@ This is a commercial plugin for Craft CMS 3 that is in BETA. The plugin has not 
 
 ### Requirements
 
-* Craft CMS v3.0.0+
+* Craft CMS v3.3.0+
 * PHP 7.0+
 
 ### Installation
@@ -29,5 +29,19 @@ This is an array of entry __type__ IDs, not to be confused with the __section__ 
 ```
 <?php
 
-'filterableEntryTypeIds' => [1,5,10]
+'filterableEntryTypeIds' => [1,5,10],
+```
+
+#### additionalFieldTypes
+
+Register custom field types as filterable by supplying the fully qualified class name and an array of filter options. The following filter options are available. Be careful to choose appropriate filter options because not all field types can
+support all the filters.
+
+Filter options: `contains`, `starts with`, `ends with`, `is equal to`, `is assigned`, `is greater than`, `is less than`, `is empty`, `is not empty`
+
+```
+<?php
+'additionalFieldTypes' = [
+	'modules\masuga\fields\CategoriesMultipleSources' => ['is assigned', 'is empty', 'is not empty']
+],
 ```
