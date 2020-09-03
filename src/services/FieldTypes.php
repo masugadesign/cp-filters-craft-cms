@@ -67,6 +67,7 @@ class FieldTypes extends Service
 	 * @var array
 	 */
 	const NATIVE_FIELD_MAPS = [
+		'id' => 'craft\fields\Number',
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',
 		'postDate' => 'craft\fields\Date',
