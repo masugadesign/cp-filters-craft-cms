@@ -8,9 +8,12 @@ use craft\base\FieldInterface;
 use craft\elements\Asset;
 use craft\elements\Category;
 use craft\elements\Entry;
+use craft\elements\Tag;
+use craft\elements\User;
 use craft\fields\BaseRelationField;
 use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
+use craft\records\Volume;
 use Masuga\CpFilters\base\Service;
 use yii\helpers\Inflector;
 
@@ -48,7 +51,7 @@ class FieldTypes extends Service
 	 * @var array
 	 */
 	const FIELD_TYPES = [
-		'craft\fields\Assets' => ['is empty', 'is not empty'],
+		'craft\fields\Assets' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\fields\Categories' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\fields\Checkboxes' => ['contains', 'is empty', 'is not empty'],
 		'craft\fields\Date' => ['is greater than', 'is less than', 'is empty', 'is not empty'],
@@ -58,6 +61,8 @@ class FieldTypes extends Service
 		'craft\fields\Number' => ['is equal to', 'is greater than', 'is less than', 'is empty', 'is not empty'],
 		'craft\fields\PlainText' => ['contains', 'starts with', 'ends with', 'is equal to', 'is empty', 'is not empty'],
 		'craft\fields\RadioButtons' => ['is equal to', 'is empty', 'is not empty'],
+		'craft\fields\Tags' => ['is assigned', 'is empty', 'is not empty'],
+		'craft\fields\Users' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\redactor\Field' => ['contains', 'is empty', 'is not empty'],
 	];
 
@@ -186,7 +191,7 @@ class FieldTypes extends Service
 	 * @param BaseRelationField $field
 	 * @return array
 	 */
-	public function getRelationFieldOptionsByField($field): array
+	public function getRelationFieldOptionsByField(&$field): array
 	{
 		$options = $actualSources = [];
 		// These values are "keys" which consist of a group type, a colon, then the UID. Worthless.
@@ -194,23 +199,32 @@ class FieldTypes extends Service
 		if ( ! is_array($sourceOptions) ) {
 			$sourceOptions = [$sourceOptions];
 		}
-		// Kludge to determine which type of elements we're dealing with.
-		$elementType = stripos(get_class($field), 'Categ') !== false ? 'craft\elements\Category' : 'craft\elements\Entry';
+		// BaseRelationField::elementType() is protected so that's a no-go.
+		$elementType = $this->detectRelationType($field);
 		foreach($sourceOptions as &$sourceOption) {
 			//$uid = stripos($sourceOption, '*') === false ? substr($sourceOption, strpos($sourceOption, ':')+1) : null;
 			if ( $sourceOption !== '*' ) {
-				$source = ElementHelper::findSource($elementType, $sourceOption);
-				$actualSources[] = (string) $source['data']['handle'];
+				// ElementHelper::findSource() doesn't appear to work with asset volumes. It returns NULL.
+				$source = $elementType !== 'craft\elements\Asset' ?
+					ElementHelper::findSource($elementType, $sourceOption) :
+					$this->getVolumeIdBySourceKey($sourceOption);
+				$actualSources[] = $source['data']['handle'] ?? $source['criteria']['groupId'] ?? $source;
 			}
 		}
-		// Query the elements in the appropriate manner based on their type.
-		if ( stripos(get_class($field), 'Categ') !== false ) {
+		// No generalized way to query sources on ElementQuery so we need to be specific with our elements here.
+		if ( $elementType === 'craft\elements\Asset' ) {
+			$elements = Asset::find()->volumeId($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+		} elseif ( $elementType === 'craft\elements\Category' ) {
 			$elements = Category::find()->group($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
-		} else {
+		} elseif ( $elementType === 'craft\elements\Entry' ) {
 			$elements = Entry::find()->section($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+		} elseif ( $elementType === 'craft\elements\Tag' ) {
+			$elements = Tag::find()->groupId($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+		} elseif ( $elementType === 'craft\elements\User' ) {
+			$elements = User::find()->groupId($actualSources)->anyStatus()->orderBy('username')->limit(null)->all();
 		}
 		foreach($elements as &$element) {
-			$options[ $element->id ] = $element->title;
+			$options[ $element->id ] = $element->title ?? $element->username ?? "ID: {$element->id}";
 		}
 		return ['' => 'Select Value...'] + $options;
 	}
@@ -289,10 +303,54 @@ class FieldTypes extends Service
 			$preview = implode(', ', (array) $value);
 		} elseif ( $type === 'craft\elements\db\MatrixBlockQuery' ) {
 			$preview = $value->count(). ' items';
+		} elseif ( $type === 'craft\elements\db\TagQuery' ) {
+			$tags = $value->anyStatus()->orderBy('title')->all();
+			$preview = $tags ? implode(', ', ArrayHelper::getColumn($tags, 'title')) : '--';
+		} elseif ( $type === 'craft\elements\db\UserQuery' ) {
+			$tags = $value->anyStatus()->orderBy('username')->all();
+			$preview = $tags ? implode(', ', ArrayHelper::getColumn($tags, 'title')) : '--';
 		} else {
 			$preview = $value;
 		}
 		return (string) $preview;
+	}
+
+	/**
+	 * Craft relation fields do not publicly expose which type of elements they
+	 * relate to. I have no idea why this is. So here is a kludgy, but probably
+	 * reliable, method for determining the element type.
+	 * @param BaseRelationField $field
+	 * @return string
+	 */
+	public function detectRelationType(BaseRelationField &$field): string
+	{
+		$type = '';
+		$class = get_class($field);
+		if ( stripos($class, 'Asset') !== false ) {
+			$type = Asset::class;
+		} elseif ( stripos($class, 'Categ') !== false ) {
+			$type = Category::class;
+		} elseif ( stripos($class, 'Entr') !== false ) {
+			$type = Entry::class;
+		} elseif ( stripos($class, 'Tag') !== false ) {
+			$type = Tag::class;
+		} elseif ( stripos($class, 'User') !== false ) {
+			$type = User::class;
+		}
+		return $type;
+	}
+
+	/**
+	 * This method returns an Asset volume ID based on its volume source key.
+	 * @param string $sourceKey
+	 * @return Volume|null
+	 */
+	public function getVolumeIdBySourceKey($sourceKey)
+	{
+		$volumeUid = explode(':', $sourceKey)[1] ?? null;
+		$volume = $volumeUid ? Craft::$app->getVolumes()->getVolumeByUid($volumeUid) : null;
+		$volumeId = $volume->id ?? null;
+		return $volumeId;
 	}
 
 }
