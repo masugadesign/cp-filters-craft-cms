@@ -294,8 +294,9 @@ class FieldTypes extends Service
 				$preview = '--';
 			}
 		} elseif ( $type === 'craft\elements\db\EntryQuery' ) {
-			$oneEntry = $value->anyStatus()->one();
-			$preview = $oneEntry ? $oneEntry->title : '--';
+			$entries = $value->anyStatus()->orderBy('title')->limit(5)->all();
+			$ellipsis = count($entries) === 5 ? "&hellip;" : "";
+			$preview = $entries ? implode(', ', ArrayHelper::getColumn($entries, 'title')).$ellipsis : '--';
 		} elseif ( $type === 'craft\elements\db\CategoryQuery' ) {
 			$oneCat = $value->anyStatus()->one();
 			$preview = $oneCat ? '<a href="'.$oneCat->getCpEditUrl().'" target="_blank" >'.$oneCat->title.'</a>' : '--';
@@ -307,8 +308,9 @@ class FieldTypes extends Service
 			$tags = $value->anyStatus()->orderBy('title')->all();
 			$preview = $tags ? implode(', ', ArrayHelper::getColumn($tags, 'title')) : '--';
 		} elseif ( $type === 'craft\elements\db\UserQuery' ) {
-			$tags = $value->anyStatus()->orderBy('username')->all();
-			$preview = $tags ? implode(', ', ArrayHelper::getColumn($tags, 'title')) : '--';
+			$users = $value->anyStatus()->orderBy('username')->limit(5)->all();
+			$ellipsis = count($users) === 5 ? "&hellip;" : "";
+			$preview = $users ? implode(', ', ArrayHelper::getColumn($users, 'username')).$ellipsis : '--';
 		} else {
 			$preview = $value;
 		}
