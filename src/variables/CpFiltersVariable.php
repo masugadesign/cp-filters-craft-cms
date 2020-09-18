@@ -3,6 +3,7 @@
 namespace Masuga\CpFilters\variables;
 
 use Craft;
+use craft\elements\db\ElementQuery;
 use Masuga\CpFilters\CpFilters;
 use yii\helpers\Inflector;
 
@@ -18,6 +19,69 @@ class CpFiltersVariable
 	public function __construct()
 	{
 		$this->plugin = CpFilters::getInstance();
+	}
+
+	/**
+	 * This method returns the full class name of an element based on its type
+	 * key.
+	 * @param string $typeKey
+	 * @return string
+	 */
+	public function getElementClass($typeKey): string
+	{
+		return $this->plugin->filters->getElementClass($typeKey);
+	}
+
+	/**
+	 * This method determines whether we should key on `typeId`, `groupId`, or
+	 * `volumeId`.
+	 * @param string $typeKey
+	 * @return string
+	 */
+	public function groupParamKey($typeKey): string
+	{
+		return $this->plugin->filters->groupParamKey($typeKey);
+	}
+
+	/**
+	 * This method returns the available options for a specified element type
+	 * based on its CP Filters key value.
+	 * @param string $typeKey
+	 * @return array
+	 */
+	public function groupOptions($typeKey): array
+	{
+		return $this->plugin->filters->groupOptions($typeKey);
+	}
+
+	/**
+	 * This method fetches an array of fields belonging to a field layout that
+	 * belongs to an element grouping of some sort (entry type, volume, group).
+	 * @param string $typeKey
+	 * @param int $groupId
+	 * @return array
+	 */
+	public function elementGroupFields($typeKey, $groupId): array
+	{
+		return $this->plugin->filters->elementGroupFields($typeKey, $groupId);
+	}
+
+	public function elementQuery($class, $criteria): ElementQuery
+	{
+		return $this->plugin->filters->elementQuery($class, $criteria);
+	}
+
+	/**
+	 * This method fetches elements of a particular type based on the provided
+	 * criteria.
+	 * @param string $typeKey
+	 * @param array $criteria
+	 * @param bool $asArray
+	 * @return array
+	 */
+	public function fetchElementsByCriteria($typeKey, $criteria, $asArray=false): array
+	{
+		return $this->plugins->filters->fetchElementsByCriteria($typeKey, $criteria, $asArray);
 	}
 
 	/**
@@ -49,6 +113,17 @@ class CpFiltersVariable
 	public function formatFilterCriteria($criteria): array
 	{
 		return $this->plugin->filters->formatCriteria($criteria);
+	}
+
+	/**
+	 * This method fetches an array of fields belonging to a field layout that
+	 * belongs to an entry type.
+	 * @param int $entryTypeId
+	 * @return array
+	 */
+	public function assetVolumeFields($volumeId): array
+	{
+		return $this->plugin->assetVolumes->fields($entryTypeId);
 	}
 
 	/**

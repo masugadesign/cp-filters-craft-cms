@@ -12,6 +12,71 @@ class Filters extends Service
 {
 
 	/**
+	 * This method determines whether we should key on `typeId`, `groupId`, or
+	 * `volumeId`.
+	 * @param string $typeKey
+	 * @return string
+	 */
+	public function groupParamKey($typeKey): string
+	{
+		if ( $typeKey === 'entries' ) {
+			$key = 'typeId';
+		} elseif ( $typeKey === 'assets' ) {
+			$key = 'volumeId';
+		} else {
+			$key = 'groupId';
+		}
+		return $key;
+	}
+
+	/**
+	 * This method returns the available options for a specified element type
+	 * based on its CP Filters key value.
+	 * @param string $typeKey
+	 * @return array
+	 */
+	public function groupOptions($typeKey): array
+	{
+		$options = [];
+		if ( $typeKey === 'entries' ) {
+			$options = $this->plugin->entryTypes->entryTypeOptions();
+		} elseif ( $typeKey === 'assets' ) {
+			$options = $this->plugin->assetVolumes->volumeOptions();
+		} elseif ( $typeKey === 'users' ) {
+
+		} elseif ( $typeKey === 'categories' ) {
+
+		} elseif ( $typeKey === 'tags') {
+
+		}
+		return $options;
+	}
+
+	/**
+	 * This method fetches an array of fields belonging to a field layout that
+	 * belongs to an element grouping of some sort (entry type, volume, group).
+	 * @param string $typeKey
+	 * @param int $groupId
+	 * @return array
+	 */
+	public function elementGroupFields($typeKey, $groupId): array
+	{
+		$fields = [];
+		if ( $typeKey === 'entries' ) {
+			$fields = $this->plugin->entryTypes->fields($groupId);
+		} elseif ( $typeKey === 'assets' ) {
+			$fields = $this->plugin->assetVolumes->fields($groupId);
+		} elseif ( $typeKey === 'users' ) {
+
+		} elseif ( $typeKey === 'categories' ) {
+
+		} elseif ( $typeKey === 'tags') {
+
+		}
+		return $fields;
+	}
+
+	/**
 	 * This method converts filter input criteria into query criteria.
 	 * @param array $input
 	 * @return array

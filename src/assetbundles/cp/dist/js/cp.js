@@ -9,7 +9,7 @@ $(".filterField").each(function() {
 });
 
 // JS
-$("body").on("change", "#entryTypeId", function() {
+$("body").on("change", "#groupId", function() {
 	// If entry type changes, remove all current filters.
 	$(".filterFields").html('');
 	$("#filtersForm").submit();

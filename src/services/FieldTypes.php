@@ -243,6 +243,10 @@ class FieldTypes extends Service
 		if ( $fieldHandle && $filterType ) {
 			if ( $filterType === 'is assigned' ) {
 				$criteria = ['relatedTo' => ['field' => $fieldHandle, 'targetElement' => $value]];
+			} elseif ( $filterType === 'assigned count less than' ) {
+
+			} elseif ( $filterType === 'assigned count greater than' ) {
+
 			} else {
 				$criteria = [$fieldHandle => str_replace('[value]', $value, self::FILTER_TYPES[$filterType])];
 			}

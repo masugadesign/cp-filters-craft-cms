@@ -1,0 +1,42 @@
+{#
+Parameters:
+	typeKey : entries | assets | categories | users | tags
+	groupOptions : An array of entry types, asset volumes, user/categories/tag groups.
+	groupId : The ID of whichever group is currently selected.
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% switch typeKey %}
+	{% case 'entries' %}
+
+		{{ forms.selectField({
+			label: "Entry Type",
+			instructions: "Select the type of entries you'd like to filter.",
+			id: "groupId",
+			name: "groupId",
+			options: groupOptions,
+			value: groupId,
+			required : false
+		}) }}
+
+	{% case 'assets' %}
+
+		{{ forms.selectField({
+			label: "Asset Volume",
+			instructions: "Select the Asset Volume you'd like to filter.",
+			id: "groupId",
+			name: "groupId",
+			options: groupOptions,
+			value: groupId,
+			required : false
+		}) }}
+
+	{% case 'users' %}
+
+	{% case 'categories' %}
+
+	{% case 'tags' %}
+
+
+{% endswitch %}

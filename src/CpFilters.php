@@ -16,6 +16,7 @@ use craft\web\View;
 use Masuga\CpFilters\assetbundles\cp\CpAsset;
 use Masuga\CpFilters\controllers\CpController;
 use Masuga\CpFilters\models\Settings;
+use Masuga\CpFilters\services\AssetVolumes;
 use Masuga\CpFilters\services\EntryTypes;
 use Masuga\CpFilters\services\FieldTypes;
 use Masuga\CpFilters\services\Filters;
@@ -87,6 +88,7 @@ class CpFilters extends Plugin
 		parent::init();
 		// Initialize each of the services used by this plugin.
 		$this->setComponents([
+			'assetVolumes' => AssetVolumes::class,
 			'entryTypes' => EntryTypes::class,
 			'fieldTypes' => FieldTypes::class,
 			'filters' => Filters::class
@@ -105,6 +107,10 @@ class CpFilters extends Plugin
 		Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
 			$event->rules['cpfilters'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/entries'] = 'cpfilters/cp/filters';
+			$event->rules['cpfilters/assets'] = 'cpfilters/cp/filters';
+			$event->rules['cpfilters/categories'] = 'cpfilters/cp/filters';
+			$event->rules['cpfilters/users'] = 'cpfilters/cp/filters';
+			$event->rules['cpfilters/tags'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/field-filter-options'] = 'cpfilters/cp/field-filter-options';
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';
 		});

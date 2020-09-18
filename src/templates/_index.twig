@@ -1,15 +1,27 @@
 {% extends "_layouts/cp" %}
 {% set title = "CP Filters" %}
 
-{% import "_includes/forms" as forms %}
+{% set tabs = {
+	entries: { label: "Entries"|t, url: url('cpfilters/entries') },
+	assets: { label: "Assets"|t, url: url('cpfilters/assets') },
+	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
+	users: { label: "Users"|t, url: url('cpfilters/users') },
+	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
+} %}
+
+{% set selectedTab = craft.app.request.getSegment(2) ?: 'entries' %}
 
 {# Load the JS and CSS needed for this page. #}
 {% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
 
+{# We extract this from the URI to determine which element type we are working with. #}
+{% set elementTypeKey = selectedTab %}
+{% set elementClass = craft.cpfilters.getElementClass(elementTypeKey) %}
 {# Set variables for all currently available query string parameters. #}
-{% set entryTypeId = craft.app.request.getParam('entryTypeId') ?? null %}
-{% set filtersParam = craft.app.request.getParam('filters') ?? {0 : {'fieldHandle' : '', 'filterType' : '', 'value' : '' } } %}
-{% set limit = entryTypeId ? 50 : 25 %}
+{% set groupId = craft.app.request.getParam('groupId') ?: null %}
+{# Fetch an existing batch of filters from the query string or initialize an empty set. #}
+{% set filtersParam = craft.app.request.getParam('filters') ?: {0 : {'fieldHandle' : '', 'filterType' : '', 'value' : '' } } %}
+{% set limit = groupId ? 50 : 25 %}
 {% set offset = craft.app.request.getParam('offset') ?: 0 %}
 
 {#
@@ -18,13 +30,12 @@ FILTER OPTIONS
 #}
 
 {# Fetch an array of the Entry Type objects that are deemed as filterable in the config. See: `filterableEntryTypeIds` #}
-{% set filterableEntryTypes = craft.cpfilters.filterableEntryTypes() %}
-{% set entryTypeOptions = craft.cpfilters.entryTypeOptions() %}
+{% set groupOptions = craft.cpfilters.groupOptions(elementTypeKey) %}
 {% set fieldOptions = {} %}
-{# Was an entry type ID supplied? Fetch its field layout fields. #}
-{% if entryTypeId %}
+{# Was an type/group/volume ID supplied? Fetch its field layout fields. #}
+{% if groupId %}
 	{% set fieldOptions = craft.cpfilters.nativeFields() %}
-	{% set fields = craft.cpfilters.entryTypeFields(entryTypeId) %}
+	{% set fields = craft.cpfilters.elementGroupFields(elementTypeKey, groupId) %}
 	{% for field in fields %}
 		{% set fieldOptions = fieldOptions|merge({ (field.handle) : field.name }) %}
 	{% endfor %}
@@ -35,16 +46,18 @@ QUERIES
 - - - - - - - - - - - - - -
 #}
 
+{# Is it typeId, groupId or volumeId? #}
+{% set groupParamKey = craft.cpfilters.groupParamKey(elementTypeKey) %}
 {# Initialize some variables that might not always be set. #}
 {% set criteria = {
-	'typeId' : entryTypeId
+	(groupParamKey) : groupId
 } %}
 {# Add any available filter criteria to the entry query. #}
 {% set criteria = filtersParam ? criteria|merge( craft.cpfilters.formatFilterCriteria(filtersParam) ) : criteria %}
 {# Get the TOTAL match count without imposing limits. #}
-{% set filteredMatches = craft.entries(criteria).orderBy('dateCreated', 'desc').count() %}
+{% set filteredMatches = craft.cpfilters.elementQuery(elementClass, criteria).orderBy('dateCreated', 'desc').count() %}
 {# Only fetch a limited number of results. #}
-{% set filteredEntries = craft.entries(criteria).orderBy('dateCreated', 'desc').limit(limit).offset(offset).all() %}
+{% set filteredElements = craft.cpfilters.elementQuery(elementClass, criteria).orderBy('dateCreated', 'desc').limit(limit).offset(offset).all() %}
 
 {#
 PAGINATION
@@ -52,14 +65,14 @@ PAGINATION
 #}
 
 {# set a parameter for the total number of current results. #}
-{% set currentResults = filteredEntries|length %}
+{% set currentResults = filteredElements|length %}
 {# Create the pagination links one time so they can be output twice. #}
 {% set pagination %}
 <div class="filterPagination" >
 	{# Show the "previous page" link if we have an offset greater than 0. #}
 	{% if offset > 0 %}
 		<a href="{{ url('cpfilters/entries', {
-			'entryTypeId' : entryTypeId,
+			'groupId' : groupId,
 			'filters' : filtersParam,
 			'limit' : limit,
 			'offset' : offset-limit }) }}" class="btn" >&larr; Previous Page</a>
@@ -67,7 +80,7 @@ PAGINATION
 	{# Only show the next page if the current results count matches the limit. #}
 	{% if currentResults == limit %}
 		<a href="{{ url('cpfilters/entries', {
-			'entryTypeId' : entryTypeId,
+			'groupId' : groupId,
 			'filters' : filtersParam,
 			'limit' : limit,
 			'offset' : offset+limit }) }}" class="btn" >Next Page &rarr;</a>
@@ -92,18 +105,14 @@ OUTPUT
 
 	<form id="filtersForm" method="get" accept-charset="UTF-8" autocomplete="off" >
 
-		{{ forms.selectField({
-			label: "Entry Type",
-			instructions: "Select the type of entries you'd like to filter.",
-			id: "entryTypeId",
-			name: "entryTypeId",
-			options: entryTypeOptions,
-			value: entryTypeId,
-			required : false
-		}) }}
+	{% include 'cpfilters/_partials/select-group' with {
+		'typeKey' : elementTypeKey,
+		'groupOptions' : groupOptions,
+		'groupId' : groupId
+	} %}
 
 	{# Only show the block of filters fields if an entry type has been selected. #}
-	{% if entryTypeId|length %}
+	{% if groupId|length %}
 
 		<div id="filterFields" class="filterFields" >
 		{% for i,filterData in filtersParam %}
@@ -145,7 +154,7 @@ OUTPUT
 		<div class="filterControls" >
 			<div class="filterFormControls" >
 				<input type="submit" class="btn submit" value="Refresh Results" >&nbsp;
-				<a href="{{ url('cpfilters/entries') }}" class="btn" >Clear Filters</a>
+				<a href="{{ craft.app.request.pathInfo }}" class="btn" >Clear Filters</a>
 			</div>
 			<div class="filterExportControls" >
 				<input type="submit" class="btn submit" name="exportSubmit" value="Export Total Results" >
@@ -157,7 +166,7 @@ OUTPUT
 	<hr>
 
 	<div class="filterResultsCount">
-		Showing <strong>{{ filteredEntries|length|number_format(0) }} ({{ (offset+1)|number_format(0) ~ ' - ' ~ (offset+currentResults)|number_format(0) }})</strong> of <strong>{{ filteredMatches|number_format(0) }}</strong> total matches.
+		Showing <strong>{{ filteredElements|length|number_format(0) }} ({{ (offset+1)|number_format(0) ~ ' - ' ~ (offset+currentResults)|number_format(0) }})</strong> of <strong>{{ filteredMatches|number_format(0) }}</strong> total matches.
 	</div>
 	{{ pagination|raw }}
 
@@ -174,21 +183,21 @@ OUTPUT
 			</tr>
 		</thead>
 		<tbody>
-		{% for entry in filteredEntries %}
+		{% for element in filteredElements %}
 			<tr>
-				<td>{{ entry.id }}</td>
-				<td><a href="{{ entry.getCpEditUrl() }}" target="_blank" >{{ entry.title|e }}</a></td>
+				<td>{{ element.id }}</td>
+				<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.title|e }}</a></td>
 				<td>
-				{% if entry.url %}
-					<a href="{{ entry.url }}" target="_blank" >{{ entry.uri|e }}</a>
+				{% if element.url %}
+					<a href="{{ element.url }}" target="_blank" >{{ element.uri|e }}</a>
 				{% else %}
 					--
 				{% endif %}
 				</td>
-				<td>{{ entry.dateUpdated|date('Y-m-d g:i a') }}</td>
+				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 				{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 				{# Preview values may contain links so perform a "raw" output. #}
-				<td class="filtered">{{ craft.cpfilters.previewValue(entry, filterData.fieldHandle)|raw }}</td>
+				<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
