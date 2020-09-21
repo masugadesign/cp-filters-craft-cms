@@ -170,39 +170,7 @@ OUTPUT
 	</div>
 	{{ pagination|raw }}
 
-	<table class="data fullwidth fixed-layout filteredTable" dir="ltr" style="margin-bottom:3rem" >
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Title</th>
-				<th>URI</th>
-				<th>Date Updated</th>
-				{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
-				<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
-				{% endfor %}
-			</tr>
-		</thead>
-		<tbody>
-		{% for element in filteredElements %}
-			<tr>
-				<td>{{ element.id }}</td>
-				<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.title|e }}</a></td>
-				<td>
-				{% if element.url %}
-					<a href="{{ element.url }}" target="_blank" >{{ element.uri|e }}</a>
-				{% else %}
-					--
-				{% endif %}
-				</td>
-				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
-				{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
-				{# Preview values may contain links so perform a "raw" output. #}
-				<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
-				{% endfor %}
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+	{% include "cpfilters/_lists/#{elementTypeKey}" %}
 
 	{{ pagination|raw }}
 

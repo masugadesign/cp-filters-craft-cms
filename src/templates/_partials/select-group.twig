@@ -36,6 +36,16 @@ Parameters:
 
 	{% case 'categories' %}
 
+		{{ forms.selectField({
+			label: "Group",
+			instructions: "Select the Category group you'd like to filter.",
+			id: "groupId",
+			name: "groupId",
+			options: groupOptions,
+			value: groupId,
+			required : false
+		}) }}
+
 	{% case 'tags' %}
 
 

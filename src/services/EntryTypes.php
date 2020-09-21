@@ -23,7 +23,7 @@ class EntryTypes extends Service
 	 * supplied in the plugin config.
 	 * @return array
 	 */
-	public function fetchFilterableEntryTypes(): array
+	public function fetchFilterableGroups(): array
 	{
 		// Initialize the return value.
 		$types = [];
@@ -52,9 +52,9 @@ class EntryTypes extends Service
 	 * element option elements.
 	 * @return array
 	 */
-	public function entryTypeOptions(): array
+	public function groupOptions(): array
 	{
-		$types = $this->fetchFilterableEntryTypes();
+		$types = $this->fetchFilterableGroups();
 		foreach($types as &$type) {
 			// We'll add the section name if the type name is different.
 			$typeName = (string) $type->name;

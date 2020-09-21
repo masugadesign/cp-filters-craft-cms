@@ -5,31 +5,29 @@ namespace Masuga\CpFilters\services;
 use Craft;
 use Exception;
 use craft\elements\Asset;
-use craft\elements\Category;
-use craft\elements\Entry;
 use craft\helpers\ArrayHelper;
 use Masuga\CpFilters\CpFilters;
 use Masuga\CpFilters\base\Service;
 
 /**
- * This Entry Filters Entry Types service.
+ * The AssetVolumes filter service.
  * @author Masuga Design
  */
 class AssetVolumes extends Service
 {
 
 	/**
-	 * This method fetches an array of the filterable entry types based on the IDs
+	 * This method fetches an array of the filterable asset volumes based on the IDs
 	 * supplied in the plugin config.
 	 * @return array
 	 */
-	public function fetchFilterableAssetVolumes(): array
+	public function fetchFilterableGroups(): array
 	{
 		// Initialize the return value.
 		$volumes = [];
 		$volumesService = Craft::$app->getVolumes();
 		$filterableVolumeIds = $this->plugin->getSettings()->filterableAssetVolumeIds;
-		// If it isn't an array of IDs, get all the entry types.
+		// If it isn't an array of IDs, get all the asset volumes.
 		if ( ! is_array($filterableVolumeIds) ) {
 			$filterableVolumeIds = [];
 			$allVolumes = $volumesService->getAllVolumes();
@@ -38,11 +36,11 @@ class AssetVolumes extends Service
 			}
 		} else {
 			foreach($filterableVolumeIds as &$id) {
-				$volume = $volumesService->getEntryTypeById($id);
+				$volume = $volumesService->getVolumeById($id);
 				$volumes[(string) $volume->name] = $volume;
 			}
 		}
-		// Sort the resulting array by type name (keys).
+		// Sort the resulting array by volume name (keys).
 		ksort($volumes);
 		return $volumes;
 	}
@@ -54,9 +52,9 @@ class AssetVolumes extends Service
 	 */
 	public function volumeOptions(): array
 	{
-		$volumes = $this->fetchFilterableAssetVolumes();
+		$volumes = $this->fetchFilterableGroups();
 		foreach($volumes as &$volume) {
-			// We'll add the section name if the type name is different.
+			// We'll add the section name if the volume name is different.
 			$volumeName = (string) $volume->name;
 			$options[(int) $volume->id] = $volumeName;
 		}

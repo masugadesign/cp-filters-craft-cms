@@ -39,15 +39,15 @@ class Filters extends Service
 	{
 		$options = [];
 		if ( $typeKey === 'entries' ) {
-			$options = $this->plugin->entryTypes->entryTypeOptions();
+			$options = $this->plugin->entryTypes->groupOptions();
 		} elseif ( $typeKey === 'assets' ) {
-			$options = $this->plugin->assetVolumes->volumeOptions();
+			$options = $this->plugin->assetVolumes->groupOptions();
 		} elseif ( $typeKey === 'users' ) {
-
+			$options = $this->plugin->userGroups->groupOptions();
 		} elseif ( $typeKey === 'categories' ) {
-
+			$options = $this->plugin->categoryGroups->groupOptions();
 		} elseif ( $typeKey === 'tags') {
-
+			$options = $this->plugin->tagGroups->groupOptions();
 		}
 		return $options;
 	}

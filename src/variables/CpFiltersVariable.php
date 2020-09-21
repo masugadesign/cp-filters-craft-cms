@@ -85,26 +85,6 @@ class CpFiltersVariable
 	}
 
 	/**
-	 * This template variable fetches an array of filterable entry types based on
-	 * what is set in the CP Filters plugin config.
-	 * @return array
-	 */
-	public function filterableEntryTypes(): array
-	{
-		return $this->plugin->entryTypes->fetchFilterableEntryTypes();
-	}
-
-	/**
-	 * This template variable fetches an array of entry type id -> name pairs
-	 * to be used as HTML select option elements.
-	 * @return array
-	 */
-	public function entryTypeOptions(): array
-	{
-		return $this->plugin->entryTypes->entryTypeOptions();
-	}
-
-	/**
 	 * This method converts an array of filters form inputs into Craft entry
 	 * query criteria.
 	 * @param array $criteria
