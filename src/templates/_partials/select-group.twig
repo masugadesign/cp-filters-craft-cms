@@ -9,44 +9,28 @@ Parameters:
 
 {% switch typeKey %}
 	{% case 'entries' %}
-
-		{{ forms.selectField({
-			label: "Entry Type",
-			instructions: "Select the type of entries you'd like to filter.",
-			id: "groupId",
-			name: "groupId",
-			options: groupOptions,
-			value: groupId,
-			required : false
-		}) }}
-
+		{% set groupLabel = "Entry Type" %}
+		{% set groupInstructions = "Select an Entry Type to filter." %}
 	{% case 'assets' %}
-
-		{{ forms.selectField({
-			label: "Asset Volume",
-			instructions: "Select the Asset Volume you'd like to filter.",
-			id: "groupId",
-			name: "groupId",
-			options: groupOptions,
-			value: groupId,
-			required : false
-		}) }}
-
+		{% set groupLabel = "Asset Volume" %}
+		{% set groupInstructions = "Select an Asset Volume to filter." %}
 	{% case 'users' %}
-
+		{% set groupLabel = "User Group" %}
+		{% set groupInstructions = "Select a User Group to filter." %}
 	{% case 'categories' %}
-
-		{{ forms.selectField({
-			label: "Group",
-			instructions: "Select the Category group you'd like to filter.",
-			id: "groupId",
-			name: "groupId",
-			options: groupOptions,
-			value: groupId,
-			required : false
-		}) }}
-
+		{% set groupLabel = "Category Group" %}
+		{% set groupInstructions = "Select a Category Group to filter." %}
 	{% case 'tags' %}
-
-
+		{% set groupLabel = "Tag Group" %}
+		{% set groupInstructions = "Select a Tag Group to filter." %}
 {% endswitch %}
+
+{{ forms.selectField({
+	label: groupLabel,
+	instructions: groupInstructions,
+	id: "groupId",
+	name: "groupId",
+	options: groupOptions,
+	value: groupId,
+	required : false
+}) }}

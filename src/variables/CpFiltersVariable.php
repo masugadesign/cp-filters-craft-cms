@@ -118,12 +118,24 @@ class CpFiltersVariable
 	}
 
 	/**
-	 * This method fetches an array of native field handles to labels.
+	 * This method returns the list of excluded native fields by element type key.
+	 * @param string $typeKey
 	 * @return array
 	 */
-	public function nativeFields()
+	public function excludedFields($typeKey): array
 	{
-		return $this->plugin->fieldTypes->nativeFields();
+		return $this->plugin->fieldTypes->excludedFields($typeKey);
+	}
+
+	/**
+	 * This method fetches an array of native field handles to labels.
+	 * @param string $typeKey
+	 * @return array
+	 */
+	public function nativeFieldsByType($typeKey)
+	{
+		$excludes = $this->plugin->fieldTypes->excludedFields($typeKey);
+		return $this->plugin->fieldTypes->nativeFields($excludes);
 	}
 
 	/**

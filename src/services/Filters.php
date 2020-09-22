@@ -67,11 +67,11 @@ class Filters extends Service
 		} elseif ( $typeKey === 'assets' ) {
 			$fields = $this->plugin->assetVolumes->fields($groupId);
 		} elseif ( $typeKey === 'users' ) {
-
+			$fields = $this->plugin->userGroups->fields($groupId);
 		} elseif ( $typeKey === 'categories' ) {
-
+			$fields = $this->plugin->categoryGroups->fields($groupId);
 		} elseif ( $typeKey === 'tags') {
-
+			$fields = $this->plugin->tagGroups->fields($groupId);
 		}
 		return $fields;
 	}

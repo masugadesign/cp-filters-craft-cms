@@ -50,7 +50,7 @@ class AssetVolumes extends Service
 	 * element option elements.
 	 * @return array
 	 */
-	public function volumeOptions(): array
+	public function groupOptions(): array
 	{
 		$volumes = $this->fetchFilterableGroups();
 		foreach($volumes as &$volume) {

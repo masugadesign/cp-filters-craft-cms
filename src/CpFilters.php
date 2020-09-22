@@ -21,6 +21,8 @@ use Masuga\CpFilters\services\EntryTypes;
 use Masuga\CpFilters\services\FieldTypes;
 use Masuga\CpFilters\services\CategoryGroups;
 use Masuga\CpFilters\services\Filters;
+use Masuga\CpFilters\services\TagGroups;
+use Masuga\CpFilters\services\UserGroups;
 use Masuga\CpFilters\variables\CpFiltersVariable;
 use yii\base\Event;
 
@@ -93,7 +95,9 @@ class CpFilters extends Plugin
 			'categoryGroups' => CategoryGroups::class,
 			'entryTypes' => EntryTypes::class,
 			'fieldTypes' => FieldTypes::class,
-			'filters' => Filters::class
+			'filters' => Filters::class,
+			'tagGroups' => TagGroups::class,
+			'userGroups' => UserGroups::class,
 		]);
 		// Register the CP Filters plugin log though we probably won't use this.
 		$fileTarget = new FileTarget([

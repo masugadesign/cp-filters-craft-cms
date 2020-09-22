@@ -34,7 +34,7 @@ FILTER OPTIONS
 {% set fieldOptions = {} %}
 {# Was an type/group/volume ID supplied? Fetch its field layout fields. #}
 {% if groupId %}
-	{% set fieldOptions = craft.cpfilters.nativeFields() %}
+	{% set fieldOptions = craft.cpfilters.nativeFieldsByType(elementTypeKey) %}
 	{% set fields = craft.cpfilters.elementGroupFields(elementTypeKey, groupId) %}
 	{% for field in fields %}
 		{% set fieldOptions = fieldOptions|merge({ (field.handle) : field.name }) %}

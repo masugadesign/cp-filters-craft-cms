@@ -73,12 +73,37 @@ class FieldTypes extends Service
 	 */
 	const NATIVE_FIELD_MAPS = [
 		'id' => 'craft\fields\Number',
+		'username' => 'craft\fields\PlainText',
+		'email' => 'craft\fields\PlainText',
+		'filename' => 'craft\fields\PlainText',
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',
 		'postDate' => 'craft\fields\Date',
 		'dateCreated' => 'craft\fields\Date',
 		'dateUpdated' => 'craft\fields\Date',
 	];
+
+	/**
+	 * This method returns the list of excluded native fields by element type key.
+	 * @param string $typeKey
+	 * @return array
+	 */
+	public function excludedFields($typeKey): array
+	{
+		$excludes = [];
+		if ( $typeKey === 'entries' ) {
+			$excludes = ['username','email','filename'];
+		} elseif ( $typeKey === 'assets' ) {
+			$excludes = $excludes = ['username','email'];
+		} elseif ( $typeKey === 'users' ) {
+			$excludes = $excludes = ['title','filename'];
+		} elseif ( $typeKey === 'categories' ) {
+			$excludes = $excludes = ['username','email','filename'];
+		} elseif ( $typeKey === 'tags') {
+			$excludes = $excludes = ['username','email','filename'];
+		}
+		return $excludes;
+	}
 
 	/**
 	 * This method returns the full array of supported field types and their filter options.
@@ -257,14 +282,18 @@ class FieldTypes extends Service
 	}
 
 	/**
-	 * This method returns an associative array of native field handles to labels.
+	 * This method returns an associative array of native field handles to labels
+	 * with an optional array parameter containing a list of fields to exclude.
+	 * @param array $exclude
 	 * @return array
 	 */
-	public function nativeFields(): array
+	public function nativeFields($exclude=[]): array
 	{
 		$fields = [];
 		foreach(self::NATIVE_FIELD_MAPS as $handle => &$type) {
-			$fields[$handle] = Inflector::camel2words($handle);
+			if ( ! in_array($handle, $exclude) ) {
+				$fields[$handle] = Inflector::camel2words($handle);
+			}
 		}
 		return $fields;
 	}
