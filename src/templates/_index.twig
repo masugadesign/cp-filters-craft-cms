@@ -33,13 +33,11 @@ FILTER OPTIONS
 {% set groupOptions = craft.cpfilters.groupOptions(elementTypeKey) %}
 {% set fieldOptions = {} %}
 {# Was an type/group/volume ID supplied? Fetch its field layout fields. #}
-{% if groupId %}
-	{% set fieldOptions = craft.cpfilters.nativeFieldsByType(elementTypeKey) %}
-	{% set fields = craft.cpfilters.elementGroupFields(elementTypeKey, groupId) %}
-	{% for field in fields %}
-		{% set fieldOptions = fieldOptions|merge({ (field.handle) : field.name }) %}
-	{% endfor %}
-{% endif %}
+{% set fieldOptions = craft.cpfilters.nativeFieldsByType(elementTypeKey) %}
+{% set fields = craft.cpfilters.elementGroupFields(elementTypeKey, groupId) %}
+{% for field in fields %}
+	{% set fieldOptions = fieldOptions|merge({ (field.handle) : field.name }) %}
+{% endfor %}
 
 {#
 QUERIES
@@ -105,14 +103,11 @@ OUTPUT
 
 	<form id="filtersForm" method="get" accept-charset="UTF-8" autocomplete="off" >
 
-	{% include 'cpfilters/_partials/select-group' with {
-		'typeKey' : elementTypeKey,
-		'groupOptions' : groupOptions,
-		'groupId' : groupId
-	} %}
-
-	{# Only show the block of filters fields if an entry type has been selected. #}
-	{% if groupId|length %}
+		{% include 'cpfilters/_partials/select-group' with {
+			'typeKey' : elementTypeKey,
+			'groupOptions' : groupOptions,
+			'groupId' : groupId
+		} %}
 
 		<div id="filterFields" class="filterFields" >
 		{% for i,filterData in filtersParam %}
@@ -149,12 +144,11 @@ OUTPUT
 			</div>
 		{% endfor %}
 		</div>
-	{% endif %}
 
 		<div class="filterControls" >
 			<div class="filterFormControls" >
 				<input type="submit" class="btn submit" value="Refresh Results" >&nbsp;
-				<a href="{{ craft.app.request.pathInfo }}" class="btn" >Clear Filters</a>
+				<a href="{{ url(craft.app.request.pathInfo) }}" class="btn" >Clear Filters</a>
 			</div>
 			<div class="filterExportControls" >
 				<input type="submit" class="btn submit" name="exportSubmit" value="Export Total Results" >

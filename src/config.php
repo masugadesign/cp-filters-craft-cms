@@ -14,9 +14,6 @@ return [
 	// IDs of tag groups that should be filterable.
 	'filterableTagGroupIds' => '*',
 
-	// IDs of user groups that should be filterable.
-	'filterableUserGroupIds' => '*',
-
 	// Additional field types that can be used as filter criteria.
 	'additionalFieldTypes' => [],
 

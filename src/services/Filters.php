@@ -43,7 +43,7 @@ class Filters extends Service
 		} elseif ( $typeKey === 'assets' ) {
 			$options = $this->plugin->assetVolumes->groupOptions();
 		} elseif ( $typeKey === 'users' ) {
-			$options = $this->plugin->userGroups->groupOptions();
+			$options = []; //$this->plugin->userGroups->groupOptions();
 		} elseif ( $typeKey === 'categories' ) {
 			$options = $this->plugin->categoryGroups->groupOptions();
 		} elseif ( $typeKey === 'tags') {
@@ -63,15 +63,15 @@ class Filters extends Service
 	{
 		$fields = [];
 		if ( $typeKey === 'entries' ) {
-			$fields = $this->plugin->entryTypes->fields($groupId);
+			$fields = $groupId ? $this->plugin->entryTypes->fields($groupId) : [];
 		} elseif ( $typeKey === 'assets' ) {
-			$fields = $this->plugin->assetVolumes->fields($groupId);
+			$fields = $groupId ? $this->plugin->assetVolumes->fields($groupId) : [];
 		} elseif ( $typeKey === 'users' ) {
-			$fields = $this->plugin->userGroups->fields($groupId);
+			$fields = $this->plugin->userGroups->fields();
 		} elseif ( $typeKey === 'categories' ) {
-			$fields = $this->plugin->categoryGroups->fields($groupId);
+			$fields = $groupId ? $this->plugin->categoryGroups->fields($groupId) : [];
 		} elseif ( $typeKey === 'tags') {
-			$fields = $this->plugin->tagGroups->fields($groupId);
+			$fields = $groupId ? $this->plugin->tagGroups->fields($groupId) : [];
 		}
 		return $fields;
 	}

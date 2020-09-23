@@ -75,6 +75,7 @@ class FieldTypes extends Service
 		'id' => 'craft\fields\Number',
 		'username' => 'craft\fields\PlainText',
 		'email' => 'craft\fields\PlainText',
+		'groupId' => 'craft\fields\Number',
 		'filename' => 'craft\fields\PlainText',
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',
@@ -92,15 +93,15 @@ class FieldTypes extends Service
 	{
 		$excludes = [];
 		if ( $typeKey === 'entries' ) {
-			$excludes = ['username','email','filename'];
+			$excludes = ['username','email','filename','groupId'];
 		} elseif ( $typeKey === 'assets' ) {
-			$excludes = $excludes = ['username','email'];
+			$excludes = $excludes = ['username','email','groupId'];
 		} elseif ( $typeKey === 'users' ) {
 			$excludes = $excludes = ['title','filename'];
 		} elseif ( $typeKey === 'categories' ) {
-			$excludes = $excludes = ['username','email','filename'];
+			$excludes = $excludes = ['username','email','filename','groupId'];
 		} elseif ( $typeKey === 'tags') {
-			$excludes = $excludes = ['username','email','filename'];
+			$excludes = $excludes = ['username','email','filename','groupId'];
 		}
 		return $excludes;
 	}
