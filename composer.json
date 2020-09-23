@@ -1,7 +1,7 @@
 {
   "name": "masugadesign/cpfilters",
   "description": "Advanced filtering for elements in the control panel.",
-  "version": "1.0.0-beta-4",
+  "version": "1.0.0-beta-5",
   "type": "craft-plugin",
   "minimum-stability": "stable",
   "require": {
