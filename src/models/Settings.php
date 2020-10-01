@@ -32,12 +32,6 @@ class Settings extends Model
 	public $filterableTagGroupIds = '*';
 
 	/**
-	 * An array of User group IDs that should appear as filterable options.
-	 * @var mixed
-	 */
-	public $filterableUserGroupIds = '*';
-
-	/**
 	 * An array of additional field types that may be used as filter criteria.
 	 * @var array
 	 */
