@@ -35,12 +35,13 @@ class CpController extends Controller
 		$request = Craft::$app->getRequest();
 		$export = $request->getParam('exportSubmit');
 		if ( $export ) {
-			$elementType = $request->getParam('elementType') ?: 'craft\elements\Entry';
+			$elementTypeKey = $request->getSegment(2) ?: 'entries';
+			$elementType = $this->plugin->filters->getElementClass($elementTypeKey);
 			$filterInput = $request->getParam('filters') ?: [];
 			$criteria = $this->plugin->filters->formatCriteria($filterInput);
 			$this->addElementTypeCriteria($elementType, $criteria);
-			$elements = $this->plugin->filters->fetchElementsByCriteria($criteria, $elementType, true);
-			$basename = 'entries-export-'.date('YmdHi');
+			$elements = $this->plugin->filters->fetchElementsByCriteria($elementTypeKey, $criteria, true);
+			$basename = $elementTypeKey.'-export-'.date('YmdHi');
 			$csvPath = $this->plugin->filters->generateCsvFile($elements, $basename);
 			$response = Craft::$app->getResponse();
 			$response->sendFile($csvPath, $basename.'.csv', [
@@ -60,18 +61,20 @@ class CpController extends Controller
 	 */
 	private function addElementTypeCriteria($type, &$criteria)
 	{
-		if ( $type === 'craft\elements\Asset' ) {
-			$volumeId = $request->getParam('volumeId');
-			$criteria['volumeId'] = $volumeId;
-		} elseif ( $type === 'craft\elements\Category' ) {
-
-		} elseif ( $type === 'craft\elements\Entry' ) {
-			$entryTypeId = $request->getParam('entryTypeId');
-			$criteria['typeId'] = $entryTypeId;
-		} elseif ( $type === 'craft\elements\Tag' ) {
-
-		} elseif ( $type === 'craft\elements\User' ) {
-
+		$request = Craft::$app->getRequest();
+		$id = $request->getParam('groupId');
+		if ( $id ) {
+			if ( $type === 'craft\elements\Asset' ) {
+				$criteria['volumeId'] = $id;
+			} elseif ( $type === 'craft\elements\Category' ) {
+				$criteria['groupId'] = $id;
+			} elseif ( $type === 'craft\elements\Entry' ) {
+				$criteria['typeId'] = $id;
+			} elseif ( $type === 'craft\elements\Tag' ) {
+				$criteria['groupId'] = $id;
+			} elseif ( $type === 'craft\elements\User' ) {
+				$criteria['groupId'] = $id;
+			}
 		}
 	}
 

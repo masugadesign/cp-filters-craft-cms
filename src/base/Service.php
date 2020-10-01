@@ -103,7 +103,7 @@ abstract class Service extends Component
 	public function fetchElementsByCriteria($typeKey, $criteria, $asArray=false): array
 	{
 		$type = self::ELEMENT_TYPES[$typeKey] ?? null;
-		if ( ! is_subclass_of($elementType, Element::class) ) {
+		if ( ! is_subclass_of($type, Element::class) ) {
 			throw new InvalidElementTypeException();
 		}
 		$query = $type::find();
