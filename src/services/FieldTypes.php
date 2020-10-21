@@ -10,6 +10,7 @@ use craft\elements\Category;
 use craft\elements\Entry;
 use craft\elements\Tag;
 use craft\elements\User;
+use craft\fields\Assets;
 use craft\fields\BaseRelationField;
 use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
@@ -221,7 +222,12 @@ class FieldTypes extends Service
 	{
 		$options = $actualSources = [];
 		// These values are "keys" which consist of a group type, a colon, then the UID. Worthless.
-		$sourceOptions = $field->source ?: $field->sources;
+		if ( $field instanceof Assets ) {
+			$sourceOptions = $this->getAssetsFieldSourceOptions($field);
+		} else {
+			// These fields' settings are so confusing. Single source items still have '*' in sources... sometimes.
+			$sourceOptions = $field->sources && $field->sources !== '*' ? $field->sources : $field->source;
+		}
 		if ( ! is_array($sourceOptions) ) {
 			$sourceOptions = [$sourceOptions];
 		}
@@ -230,24 +236,26 @@ class FieldTypes extends Service
 		foreach($sourceOptions as &$sourceOption) {
 			//$uid = stripos($sourceOption, '*') === false ? substr($sourceOption, strpos($sourceOption, ':')+1) : null;
 			if ( $sourceOption !== '*' ) {
-				// ElementHelper::findSource() doesn't appear to work with asset volumes. It returns NULL.
-				$source = $elementType !== 'craft\elements\Asset' ?
+				// ElementHelper::findSource() doesn't appear to work with asset volumes. It returns NULL?
+				$source = ( ! $field instanceof Assets ) ?
 					ElementHelper::findSource($elementType, $sourceOption) :
 					$this->getVolumeIdBySourceKey($sourceOption);
 				$actualSources[] = $source['data']['handle'] ?? $source['criteria']['groupId'] ?? $source;
+			} else {
+				$actualSources = '*';
 			}
 		}
 		// No generalized way to query sources on ElementQuery so we need to be specific with our elements here.
 		if ( $elementType === 'craft\elements\Asset' ) {
-			$elements = Asset::find()->volumeId($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+			$elements = Asset::find()->volumeId($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
 		} elseif ( $elementType === 'craft\elements\Category' ) {
-			$elements = Category::find()->group($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+			$elements = Category::find()->group($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
 		} elseif ( $elementType === 'craft\elements\Entry' ) {
-			$elements = Entry::find()->section($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+			$elements = Entry::find()->section($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
 		} elseif ( $elementType === 'craft\elements\Tag' ) {
-			$elements = Tag::find()->groupId($actualSources)->anyStatus()->orderBy('title')->limit(null)->all();
+			$elements = Tag::find()->groupId($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
 		} elseif ( $elementType === 'craft\elements\User' ) {
-			$elements = User::find()->groupId($actualSources)->anyStatus()->orderBy('username')->limit(null)->all();
+			$elements = User::find()->groupId($actualSources)->anyStatus()->orderBy('username')->limit(300)->all();
 		}
 		foreach($elements as &$element) {
 			$options[ $element->id ] = $element->title ?? $element->username ?? "ID: {$element->id}";
@@ -374,6 +382,26 @@ class FieldTypes extends Service
 			$type = User::class;
 		}
 		return $type;
+	}
+
+	/**
+	 * This returns the volume IDs that are allowable for a particular Assets field.
+	 * Is it the source? The sources? The singleUploadLocationSource? We'll find out
+	 * here and return an array of volume key(s).
+	 * @param Assets $field
+	 * @return array
+	 */
+	public function getAssetsFieldSourceOptions(Assets &$field): array
+	{
+		$volumes = [];
+		if ( $field->singleUploadLocationSource ) {
+			$volumes[] = $field->singleUploadLocationSource;
+		} elseif ( $field->source ) {
+			$volumes[] = $field->source;
+		} else {
+			$volumes = $field->sources;
+		}
+		return $volumes;
 	}
 
 	/**
