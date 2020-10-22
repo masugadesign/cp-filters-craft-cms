@@ -96,13 +96,13 @@ class FieldTypes extends Service
 		if ( $typeKey === 'entries' ) {
 			$excludes = ['username','email','filename','groupId'];
 		} elseif ( $typeKey === 'assets' ) {
-			$excludes = $excludes = ['username','email','groupId'];
+			$excludes = ['username','email','groupId','postDate'];
 		} elseif ( $typeKey === 'users' ) {
-			$excludes = $excludes = ['title','filename'];
+			$excludes = ['title','filename','postDate'];
 		} elseif ( $typeKey === 'categories' ) {
-			$excludes = $excludes = ['username','email','filename','groupId'];
+			$excludes = ['username','email','filename','groupId','postDate'];
 		} elseif ( $typeKey === 'tags') {
-			$excludes = $excludes = ['username','email','filename','groupId'];
+			$excludes = ['username','email','filename','groupId','postDate'];
 		}
 		return $excludes;
 	}
