@@ -195,4 +195,15 @@ class CpFiltersVariable
 		return $this->plugin->filters->statusOptionsByTypeKey($typeKey);
 	}
 
+	/**
+	 * This method determines the appropriate element group criteria.
+	 * @param string $elementTypeKey
+	 * @param mixed $groupId
+	 * @return array|string
+	 */
+	public function elementGroupCriteria($elementTypeKey, $groupId)
+	{
+		return $this->plugin->filters->elementGroupCriteria($elementTypeKey, $groupId);
+	}
+
 }

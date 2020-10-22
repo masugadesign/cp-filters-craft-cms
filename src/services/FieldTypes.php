@@ -77,7 +77,7 @@ class FieldTypes extends Service
 		'id' => 'craft\fields\Number',
 		'username' => 'craft\fields\PlainText',
 		'email' => 'craft\fields\PlainText',
-		'groupId' => 'craft\fields\Number',
+		//'groupId' => 'craft\fields\Number',
 		'filename' => 'craft\fields\PlainText',
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',

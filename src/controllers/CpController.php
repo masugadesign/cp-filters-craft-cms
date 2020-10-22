@@ -34,12 +34,13 @@ class CpController extends Controller
 	{
 		$request = Craft::$app->getRequest();
 		$export = $request->getParam('exportSubmit');
+		$groupId = $request->getParam('groupId');
 		if ( $export ) {
 			$elementTypeKey = $request->getSegment(2) ?: 'entries';
 			$elementType = $this->plugin->filters->getElementClass($elementTypeKey);
 			$filterInput = $request->getParam('filters') ?: [];
-			$criteria = $this->plugin->filters->formatCriteria($filterInput);
-			$this->addElementTypeCriteria($elementType, $criteria);
+			$criteria = $this->plugin->filters->formatCriteria($filterInput) +
+				$this->plugin->filters->elementGroupCriteria($elementTypeKey, $groupId);
 			$elements = $this->plugin->filters->fetchElementsByCriteria($elementTypeKey, $criteria, true);
 			$basename = $elementTypeKey.'-export-'.date('YmdHi');
 			$csvPath = $this->plugin->filters->generateCsvFile($elements, $basename);
@@ -51,31 +52,6 @@ class CpController extends Controller
 			$response = $this->renderTemplate('cpfilters/_index');
 		}
 		return $response;
-	}
-
-	/**
-	 * This method adds element type specific criteria to the criteria array, by
-	 * reference.
-	 * @param string $type
-	 * @param array $criteria
-	 */
-	private function addElementTypeCriteria($type, &$criteria)
-	{
-		$request = Craft::$app->getRequest();
-		$id = $request->getParam('groupId');
-		if ( $id ) {
-			if ( $type === 'craft\elements\Asset' ) {
-				$criteria['volumeId'] = $id;
-			} elseif ( $type === 'craft\elements\Category' ) {
-				$criteria['groupId'] = $id;
-			} elseif ( $type === 'craft\elements\Entry' ) {
-				$criteria['typeId'] = $id;
-			} elseif ( $type === 'craft\elements\Tag' ) {
-				$criteria['groupId'] = $id;
-			} elseif ( $type === 'craft\elements\User' ) {
-				$criteria['groupId'] = $id;
-			}
-		}
 	}
 
 	/**

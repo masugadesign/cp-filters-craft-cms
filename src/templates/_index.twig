@@ -44,12 +44,8 @@ QUERIES
 - - - - - - - - - - - - - -
 #}
 
-{# Is it typeId, groupId or volumeId? #}
-{% set groupParamKey = craft.cpfilters.groupParamKey(elementTypeKey) %}
-{# Initialize some variables that might not always be set. #}
-{% set criteria = {
-	(groupParamKey) : groupId
-} %}
+{# Is it groupId, typeId, volumeId? Make sure we filter by allowable groups. #}
+{% set criteria = craft.cpfilters.elementGroupCriteria(elementTypeKey, groupId) %}
 {# Add any available filter criteria to the entry query. #}
 {% set criteria = filtersParam ? criteria|merge( craft.cpfilters.formatFilterCriteria(filtersParam) ) : criteria %}
 {# Get the TOTAL match count without imposing limits. #}

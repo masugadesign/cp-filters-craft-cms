@@ -53,6 +53,50 @@ class Filters extends Service
 	}
 
 	/**
+	 * This method returns group/type IDs for allowed filterables groups/types.
+	 * @param string $typeKey
+	 * @return array|string
+	 */
+	public function groupOptionIds($typeKey)
+	{
+		$ids = [];
+		if ( $typeKey === 'entries' ) {
+			$ids = $this->plugin->getSettings()->filterableEntryTypeIds;
+		} elseif ( $typeKey === 'assets' ) {
+			$ids = $this->plugin->getSettings()->filterableAssetVolumeIds;
+		} elseif ( $typeKey === 'users' ) {
+			$ids = '*';
+		} elseif ( $typeKey === 'categories' ) {
+			$ids = $this->plugin->getSettings()->filterableCategoryGroupIds;
+		} elseif ( $typeKey === 'tags') {
+			$ids = $this->plugin->getSettings()->filterableTagGroupIds;
+		}
+		return $ids;
+	}
+
+	/**
+	 * This method determines the appropriate element group criteria.
+	 * @param string $elementTypeKey
+	 * @param mixed $groupId
+	 * @return array|string
+	 */
+	public function elementGroupCriteria($typeKey, $groupId=null)
+	{
+		$criteria = [];
+		$fallBackIds = $this->plugin->filters->groupOptionIds($typeKey);
+		if ( $typeKey === 'assets' ) {
+			$criteria['volumeId'] = $groupId ?: $fallBackIds;
+		} elseif ( $typeKey === 'categories' ) {
+			$criteria['groupId'] = $groupId ?: $fallBackIds;
+		} elseif ( $typeKey === 'entries' ) {
+			$criteria['typeId'] = $groupId ?: $fallBackIds;
+		} elseif ( $typeKey === 'tags' ) {
+			$criteria['groupId'] = $groupId ?: $fallBackIds;
+		}
+		return $criteria;
+	}
+
+	/**
 	 * This method fetches an array of fields belonging to a field layout that
 	 * belongs to an element grouping of some sort (entry type, volume, group).
 	 * @param string $typeKey

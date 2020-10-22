@@ -2,16 +2,16 @@
 
 return [
 
-	// IDs of entry types that should be filterable using this tool.
+	// Array of IDs for entry types that should be filterable by this plugin.
 	'filterableEntryTypeIds' => '*',
 
-	// IDs of asset volumes that should be filterable.
+	// Array of IDs for asset volumes that should be filterable by this plugin.
 	'filterableAssetVolumeIds' => '*',
 
-	// IDs of category groups that should be filterable.
+	// Array of IDs for category groups that should be filterable by this plugin.
 	'filterableCategoryGroupIds' => '*',
 
-	// IDs of tag groups that should be filterable.
+	// Array of IDs for tag groups that should be filterable by this plugin.
 	'filterableTagGroupIds' => '*',
 
 	// Additional field types that can be used as filter criteria.
