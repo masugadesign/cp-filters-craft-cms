@@ -65,6 +65,7 @@ class FieldTypes extends Service
 		'craft\fields\Tags' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\fields\Users' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\redactor\Field' => ['contains', 'is empty', 'is not empty'],
+		'STATUS' => ['is equal to']
 	];
 
 	/**
@@ -80,6 +81,7 @@ class FieldTypes extends Service
 		'filename' => 'craft\fields\PlainText',
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',
+		'status' => 'STATUS',
 		'postDate' => 'craft\fields\Date',
 		'dateCreated' => 'craft\fields\Date',
 		'dateUpdated' => 'craft\fields\Date',
@@ -96,7 +98,7 @@ class FieldTypes extends Service
 		if ( $typeKey === 'entries' ) {
 			$excludes = ['username','email','filename','groupId'];
 		} elseif ( $typeKey === 'assets' ) {
-			$excludes = ['username','email','groupId','postDate'];
+			$excludes = ['username','email','groupId','postDate','status'];
 		} elseif ( $typeKey === 'users' ) {
 			$excludes = ['title','filename','postDate'];
 		} elseif ( $typeKey === 'categories' ) {

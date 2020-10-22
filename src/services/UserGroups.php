@@ -76,4 +76,14 @@ class UserGroups extends Service
 		return $fields;
 	}
 
+	/**
+	 * This method returns an array of appropriate status options for users.
+	 * @return array
+	 */
+	public function statusOptions(): array
+	{
+		$options = array_merge(['' => 'Select Status...'], User::statuses());
+		return $options;
+	}
+
 }

@@ -108,6 +108,7 @@ class CpController extends Controller
 			'fieldHandle' => $request->getParam('fieldHandle'),
 			'filterType' => $request->getParam('filterType'),
 			'fieldValue' => $request->getParam('value'),
+			'elementTypeKey' => $request->getParam('elementTypeKey'),
 			'index' => $request->getParam('index'),
 		];
 		return $view->renderTemplate('cpfilters/_partials/value-field', $templateParams);

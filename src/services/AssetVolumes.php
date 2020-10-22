@@ -88,4 +88,14 @@ class AssetVolumes extends Service
 		return $fields;
 	}
 
+	/**
+	 * This method returns an array of appropriate status options for assets.
+	 * @return array
+	 */
+	public function statusOptions(): array
+	{
+		$options = array_merge(['' => 'Select Status...'], Asset::statuses());
+		return $options;
+	}
+
 }

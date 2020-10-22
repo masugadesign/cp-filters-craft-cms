@@ -77,6 +77,28 @@ class Filters extends Service
 	}
 
 	/**
+	 * This method returns an array of status options by element type key.
+	 * @param string $typeKey
+	 * @return array
+	 */
+	public function statusOptionsByTypeKey($typeKey): array
+	{
+		$options = [];
+		if ( $typeKey === 'entries' ) {
+			$options = $this->plugin->entryTypes->statusOptions();
+		} elseif ( $typeKey === 'assets' ) {
+			$options = $this->plugin->assetVolumes->statusOptions();
+		} elseif ( $typeKey === 'users' ) {
+			$options = $this->plugin->userGroups->statusOptions();
+		} elseif ( $typeKey === 'categories' ) {
+			$options = $this->plugin->categoryGroups->statusOptions();
+		} elseif ( $typeKey === 'tags') {
+			$options = $this->plugin->tagGroups->statusOptions();
+		}
+		return $options;
+	}
+
+	/**
 	 * This method converts filter input criteria into query criteria.
 	 * @param array $input
 	 * @return array
@@ -100,6 +122,10 @@ class Filters extends Service
 			} else {
 				$criteria = array_merge($criteria, $newCriteria);
 			}
+		}
+		// If not filtering by status, make sure Craft doesn't do it either.
+		if ( ! isset($criteria['status']) ) {
+			$criteria['status'] = null;
 		}
 		return $criteria;
 	}

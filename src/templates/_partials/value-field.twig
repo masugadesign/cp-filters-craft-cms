@@ -11,10 +11,17 @@
 {% if fieldValue is not defined %}
 	{% set fieldValue = '' %}
 {% endif %}
+{% if elementTypeKey is not defined %}
+	{% set elementTypeKey = 'entries' %}
+{% endif %}
 
 
 {# Fetch the field options by handle. #}
-{% set fieldOptions = fieldHandle ? craft.cpfilters.fieldOptions(fieldHandle) : [] %}
+{% if fieldHandle == 'status' %}
+	{% set fieldOptions = craft.cpfilters.statusOptions(elementTypeKey) %}
+{% else %}
+	{% set fieldOptions = fieldHandle ? craft.cpfilters.fieldOptions(fieldHandle) : [] %}
+{% endif %}
 
 {% if fieldOptions is empty %}
 	<input class="text filterValue" type="text" name="filters[{{ index }}][value]" {% if 'empty' in filterType %}readonly="readonly"{% endif %} data-filter-value data-idx="{{ index }}" value="{{ fieldValue }}"  >

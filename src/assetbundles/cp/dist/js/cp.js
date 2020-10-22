@@ -51,6 +51,7 @@ $(".filterFields").on("mouseup touchup", "[data-remove-filter]", function() {
 $(".filterFields").on("change", "[data-select-field]", function() {
 	var index = $(this).attr("data-idx");
 	var handle = $(this).val();
+	var elementTypeKey = $("#elementTypeKey").val();
 	if ( handle ) {
 		// Populate the filter types dropdown with options.
 		$.ajax({
@@ -59,7 +60,8 @@ $(".filterFields").on("change", "[data-select-field]", function() {
 			'dataType' : 'html',
 			'context' : $("select[data-select-filter-type][data-idx='"+index+"']"),
 			'data' : {
-				'fieldHandle' : handle
+				'fieldHandle' : handle,
+				'elementTypeKey' : elementTypeKey
 			},
 			'success' : function(data, textStatus, jqXHR) {
 				$(this).html(data);
@@ -71,7 +73,8 @@ $(".filterFields").on("change", "[data-select-field]", function() {
 					'context' : $(".valueFieldContainer[data-idx='"+index+"']"),
 					'data' : {
 						'fieldHandle' : handle,
-						'index' : index
+						'index' : index,
+						'elementTypeKey' : elementTypeKey
 					},
 					'success' : function(data, textStats, jqXHR) {
 						$(this).html(data);

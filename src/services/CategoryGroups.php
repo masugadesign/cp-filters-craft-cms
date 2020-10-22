@@ -88,4 +88,14 @@ class CategoryGroups extends Service
 		return $fields;
 	}
 
+	/**
+	 * This method returns an array of appropriate status options for categories.
+	 * @return array
+	 */
+	public function statusOptions(): array
+	{
+		$options = array_merge(['' => 'Select Status...'], Category::statuses());
+		return $options;
+	}
+
 }

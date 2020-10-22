@@ -94,6 +94,7 @@ OUTPUT
 
 {% block content %}
 
+<input type="hidden" id="elementTypeKey" value="{{ elementTypeKey }}" >
 {# Some hidden fields we can use to stash some dynamic information. #}
 <input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
 <input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
@@ -136,6 +137,7 @@ OUTPUT
 						'fieldHandle' : filterData.fieldHandle,
 						'filterType' : filterData.filterType,
 						'fieldValue' : filterData.value ?? '',
+						'elementTypeKey' : elementTypeKey,
 						'index' : i
 					} %}
 				</div>

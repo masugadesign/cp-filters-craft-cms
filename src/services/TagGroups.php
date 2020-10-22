@@ -88,4 +88,14 @@ class TagGroups extends Service
 		return $fields;
 	}
 
+	/**
+	 * This method returns an array of appropriate status options for tags.
+	 * @return array
+	 */
+	public function statusOptions(): array
+	{
+		$options = array_merge(['' => 'Select Status...'], Tag::statuses());
+		return $options;
+	}
+
 }

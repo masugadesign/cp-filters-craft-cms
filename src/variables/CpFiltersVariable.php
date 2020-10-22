@@ -184,4 +184,15 @@ class CpFiltersVariable
 	{
 		return $this->plugin->fieldTypes->getFieldOptionsByFieldHandle($fieldHandle);
 	}
+
+	/**
+	 * This method returns an array of status options by element type key.
+	 * @param string $typeKey
+	 * @return array
+	 */
+	public function statusOptions($typeKey): array
+	{
+		return $this->plugin->filters->statusOptionsByTypeKey($typeKey);
+	}
+
 }
