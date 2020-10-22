@@ -7,6 +7,7 @@
 			{% endif %}
 			<th>Email</th>
 			<th>Full Name</th>
+			<th>Status</th>
 			<th>Date Updated</th>
 			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 			<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
@@ -22,6 +23,7 @@
 			{% endif %}
 			<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.email|e }}</a></td>
 			<td>{{ element.fullName|e }}</td>
+			<td>{{ element.status|ucwords|e }}</td>
 			<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 			{# Preview values may contain links so perform a "raw" output. #}

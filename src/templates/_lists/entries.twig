@@ -4,6 +4,7 @@
 			<th>ID</th>
 			<th>Title</th>
 			<th>URI</th>
+			<th>Status</th>
 			<th>Date Updated</th>
 			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 			<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
@@ -22,6 +23,7 @@
 				--
 			{% endif %}
 			</td>
+			<td>{{ element.status|ucwords|e }}</td>
 			<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 			{# Preview values may contain links so perform a "raw" output. #}
