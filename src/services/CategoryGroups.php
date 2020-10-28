@@ -53,6 +53,7 @@ class CategoryGroups extends Service
 	public function groupOptions(): array
 	{
 		$groups = $this->fetchFilterableGroups();
+		$options = [];
 		foreach($groups as &$group) {
 			// We'll add the section name if the type name is different.
 			$groupName = (string) $group->name;

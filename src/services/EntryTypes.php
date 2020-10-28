@@ -55,6 +55,7 @@ class EntryTypes extends Service
 	public function groupOptions(): array
 	{
 		$types = $this->fetchFilterableGroups();
+		$options = [];
 		foreach($types as &$type) {
 			// We'll add the section name if the type name is different.
 			$typeName = (string) $type->name;
