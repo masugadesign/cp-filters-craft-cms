@@ -1,6 +1,6 @@
 # CP Filters for Craft CMS
 
-![CP Filters for Craft CMS](https://www.gomasuga.com/uploads/software/cpfilters_craftcms_beta3.jpg?v=beta3)
+![CP Filters for Craft CMS](https://www.gomasuga.com/uploads/software/cp-filters-demo-101.jpg?v=101)
 
 ### Advanced filtering for Entry elements in the control panel.
 
