@@ -14,9 +14,9 @@
   },
   "support": {
     "email": "info@gomasuga.com",
-    "issues": "https://github.com/masugadesign/cpfilters-craft-cms/issues?state=open",
-    "source": "https://github.com/masugadesign/cpfilters-craft-cms",
-    "docs": "https://github.com/masugadesign/cpfilters-craft-cms"
+    "issues": "https://github.com/masugadesign/cp-filters-craft-cms/issues",
+    "source": "https://github.com/masugadesign/cp-filters-craft-cms",
+    "docs": "https://github.com/masugadesign/cp-filters-craft-cms/blob/master/README.md"
   },
   "extra": {
     "handle": "cpfilters",
