@@ -21,6 +21,7 @@ use Masuga\CpFilters\services\EntryTypes;
 use Masuga\CpFilters\services\FieldTypes;
 use Masuga\CpFilters\services\CategoryGroups;
 use Masuga\CpFilters\services\Filters;
+use Masuga\CpFilters\services\SavedFilters;
 use Masuga\CpFilters\services\TagGroups;
 use Masuga\CpFilters\services\UserGroups;
 use Masuga\CpFilters\variables\CpFiltersVariable;
@@ -96,6 +97,7 @@ class CpFilters extends Plugin
 			'entryTypes' => EntryTypes::class,
 			'fieldTypes' => FieldTypes::class,
 			'filters' => Filters::class,
+			'savedFilters' => SavedFilters::class,
 			'tagGroups' => TagGroups::class,
 			'userGroups' => UserGroups::class,
 		]);
@@ -119,6 +121,8 @@ class CpFilters extends Plugin
 			$event->rules['cpfilters/tags'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/field-filter-options'] = 'cpfilters/cp/field-filter-options';
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';
+			$event->rules['cpfilters/saved-filters'] = 'cpfilters/cp/get-saved-filters';
+			$event->rules['cpfilters/save-filter'] = 'cpfilters/save-filter';
 		});
 	}
 
