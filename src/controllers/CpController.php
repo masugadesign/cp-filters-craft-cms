@@ -9,6 +9,7 @@ use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use craft\web\Response;
 use Masuga\CpFilters\CpFilters;
+use Masuga\CpFilters\elements\SavedFilter;
 use yii\web\NotFoundHttpException;
 
 class CpController extends Controller
@@ -88,6 +89,42 @@ class CpController extends Controller
 			'index' => $request->getParam('index'),
 		];
 		return $view->renderTemplate('cpfilters/_partials/value-field', $templateParams);
+	}
+
+	/**
+	 * This method creates a Saved Filter record
+	 * or updates an existing Saved Filter
+	 * @return Response
+	 */
+	public function actionSaveFilter(): bool{
+		$this->requirePostRequest();
+		$request = Craft::$app->getRequest();
+		$id = $request->getParam('filterId');
+		$fields = [
+			'title' => $request->post('title'),
+			'criteria' => json_encode($request->post('criteria')),
+			'orderBy' => $request->post('orderBy'),
+			'sort' => $request->post('sort')
+		];
+		$report = $this->plugin->savedFilters->saveFilter($fields, $id);
+		if ( $report ) {
+			Craft::$app->getSession()->setNotice(Craft::t('cpfilters', 'CP Filters custom filter saved!'));
+			$response = $this->asJson(['url' => $report->getUrl()]);
+		} else {
+			Craft::$app->getSession()->setError(Craft::t('cpfilters', 'Error saving the CP Filters custom filter.'));
+			$response = $this->asJsoin(['error' => Craft::t('cpfilters', 'Unable to save report')]);
+		}
+		return $response;
+	}
+
+	/**
+	 * This controller action loads the user-created saved filters.
+	 * @return YiiResponse
+	 */
+	public function actionGetSavedFilters(): Response
+	{
+		$response = $this->renderTemplate('cpfilters/_saved-filters');
+		return $response;
 	}
 
 }
