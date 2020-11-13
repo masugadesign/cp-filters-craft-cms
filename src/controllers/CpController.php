@@ -106,13 +106,13 @@ class CpController extends Controller
 			'orderBy' => $request->post('orderBy'),
 			'sort' => $request->post('sort')
 		];
-		$report = $this->plugin->savedFilters->saveFilter($fields, $id);
-		if ( $report ) {
+		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
+		if ( $savedFilter ) {
 			Craft::$app->getSession()->setNotice(Craft::t('cpfilters', 'CP Filters custom filter saved!'));
-			$response = $this->asJson(['url' => $report->getUrl()]);
+			$response = $this->asJson(['url' => $savedFilter->getUrl()]);
 		} else {
 			Craft::$app->getSession()->setError(Craft::t('cpfilters', 'Error saving the CP Filters custom filter.'));
-			$response = $this->asJsoin(['error' => Craft::t('cpfilters', 'Unable to save report')]);
+			$response = $this->asJsoin(['error' => Craft::t('cpfilters', 'Unable to save filter')]);
 		}
 		return $response;
 	}

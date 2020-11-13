@@ -51,6 +51,4 @@ class SavedFilters extends Service
 		}
 		return $query;
 	}
-
-
 }
