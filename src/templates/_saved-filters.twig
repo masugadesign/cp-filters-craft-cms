@@ -1,0 +1,45 @@
+{% extends "_layouts/cp" %}
+{% set title = "CP Filters" %}
+
+{% set tabs = {
+	entries: { label: "Entries"|t, url: url('cpfilters/entries') },
+	assets: { label: "Assets"|t, url: url('cpfilters/assets') },
+	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
+	users: { label: "Users"|t, url: url('cpfilters/users') },
+	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
+	savedFilters: { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
+} %}
+
+{% set selectedTab = craft.app.request.getSegment(2) ?: 'saved-filters' %}
+
+{# Get this user's saved filters #}
+{% set savedFilters = craft.cpfilters.getSavedFilters(currentUser.id).orderBy('dateCreated', 'desc').all() %}
+
+{% block content %}
+{# Craft CMS hates bottom margins. #}
+<div id="fields" style="margin-bottom:5rem" >
+	<table class="data fullwidth fixed-layout filteredTable" dir="ltr" style="margin-bottom:3rem" >
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>URL</th>
+				<th>Date Updated</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for element in savedFilters %}
+			<tr>
+				<td>{{ element.title }}</td>
+				{% if element.url %}
+					<a href="{{ element.url }}" class="button" target="_blank" >{{ element.url|e }}</a>
+				{% else %}
+					--
+				{% endif %}
+				</td>
+				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
