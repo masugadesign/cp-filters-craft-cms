@@ -23,7 +23,7 @@
 				--
 			{% endif %}
 			</td>
-			<td>{{ element.status|ucwords|e }}</td>
+			<td>{{ element.status|title|e }}</td>
 			<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 			{# Preview values may contain links so perform a "raw" output. #}
