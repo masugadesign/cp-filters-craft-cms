@@ -206,4 +206,14 @@ class CpFiltersVariable
 		return $this->plugin->filters->elementGroupCriteria($elementTypeKey, $groupId);
 	}
 
+	/**
+	 * This method fetches a user's Saved Filters
+	 * @param int $userId
+	 * @return array
+	 */
+	public function getSavedFilters($userId)
+	{
+		return $this->plugin->savedFilters->getSavedFilters(['userId' =>$userId]);
+	}
+
 }
