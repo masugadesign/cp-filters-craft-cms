@@ -103,7 +103,8 @@ class CpController extends Controller
 		$id = $request->getParam('filter-id');
 		$fields = [
 			'title' => $request->post('filter-title'),
-			'filterUrl' => json_encode($request->post('filter-url'))
+			'filterUrl' => $request->post('filter-url'),
+			'userId' => $request->post('userId')
 		];
 		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
 		if ( $savedFilter ) {

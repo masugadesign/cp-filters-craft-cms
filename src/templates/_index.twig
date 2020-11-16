@@ -158,6 +158,7 @@ OUTPUT
 	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off">
 		{{ csrfInput() }}
 		<input type="hidden" name="action" value="cpfilters/cp/save-filter">
+		<input type="hidden" name="userId" value="{{ currentUser.id }}">
 		<div class="body">
 			<div class="content">
 				<div class="sidebar hidden"></div>
