@@ -152,7 +152,33 @@ OUTPUT
 				<input type="submit" class="btn submit" name="exportSubmit" value="Export Total Results" >
 			</div>
 		</div>
+	</form>
 
+	{# Save Filter Modal #}
+	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off">
+		{{ csrfInput() }}
+		<input type="hidden" name="action" value="{{ url(currentSite.baseUrl ~ 'cpfilters/save-filter') }}">
+		<div class="body">
+			<div class="content">
+				<div class="sidebar hidden"></div>
+				<div class="main">
+					<input type="hidden" name="filter-url" value="{{ url(craft.app.request.queryString) }}">
+					<div class="field">
+						<div class="heading">
+							<label>Filter Title</label>
+						</div>
+						<input type="text" class="text" name="filter-title">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="buttons right">
+				<button type="button" class="btn" id="closeFilterModal" tabindex="0">Cancel</button>
+				<button type="submit" class="btn submit">Save Filter</button>
+			</div>
+			<div class="buttons left secondary-buttons"></div>
+		</div>
 	</form>
 
 	<hr>
