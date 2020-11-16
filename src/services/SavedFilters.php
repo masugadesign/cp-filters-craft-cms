@@ -12,7 +12,6 @@ use Masuga\CpFilters\elements\db\SavedFilterQuery;
 use Masuga\CpFilters\records\SavedFilterRecord;
 
 class SavedFilters extends Service
-class SavedFilters extends Service
 {
 	/**
 	 * This method creates/updates a CPFilters SavedFilter element based on whether or
@@ -50,4 +49,6 @@ class SavedFilters extends Service
 		}
 		return $query;
 	}
+
+
 }

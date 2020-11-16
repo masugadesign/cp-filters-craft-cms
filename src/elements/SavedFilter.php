@@ -187,7 +187,6 @@ class SavedFilter extends Element
 				throw new Exception('Invalid download ID: '.$this->id);
 			}
 		}
-		$record->assetId = $this->assetId;
 		$record->elementId = $this->elementId;
 		$record->userId = $this->userId;
 		$record->title = $this->title;
