@@ -30,11 +30,13 @@
 		{% for element in savedFilters %}
 			<tr>
 				<td>{{ element.title }}</td>
-				{% if element.url %}
-					<a href="{{ element.url }}" class="button" target="_blank" >{{ element.url|e }}</a>
-				{% else %}
-					--
-				{% endif %}
+				<td>
+					{% if element.filterUrl %}
+						<a href="{{ element.filterUrl }}" class="button" target="_blank" >{{ element.filterUrl }}</a>
+					{% else %}
+						--
+					{% endif %}
+				</td>
 				</td>
 				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 			</tr>
