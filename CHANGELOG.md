@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 - YYYY-MM-DD
+
+### Fixed
+- Fixed default config values that are incompatible with PostgreSQL.
+
 ## 1.0.1.1 - 2020-10-28
 
 ### Fixed
