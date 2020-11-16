@@ -99,12 +99,10 @@ class CpController extends Controller
 	public function actionSaveFilter(): bool{
 		$this->requirePostRequest();
 		$request = Craft::$app->getRequest();
-		$id = $request->getParam('filterId');
+		$id = $request->getParam('filter-id');
 		$fields = [
-			'title' => $request->post('title'),
-			'criteria' => json_encode($request->post('criteria')),
-			'orderBy' => $request->post('orderBy'),
-			'sort' => $request->post('sort')
+			'title' => $request->post('filter-title'),
+			'filterUrl' => json_encode($request->post('filter-url'))
 		];
 		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
 		if ( $savedFilter ) {

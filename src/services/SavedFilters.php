@@ -12,6 +12,7 @@ use Masuga\CpFilters\elements\db\SavedFilterQuery;
 use Masuga\CpFilters\records\SavedFilterRecord;
 
 class SavedFilters extends Service
+class SavedFilters extends Service
 {
 	/**
 	 * This method creates/updates a CPFilters SavedFilter element based on whether or
@@ -31,9 +32,7 @@ class SavedFilters extends Service
 		}
 		$savedFilter->siteId = Craft::$app->getSites()->currentSite->id;
 		$savedFilter->title = $input['title'];
-		$savedFilter->criteria = $input['criteria'] ?? $savedFilter->criteria;
-		$savedFilter->orderBy = $input['orderBy'] ?? $savedFilter->orderBy;
-		$savedFilter->sort = $input['sort'] ?? $savedFilter->sort;
+		$savedFilter->filterUrl = $input['filterUrl'] ?? $savedFilter->filterUrl;
 		// On a successful save, return the savedFilter element itself.
 		return Craft::$app->getElements()->saveElement($savedFilter) ? $savedFilter : null;
 	}
