@@ -107,3 +107,15 @@ function toggleValueFieldReadonly(index)
 		valueField.prop('disabled', false);
 	}
 }
+
+// Open "Save Filter" modal on click to "Save Filter" button
+var $saveFilterModal = $("#saveFilterModal");
+var modal = new Garnish.Modal($saveFilterModal, { autoShow: false });
+$("#saveFilter").on("click", function(){
+	$($saveFilterModal).addClass('modal');
+	modal.show();
+});
+
+$("#closeFilterModal").on("click", function(){
+	modal.hide();
+});
