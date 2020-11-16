@@ -96,7 +96,8 @@ class CpController extends Controller
 	 * or updates an existing Saved Filter
 	 * @return Response
 	 */
-	public function actionSaveFilter(): bool{
+	public function actionSaveFilter(): Response
+	{
 		$this->requirePostRequest();
 		$request = Craft::$app->getRequest();
 		$id = $request->getParam('filter-id');
