@@ -12,6 +12,7 @@ use craft\elements\Tag;
 use craft\elements\User;
 use craft\fields\Assets;
 use craft\fields\BaseRelationField;
+use craft\fields\Lightswitch;
 use craft\helpers\ArrayHelper;
 use craft\helpers\ElementHelper;
 use craft\records\Volume;
@@ -58,6 +59,7 @@ class FieldTypes extends Service
 		'craft\fields\Date' => ['is greater than', 'is less than', 'is empty', 'is not empty'],
 		'craft\fields\Dropdown' => ['is equal to', 'is empty', 'is not empty'],
 		'craft\fields\Entries' => ['is assigned', 'is empty', 'is not empty'],
+		'craft\fields\Lightswitch' => ['is equal to'],
 		'craft\fields\Matrix' => ['is empty', 'is not empty'],
 		'craft\fields\Number' => ['is equal to', 'is greater than', 'is less than', 'is empty', 'is not empty'],
 		'craft\fields\PlainText' => ['contains', 'starts with', 'ends with', 'is equal to', 'is empty', 'is not empty'],
@@ -205,6 +207,11 @@ class FieldTypes extends Service
 		if ( $field ) {
 			if ( $field instanceof BaseRelationField ) {
 				$options = $this->getRelationFieldOptionsByField($field);
+			} elseif ( $field instanceof Lightswitch ) {
+				$options = [
+					'1' => $field->onLabel,
+					'0' => $field->offLabel
+				];
 			} else {
 				$fieldOptions = $field->options ?? [];
 				foreach($fieldOptions as &$option) {
