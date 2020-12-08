@@ -81,6 +81,7 @@ class FieldTypes extends Service
 		'filename' => 'craft\fields\PlainText',
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',
+		'siteId' => 'craft\fields\Number',
 		'status' => 'STATUS',
 		'postDate' => 'craft\fields\Date',
 		'dateCreated' => 'craft\fields\Date',
