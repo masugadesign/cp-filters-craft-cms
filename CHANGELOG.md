@@ -2,6 +2,10 @@
 
 ## 1.1.0 - YYYY-MM-DD
 
+### Added
+- Added `siteId` filter for all core element types.
+- Added support for `craft\fields\Lightswitch` field filtering.
+
 ### Fixed
 - Fixed default config values that are incompatible with PostgreSQL.
 
