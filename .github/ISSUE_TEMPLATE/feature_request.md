@@ -7,6 +7,12 @@ assignees: 'ryanmasuga'
 
 ---
 
+**Craft Version & Installed Plugin Version**  
+If applicable, let us know what version of Craft and the plugin you currently have installed.  
+Craft:   
+Plugin: 
+
+
 **Is your feature request related to a problem? Please describe.**  
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
