@@ -171,6 +171,10 @@ class Filters extends Service
 		if ( ! isset($criteria['status']) ) {
 			$criteria['status'] = null;
 		}
+		// If not filtering by siteId, make sure Craft doesn't do it either.
+		if ( ! isset($criteria['siteId']) ) {
+			$criteria['siteId'] = null;
+		}
 		return $criteria;
 	}
 

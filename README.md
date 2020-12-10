@@ -4,8 +4,6 @@
 
 ### Advanced filtering for Entry elements in the control panel.
 
-This is a commercial plugin for Craft CMS 3 that is in BETA. The plugin has not yet been released for public use and is not supported.
-
 ### Table of Contents
 
 ### Requirements
@@ -18,7 +16,7 @@ This is a commercial plugin for Craft CMS 3 that is in BETA. The plugin has not 
 Add the following to your composer.json requirements. Be sure to adjust the version number to match the version you wish to install.
 
 ```
-"masugadesign/cpfilters": "1.0.1.1",
+"masugadesign/cpfilters": "1.0.2",
 ```
 
 ### Config
