@@ -7,12 +7,14 @@
 	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
 	users: { label: "Users"|t, url: url('cpfilters/users') },
 	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
+	savedFilters: { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
 
 {% set selectedTab = craft.app.request.getSegment(2) ?: 'entries' %}
 
 {# Load the JS and CSS needed for this page. #}
 {% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
+
 
 {# We extract this from the URI to determine which element type we are working with. #}
 {% set elementTypeKey = selectedTab %}
@@ -94,6 +96,7 @@ OUTPUT
 {# Some hidden fields we can use to stash some dynamic information. #}
 <input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
 <input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
+<input type="hidden" name="completeUrl" value="{{ url(craft.app.request.queryString) }}">
 
 {# Craft CMS hates bottom margins. #}
 <div id="fields" style="margin-bottom:5rem" >
@@ -147,6 +150,7 @@ OUTPUT
 			<div class="filterFormControls" >
 				<input type="submit" class="btn submit" value="Refresh Results" >&nbsp;
 				<a href="{{ url(craft.app.request.pathInfo) }}" class="btn" >Clear Filters</a>
+				<a href="#" id="saveFilter" class="btn">Save Filter</a>
 			</div>
 			<div class="filterExportControls" >
 				<input type="submit" class="btn submit" name="exportSubmit" value="Export Total Results" >
@@ -155,15 +159,14 @@ OUTPUT
 	</form>
 
 	{# Save Filter Modal #}
-	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off">
+	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off" data-action="{{ url(siteUrl ~ 'cpfilters/save-filter') }}">
 		{{ csrfInput() }}
-		<input type="hidden" name="action" value="cpfilters/cp/save-filter">
 		<input type="hidden" name="userId" value="{{ currentUser.id }}">
 		<div class="body">
 			<div class="content">
 				<div class="sidebar hidden"></div>
 				<div class="main">
-					<input type="hidden" name="filter-url" value="{{ url(craft.app.request.queryString) }}">
+					<input type="hidden" name="filter-url" id="filterUrl" value="{{ url(craft.app.request.queryString) }}">
 					<div class="field">
 						<div class="heading">
 							<label>Filter Title</label>
@@ -176,7 +179,7 @@ OUTPUT
 		<div class="footer">
 			<div class="buttons right">
 				<button type="button" class="btn" id="closeFilterModal" tabindex="0">Cancel</button>
-				<button type="submit" class="btn submit">Save Filter</button>
+				<button type="submit" class="btn submit" id="saveFilterButton">Save Filter</button>
 			</div>
 			<div class="buttons left secondary-buttons"></div>
 		</div>

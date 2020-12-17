@@ -116,6 +116,32 @@ $("#saveFilter").on("click", function(){
 	modal.show();
 });
 
+// Close "Save Filter" modal on click to "Cancel" modal button
 $("#closeFilterModal").on("click", function(){
 	modal.hide();
 });
+
+// Save filter on click to "Save Filter" modal button
+$("#saveFilterButton").on("click", function(e){
+	e.preventDefault();
+
+	// Submit the filter form to make sure all selected filters are saved
+	$("#filtersForm").submit();
+
+	var actionUrl = $("#saveFilterModal").attr('data-action');
+	var formData = $("#saveFilterModal").serializeArray();
+	$.ajax({
+		"type": "POST",
+		"url": actionUrl,
+		"dataType": "json",
+		"data": formData,
+		"success": function(data, textStatus, jqXHR) {
+			modal.hide();
+		},
+		"error": function(jqXHR, textStatus, errorThrown) {
+			modal.hide();
+		}
+	});
+});
+
+// @TODO: Update #filterUrl val on change to any filters

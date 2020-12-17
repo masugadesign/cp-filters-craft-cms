@@ -122,7 +122,7 @@ class CpFilters extends Plugin
 			$event->rules['cpfilters/field-filter-options'] = 'cpfilters/cp/field-filter-options';
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';
 			$event->rules['cpfilters/saved-filters'] = 'cpfilters/cp/get-saved-filters';
-			$event->rules['cpfilters/save-filter'] = 'cpfilters/save-filter';
+			$event->rules['cpfilters/save-filter'] = 'cpfilters/cp/save-filter';
 		});
 	}
 
