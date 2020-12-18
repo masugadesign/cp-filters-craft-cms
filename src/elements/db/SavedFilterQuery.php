@@ -15,7 +15,6 @@ class SavedFilterQuery extends ElementQuery
 	/**
 	 * Public properties
 	 */
-	public $elementId = null;
 	public $userId = null;
 	public $title = null;
 	public $filterUrl = null;
@@ -78,7 +77,6 @@ class SavedFilterQuery extends ElementQuery
 
 		$selectsArray = [
 			'cpfilters_savedfilters.userId',
-			'cpfilters_savedfilters.elementId',
 			'cpfilters_savedfilters.title',
 			'cpfilters_savedfilters.filterUrl'
 		];
@@ -87,14 +85,11 @@ class SavedFilterQuery extends ElementQuery
 		if ($this->userId) {
 			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.userId', $this->userId));
 		}
-		if ($this->elementId) {
-			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.elementId', $this->elementId));
-		}
 		if ($this->title) {
 			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.title', $this->userId));
 		}
 		if ($this->filterUrl) {
-			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterUrl', $this->elementId));
+			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterUrl', $this->filterUrl));
 		}
 		return parent::beforePrepare();
 	}

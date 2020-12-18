@@ -21,7 +21,6 @@ class SavedFilter extends Element
 	/**
 	 * Element contents
 	 */
-	public $elementId = null;
 	public $userId = null;
 	public $title = null;
 	public $filterUrl = null;
@@ -132,16 +131,6 @@ class SavedFilter extends Element
 			case 'userId':
 				$user = $this->user;
 				$displayValue = isset($user->username) ? '<a href="'.UrlHelper::cpUrl('/user', ['userId' => $user->id]).'" >'.$user->username.'</a>' : '--';
-			case 'elementId':
-				$element = $this->relatedElement;
-				if ( $element ) {
-					$title = (string) $element ?: '--';
-					$url = $this->getCpEditUrl();
-					$output = $url ? '<a href="${url}" >${title}</a>' : $title;
-				} else {
-					$output = '--';
-				}
-				$displayValue = $output;
 			case 'id':
 				$displayValue = $this->$attribute;
 			default:
@@ -187,7 +176,6 @@ class SavedFilter extends Element
 				throw new Exception('Invalid download ID: '.$this->id);
 			}
 		}
-		$record->elementId = $this->elementId;
 		$record->userId = $this->userId;
 		$record->title = $this->title;
 		$record->filterUrl = $this->filterUrl;

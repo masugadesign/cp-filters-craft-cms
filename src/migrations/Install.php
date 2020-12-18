@@ -10,7 +10,6 @@ class Install extends Migration
 		if (!$this->db->tableExists('{{%cpfilters_savedfilters}}')) {
 			$this->createTable('{{%cpfilters_savedfilters}}', [
 				'id' => $this->primaryKey(),
-				'elementId' => $this->integer(),
 				'userId' => $this->integer(),
 				'title' => $this->string(255),
 				'filterUrl' => $this->string(255),
