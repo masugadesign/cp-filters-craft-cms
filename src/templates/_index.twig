@@ -159,14 +159,15 @@ OUTPUT
 	</form>
 
 	{# Save Filter Modal #}
-	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off" data-action="{{ url(siteUrl ~ 'cpfilters/save-filter') }}">
+	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off" data-action="{{ url('cpfilters/save-filter') }}">
 		{{ csrfInput() }}
 		<input type="hidden" name="userId" value="{{ currentUser.id }}">
 		<div class="body">
 			<div class="content">
 				<div class="sidebar hidden"></div>
 				<div class="main">
-					<input type="hidden" name="filter-url" id="filterUrl" value="{{ url(craft.app.request.queryString) }}">
+					{% set filterUrl = 'cpfilters/' ~ craft.app.request.segments|last ~ '?' ~ craft.app.request.getQueryStringWithoutPath %}
+					<input type="hidden" name="filter-url" id="filterUrl" value="{{ url(filterUrl) }}">
 					<div class="field">
 						<div class="heading">
 							<label>Filter Title</label>
