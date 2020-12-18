@@ -98,7 +98,6 @@ class CpController extends Controller
 	 */
 	public function actionSaveFilter(): Response
 	{
-		$this->requirePostRequest();
 		$request = Craft::$app->getRequest();
 		$id = $request->getParam('filter-id');
 		$fields = [
@@ -120,7 +119,6 @@ class CpController extends Controller
 
 	public function actionDeleteFilter(): Response
 	{
-		$this->requirePostRequest();
 		$request = Craft::$app->getRequest();
 		$elementId = $this->plugin->savedFilters->getFilter();
 		return $this->plugin->savedFilters->deleteSavedFilter($elementId);

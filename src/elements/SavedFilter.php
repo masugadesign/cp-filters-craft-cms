@@ -137,7 +137,7 @@ class SavedFilter extends Element
 				if ( $element ) {
 					$title = (string) $element ?: '--';
 					$url = $this->getCpEditUrl();
-					$output = $url ? '<a href="'.$url.'" >'.$title.'</a>' : $title;
+					$output = $url ? '<a href="${url}" >${title}</a>' : $title;
 				} else {
 					$output = '--';
 				}
