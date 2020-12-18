@@ -9,8 +9,8 @@
 	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
 	savedFilters: { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
-
-{% set selectedTab = craft.app.request.getSegment(2) ?: 'saved-filters' %}
+{# @TODO: Fix this #}
+{% set selectedTab = craft.app.request.getSegment(2) ?: savedFilters %}
 
 {# Get this user's saved filters #}
 {% set savedFilters = craft.cpfilters.getSavedFilters(currentUser.id).orderBy('dateCreated', 'desc').all() %}
@@ -24,6 +24,7 @@
 				<th>Title</th>
 				<th>URL</th>
 				<th>Date Updated</th>
+				<th>Delete Filter</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,13 +33,15 @@
 				<td>{{ element.title }}</td>
 				<td>
 					{% if element.filterUrl %}
-						<a href="{{ element.filterUrl }}" class="button" target="_blank" >{{ element.filterUrl }}</a>
+						<a href="{{ element.filterUrl|raw }}" class="button" target="_blank" >{{ element.filterUrl|raw }}</a>
 					{% else %}
 						--
 					{% endif %}
 				</td>
 				</td>
 				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
+				{# @TODO: Form? #}
+				<td><a class="btn submit" href="{{ url('cpfilters/delete-filter') }}">Delete</a></td>
 			</tr>
 		{% endfor %}
 		</tbody>

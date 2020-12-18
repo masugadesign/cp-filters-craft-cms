@@ -27,7 +27,7 @@ class SavedFilters extends Service
 			$savedFilter = SavedFilter::find()->id($id)->one();
 		}
 		if ( ! $savedFilter ) {
-			$savedFilter = new SavedFilter;
+			$savedFilter = new SavedFilter();
 		}
 		$savedFilter->siteId = Craft::$app->getSites()->currentSite->id;
 		$savedFilter->title = $input['title'];
@@ -35,6 +35,13 @@ class SavedFilters extends Service
 		$savedFilter->userId = $input['userId'];
 		// On a successful save, return the savedFilter element itself.
 		return Craft::$app->getElements()->saveElement($savedFilter) ? $savedFilter : null;
+	}
+
+	public function getFilter($id)
+	{
+		return SavedFilterRecord::find()
+		->where(['id' => $id])
+		->one();
 	}
 
 	/**
@@ -52,4 +59,8 @@ class SavedFilters extends Service
 	}
 
 
+	public function deleteSavedFilter($elementId)
+	{
+		return Craft::$app->elements->deleteElementById($elementId);
+	}
 }

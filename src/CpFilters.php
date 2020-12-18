@@ -9,12 +9,14 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\log\FileTarget;
 use craft\services\Dashboard;
+use craft\services\Elements;
 use craft\services\Plugins;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use craft\web\View;
 use Masuga\CpFilters\assetbundles\cp\CpAsset;
 use Masuga\CpFilters\controllers\CpController;
+use Masuga\CpFilters\elements\SavedFilter;
 use Masuga\CpFilters\models\Settings;
 use Masuga\CpFilters\services\AssetVolumes;
 use Masuga\CpFilters\services\EntryTypes;
@@ -101,6 +103,13 @@ class CpFilters extends Plugin
 			'tagGroups' => TagGroups::class,
 			'userGroups' => UserGroups::class,
 		]);
+		// Register the SavedFilters element type
+		Event::on(Elements::class,
+			Elements::EVENT_REGISTER_ELEMENT_TYPES,
+			function(RegisterComponentTypesEvent $event) {
+				$event->types[] = SavedFilter::class;
+			}
+		);
 		// Register the CP Filters plugin log though we probably won't use this.
 		$fileTarget = new FileTarget([
 			'logFile' => Craft::$app->getPath()->getLogPath().'/cpfilters-craft.log',
@@ -123,6 +132,7 @@ class CpFilters extends Plugin
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';
 			$event->rules['cpfilters/saved-filters'] = 'cpfilters/cp/get-saved-filters';
 			$event->rules['cpfilters/save-filter'] = 'cpfilters/cp/save-filter';
+			$event->rules['cpfilters/delete-filter'] = 'cpfilters/cp/delete-filter';
 		});
 	}
 
