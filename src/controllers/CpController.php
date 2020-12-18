@@ -105,7 +105,7 @@ class CpController extends Controller
 			'filterUrl' => $request->post('filter-url'),
 			'userId' => $request->post('userId')
 		];
-		/* @TODO: FIX THIS */
+
 		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
 		if ( $savedFilter ) {
 			Craft::$app->getSession()->setNotice(Craft::t('cpfilters', 'CP Filters custom filter saved!'));
@@ -117,10 +117,10 @@ class CpController extends Controller
 		return $response;
 	}
 
-	public function actionDeleteFilter(): Response
+	public function actionDeleteFilter(): bool
 	{
 		$request = Craft::$app->getRequest();
-		$elementId = $this->plugin->savedFilters->getFilter();
+		$elementId = $request->getParam('id');
 		return $this->plugin->savedFilters->deleteSavedFilter($elementId);
 	}
 
