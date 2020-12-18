@@ -144,4 +144,19 @@ $("#saveFilterButton").on("click", function(e){
 	});
 });
 
+// Delete filter on click to "Delete Filter" button
+$(".deleteFilterButton").on("click", function(e){
+	e.preventDefault();
+
+	var thisForm = $(this).parents("form.deleteFilterForm")
+	var actionUrl = $(thisForm).attr('data-action');
+	var formData = $(thisForm).serializeArray();
+	$.ajax({
+		"type": "POST",
+		"url": actionUrl,
+		"dataType": "json",
+		"data": formData
+	});
+});
+
 // @TODO: Update #filterUrl val on change to any filters
