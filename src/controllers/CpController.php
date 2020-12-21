@@ -112,7 +112,7 @@ class CpController extends Controller
 			$response = $this->asJson(['url' => $savedFilter->getUrl()]);
 		} else {
 			Craft::$app->getSession()->setError(Craft::t('cpfilters', 'Error saving the CP Filters custom filter.'));
-			$response = $this->asJsoin(['error' => Craft::t('cpfilters', 'Unable to save filter')]);
+			$response = $this->asJson(['error' => Craft::t('cpfilters', 'Unable to save filter')]);
 		}
 		return $response;
 	}
