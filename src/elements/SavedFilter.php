@@ -24,6 +24,7 @@ class SavedFilter extends Element
 	public $userId = null;
 	public $title = null;
 	public $filterUrl = null;
+	private $_user;
 
 	/**
 	 * Returns the element type name.
@@ -201,13 +202,18 @@ class SavedFilter extends Element
 	 */
 	public function getUser()
 	{
-		$user = null;
-		if ( $this->_user !== null ) {
-			$user = $this->_user;
-		} elseif ( $this->userId ) {
-			$user = Craft::$app->users->getUserById($this->userId);
+		if ($this->_user === null) {
+			if ($this->userId === null) {
+				return null;
+			}
+
+			if (($this->_user = Craft::$app->getUsers()->getUserById($this->userId)) === null) {
+				// The author is probably soft-deleted.
+				$this->_user = false;
+			}
 		}
-		return $user;
+
+		return $this->_user ?: null;
 	}
 
 	/**

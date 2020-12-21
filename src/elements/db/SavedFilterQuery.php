@@ -68,6 +68,12 @@ class SavedFilterQuery extends ElementQuery
 		return $this;
 	}
 
+	public function userId($value)
+	{
+		$this->userId = $value;
+		return $this;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
