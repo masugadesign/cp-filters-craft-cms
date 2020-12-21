@@ -23,7 +23,9 @@ class SavedFilter extends Element
 	 */
 	public $userId = null;
 	public $title = null;
-	public $filterUrl = null;
+	public $filterElementType = null;
+	public $filterGroupId = null;
+	public $filterCriteria = null;
 	private $_user;
 
 	/**
@@ -91,7 +93,7 @@ class SavedFilter extends Element
 	 */
 	protected static function defineDefaultTableAttributes(string $source): array
 	{
-		return ['id', 'dateCreated', 'title', 'filterUrl', 'userId'];
+		return ['id', 'userId', 'title', 'filterElementType', 'filterGroupId', 'filterCriteria', 'dateCreated', 'dateUpdated', 'dateDeleted', 'uid'];
 	}
 
 	/**
@@ -179,7 +181,9 @@ class SavedFilter extends Element
 		}
 		$record->userId = $this->userId;
 		$record->title = $this->title;
-		$record->filterUrl = $this->filterUrl;
+		$record->filterElementType = $this->filterElementType;
+		$record->filterGroupId = $this->filterGroupId;
+		$record->filterCriteria = $this->filterCriteria;
 
 		$status = $record->save();
 		parent::afterSave($isNew);

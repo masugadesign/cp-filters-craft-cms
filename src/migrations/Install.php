@@ -12,9 +12,12 @@ class Install extends Migration
 				'id' => $this->primaryKey(),
 				'userId' => $this->integer(),
 				'title' => $this->string(255),
-				'filterUrl' => $this->string(255),
+				'filterElementType' => $this->string(255),
+				'filterGroupId' => $this->integer(),
+				'filterCriteria' => $this->text(),
 				'dateCreated' => $this->dateTime()->notNull(),
 				'dateUpdated' => $this->dateTime()->notNull(),
+				'dateDeleted' => $this->dateTime()->null(),
 				'uid' => $this->uid()
 			]);
 		}

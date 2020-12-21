@@ -99,12 +99,26 @@ class CpController extends Controller
 	public function actionSaveFilter(): Response
 	{
 		$request = Craft::$app->getRequest();
-		$id = $request->getParam('filter-id');
+		$groupId = $request->getParam('groupId');
+		$id      = $request->getParam('filterId');
+		$title   = $request->post('filterTitle');
+		$userId  = $request->post('userId');
+		$elementTypeKey = $request->post('elementTypeKey');
+
+		$elementTypeKey = $request->getSegment(2) ?: 'entries';
+		$elementType = $this->plugin->filters->getElementClass($elementTypeKey);
+		$filterInput = $request->getParam('filters') ?: [];
+		$criteria = $this->plugin->filters->formatCriteria($filterInput) +
+			$this->plugin->filters->elementGroupCriteria($elementTypeKey, $groupId);
+
 		$fields = [
-			'title' => $request->post('filter-title'),
-			'filterUrl' => $request->post('filter-url'),
-			'userId' => $request->post('userId')
+			'title' => $title,
+			'filterElementType' => $elementTypeKey,
+			'filterGroupId' => $groupId,
+			'filterCriteria' => json_encode($criteria),
+			'userId' => $userId
 		];
+
 
 		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
 		if ( $savedFilter ) {
@@ -114,13 +128,14 @@ class CpController extends Controller
 			Craft::$app->getSession()->setError(Craft::t('cpfilters', 'Error saving the CP Filters custom filter.'));
 			$response = $this->asJson(['error' => Craft::t('cpfilters', 'Unable to save filter')]);
 		}
+
 		return $response;
 	}
 
 	public function actionDeleteFilter(): bool
 	{
 		$request = Craft::$app->getRequest();
-		$elementId = $request->getParam('id');
+		$elementId = $request->getParam('filterId');
 		return $this->plugin->savedFilters->deleteSavedFilter($elementId);
 	}
 

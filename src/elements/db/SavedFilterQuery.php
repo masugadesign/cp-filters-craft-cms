@@ -17,7 +17,9 @@ class SavedFilterQuery extends ElementQuery
 	 */
 	public $userId = null;
 	public $title = null;
-	public $filterUrl = null;
+	public $filterElementType = null;
+	public $filterGroupId = null;
+	public $filterCriteria = null;
 
 	/**
 	 * The instance of the CP Filters plugin.
@@ -84,7 +86,9 @@ class SavedFilterQuery extends ElementQuery
 		$selectsArray = [
 			'cpfilters_savedfilters.userId',
 			'cpfilters_savedfilters.title',
-			'cpfilters_savedfilters.filterUrl'
+			'cpfilters_savedfilters.filterElementType',
+			'cpfilters_savedfilters.filterGroupId',
+			'cpfilters_savedfilters.filterCriteria'
 		];
 		$this->query->select($selectsArray);
 
@@ -94,8 +98,14 @@ class SavedFilterQuery extends ElementQuery
 		if ($this->title) {
 			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.title', $this->userId));
 		}
-		if ($this->filterUrl) {
-			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterUrl', $this->filterUrl));
+		if ($this->filterElementType) {
+			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterElementType', $this->filterElementType));
+		}
+		if ($this->filterGroupId) {
+			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterGroupId', $this->filterGroupId));
+		}
+		if ($this->filterCriteria) {
+			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterCriteria', $this->filterCriteria));
 		}
 		return parent::beforePrepare();
 	}

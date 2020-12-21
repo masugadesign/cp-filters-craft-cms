@@ -25,7 +25,7 @@
 		<thead>
 			<tr>
 				<th>Title</th>
-				<th>URL</th>
+				<th>View Results</th>
 				<th>Date Updated</th>
 				<th>Delete Filter</th>
 			</tr>
@@ -35,18 +35,21 @@
 			<tr id="element-{{ element.id }}" class="filter-row">
 				<td>{{ element.title }}</td>
 				<td>
-					{% if element.filterUrl %}
-						<a href="{{ element.filterUrl|raw }}" class="button" target="_blank" >{{ element.filterUrl|raw }}</a>
+					{% if element.filterCriteria %}
+						<a href="{{ element.filterCriteria|raw }}" class="btn" target="_blank" >View Results
+						</a>
 					{% else %}
 						--
 					{% endif %}
+
+					{{ element.filterCriteria|raw }}
 				</td>
 				</td>
 				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 				<td>
 					<form method="post" accept-charset="UTF-8" autocomplete="off" data-action="{{ url('cpfilters/delete-filter') }}" class="deleteFilterForm">
 						{{ csrfInput() }}
-						<input type="hidden" name="id" value="{{ element.id }}">
+						<input type="hidden" name="filterId" value="{{ element.id }}">
 						<a href="#" class="btn submit deleteFilterButton">Delete</a>
 					</form>
 				</td>

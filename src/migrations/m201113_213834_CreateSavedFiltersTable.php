@@ -15,14 +15,15 @@ class m201113_213834_CreateSavedFiltersTable extends Migration
 		if (!$this->db->tableExists('{{%cpfilters_savedfilters}}')) {
 			$this->createTable('{{%cpfilters_savedfilters}}', [
 				'id' => $this->primaryKey(),
-				'elementId' => $this->integer(),
 				'userId' => $this->integer(),
 				'title' => $this->string(255),
-				'filterUrl' => $this->string(255),
+				'filterElementType' => $this->string(255),
+				'filterGroupId' => $this->integer(),
+				'filterCriteria' => $this->text(),
 				'dateCreated' => $this->dateTime()->notNull(),
 				'dateUpdated' => $this->dateTime()->notNull(),
-				'uid' => $this->uid(),
-				'dateDeleted' => $this->dateTime()->null()
+				'dateDeleted' => $this->dateTime()->null(),
+				'uid' => $this->uid()
 			]);
 		}
 	}
