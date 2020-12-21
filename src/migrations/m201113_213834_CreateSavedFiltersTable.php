@@ -21,7 +21,8 @@ class m201113_213834_CreateSavedFiltersTable extends Migration
 				'filterUrl' => $this->string(255),
 				'dateCreated' => $this->dateTime()->notNull(),
 				'dateUpdated' => $this->dateTime()->notNull(),
-				'uid' => $this->uid()
+				'uid' => $this->uid(),
+				'dateDeleted' => $this->dateTime()->null()
 			]);
 		}
 	}

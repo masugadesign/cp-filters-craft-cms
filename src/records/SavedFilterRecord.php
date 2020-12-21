@@ -3,12 +3,15 @@
 namespace Masuga\CpFilters\records;
 
 use craft\db\ActiveRecord;
+use craft\db\SoftDeleteTrait;
 use craft\base\Element;
 use craft\elements\User;
 use yii\db\ActiveQueryInterface;
 
 class SavedFilterRecord extends ActiveRecord
 {
+	use SoftDeleteTrait;
+
 	/**
 	 * @inheritdoc
 	 */
