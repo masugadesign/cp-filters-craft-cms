@@ -7,7 +7,7 @@
 	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
 	users: { label: "Users"|t, url: url('cpfilters/users') },
 	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
-	savedFilters: { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
+	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
 
 {% set selectedTab = craft.app.request.getSegment(2) ?: 'saved-filters' %}
