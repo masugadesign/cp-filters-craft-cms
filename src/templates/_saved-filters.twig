@@ -9,8 +9,11 @@
 	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
 	savedFilters: { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
-{# @TODO: Fix this #}
-{% set selectedTab = craft.app.request.getSegment(2) ?: savedFilters %}
+
+{% set selectedTab = craft.app.request.getSegment(2) ?: 'saved-filters' %}
+
+{# Load the JS and CSS needed for this page. #}
+{% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
 
 {# Get this user's saved filters #}
 {% set savedFilters = craft.cpfilters.getSavedFilters(currentUser.id).orderBy('dateCreated', 'desc').all() %}
@@ -29,7 +32,7 @@
 		</thead>
 		<tbody>
 		{% for element in savedFilters %}
-			<tr>
+			<tr id="element-{{ element.id }}" class="filter-row">
 				<td>{{ element.title }}</td>
 				<td>
 					{% if element.filterUrl %}
@@ -41,9 +44,10 @@
 				</td>
 				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 				<td>
-					<form data-action="{{ url('cpfilters/delete-filter') }}" class="deleteFilterForm">
+					<form method="post" accept-charset="UTF-8" autocomplete="off" data-action="{{ url('cpfilters/delete-filter') }}" class="deleteFilterForm">
+						{{ csrfInput() }}
 						<input type="hidden" name="id" value="{{ element.id }}">
-						<button class="btn submit deleteFilterButton">Delete</button>
+						<a href="#" class="btn submit deleteFilterButton">Delete</a>
 					</form>
 				</td>
 			</tr>

@@ -148,14 +148,23 @@ $("#saveFilterButton").on("click", function(e){
 $(".deleteFilterButton").on("click", function(e){
 	e.preventDefault();
 
-	var thisForm = $(this).parents("form.deleteFilterForm")
+	var thisForm  = $(this).parents("form.deleteFilterForm")
 	var actionUrl = $(thisForm).attr('data-action');
-	var formData = $(thisForm).serializeArray();
+	var formData  = $(thisForm).serializeArray();
+	var thisRow   = $(thisForm).closest(".filter-row");
+
 	$.ajax({
 		"type": "POST",
 		"url": actionUrl,
 		"dataType": "json",
-		"data": formData
+		"data": formData,
+		"success": function(data, textStatus, jqXHR) {
+			// Remove this row from the table
+			$(thisRow).remove();
+		},
+		"error": function(jqXHR, textStatus, errorThrown) {
+			console.log(errorThrown);
+		}
 	});
 });
 
