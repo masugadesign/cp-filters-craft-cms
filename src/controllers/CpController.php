@@ -129,6 +129,10 @@ class CpController extends Controller
 		return $response;
 	}
 
+	/**
+	 * This method deletes a Saved Filter record
+	 * @return bool
+	 */
 	public function actionDeleteFilter(): bool
 	{
 		$request = Craft::$app->getRequest();
