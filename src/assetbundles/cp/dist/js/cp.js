@@ -138,8 +138,11 @@ $("#saveFilterButton").on("click", function(e){
 	// to create the savedFilter url
 	var actionUrl = $("input[name='saveFilterAction']").val();
 	var formData = $("#filtersForm").serializeArray();
-	formData.push({name: 'userId', value: $(userIdInput).val()}, {name: 'filterTitle', value: $(filterTitleInput).val()});
-
+	formData.push(
+		{name: 'userId', value: $(userIdInput).val()},
+		{name: 'filterTitle', value: $(filterTitleInput).val()},
+		{'name' : window.csrfTokenName, 'value' : window.csrfTokenValue}
+	);
 
 	$.ajax({
 		"type": "POST",
