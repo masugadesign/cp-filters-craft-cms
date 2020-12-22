@@ -86,6 +86,37 @@ class CpFilters extends Plugin
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getCpNavItem(): array
+	{
+		$nav = parent::getCpNavItem();
+		$nav['subnav'] = [
+			'entries' => [
+				'label' => Craft::t('app', 'Entries'),
+				'url' => 'cpfilters/entries'
+			],
+			'assets' => [
+				'label' => Craft::t('app', 'Assets'),
+				'url' => 'cpfilters/assets'
+			],
+			'categories' => [
+				'label' => Craft::t('app', 'Categories'),
+				'url' => 'cpfilters/categories'
+			],
+			'users' => [
+				'label' => Craft::t('app', 'Users'),
+				'url' => 'cpfilters/users'
+			],
+			'tags' => [
+				'label' => Craft::t('app', 'Tags'),
+				'url' => 'cpfilters/tags'
+			]
+		];
+		return $nav;
+	}
+
+	/**
 	 * The plugin's initialization function is responsible for registering event
 	 * handlers, routes and other plugin components.
 	 */

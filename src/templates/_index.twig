@@ -10,6 +10,7 @@
 	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
 
+{% set selectedSubnavItem = craft.app.request.getSegment(2) ?: 'entries' %}
 {% set selectedTab = craft.app.request.getSegment(2) ?: 'entries' %}
 
 {# Load the JS and CSS needed for this page. #}
