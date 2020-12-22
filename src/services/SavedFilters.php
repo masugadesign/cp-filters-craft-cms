@@ -39,6 +39,11 @@ class SavedFilters extends Service
 		return Craft::$app->getElements()->saveElement($savedFilter) ? $savedFilter : null;
 	}
 
+	/**
+	 * This method returns a saved filter based on provided id.
+	 * @param int $id
+	 * @return array
+	 */
 	public function getFilter($id)
 	{
 		return SavedFilterRecord::find()
@@ -50,20 +55,23 @@ class SavedFilters extends Service
 	/**
 	 * This method returns an array of saved filters based on provided criteria.
 	 * @param array $criteria
-	 * @return array
+	 * @return object
 	 */
-	public function getSavedFilters($userId)
+	public function savedFilters($criteria)
 	{
-		$results = SavedFilterRecord::find()
-			->where(['userId' => $userId])
-			->andWhere(['dateDeleted' => null])
-			->orderBy(['dateCreated' => SORT_DESC])
-			->asArray();
-
-		return $results;
+		$query = SavedFilter::find();
+		if ($criteria) {
+			Craft::configure($query, $criteria);
+		}
+		return $query;
 	}
 
 
+	/**
+	 * This method deletes a filter based on the provided id.
+	 * @param int $elementId
+	 * @return bool
+	 */
 	public function deleteSavedFilter($elementId)
 	{
 		$thisFilter = $this->getFilter($elementId);

@@ -5,6 +5,7 @@ namespace Masuga\CpFilters\variables;
 use Craft;
 use craft\elements\db\ElementQuery;
 use Masuga\CpFilters\CpFilters;
+use Masuga\CpFilters\elements\db\SavedFilterQuery;
 use yii\helpers\Inflector;
 
 class CpFiltersVariable
@@ -207,13 +208,13 @@ class CpFiltersVariable
 	}
 
 	/**
-	 * This method fetches a user's Saved Filters
+	 * This method fetches a user's Saved Filters.
 	 * @param int $userId
 	 * @return array
 	 */
-	public function getSavedFilters($userId)
+	public function savedFilters($criteria=[]): SavedFilterQuery
 	{
-		return $this->plugin->savedFilters->getSavedFilters(['userId' =>$userId]);
+		return $this->plugin->savedFilters->savedFilters($criteria);
 	}
 
 }

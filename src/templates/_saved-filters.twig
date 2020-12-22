@@ -13,7 +13,7 @@
 {% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
 
 {# Get this user's saved filters #}
-{% set savedFilters = craft.cpfilters.getSavedFilters(currentUser.id).orderBy('dateCreated', 'desc').all() %}
+{% set savedFilters = craft.cpfilters.savedFilters({ 'userId' : currentUser.id }).orderBy('dateCreated', 'desc').all() %}
 
 {% block content %}
 {# Craft CMS hates bottom margins. #}
@@ -38,8 +38,6 @@
 					{% else %}
 						--
 					{% endif %}
-
-					{{ element.filterCriteria|raw }}
 				</td>
 				</td>
 				<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>

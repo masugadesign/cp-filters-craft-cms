@@ -64,6 +64,14 @@ class SavedFilter extends Element
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public static function hasStatuses(): bool
+	{
+		return true;
+	}
+
+	/**
 	 * Returns this element type's sources.
 	 * @param string|null $context
 	 * @return array|false
@@ -85,7 +93,9 @@ class SavedFilter extends Element
 	 */
 	public static function find(): ElementQueryInterface
 	{
-		return new SavedFilterQuery(static::class);
+		$query = Craft::createObject(SavedFilterQuery::class, [static::class]);
+		$query->where(['cpfilters_savedfilters.dateDeleted' => null]);
+		return $query;
 	}
 
 	/**
@@ -231,6 +241,7 @@ class SavedFilter extends Element
 				->select(['id as source', 'userId as target'])
 				->from(['{{%cpfilters_savedfilters}}'])
 				->where(['and', ['id' => $sourceElementIds], ['not', ['userId' => null]]])
+				->andWhere(['dateDeleted' => null])
 				->all();
 			return [
 				'elementType' => User::class,
