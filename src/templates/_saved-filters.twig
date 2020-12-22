@@ -2,15 +2,12 @@
 {% set title = "CP Filters" %}
 
 {% set tabs = {
-	entries: { label: "Entries"|t, url: url('cpfilters/entries') },
-	assets: { label: "Assets"|t, url: url('cpfilters/assets') },
-	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
-	users: { label: "Users"|t, url: url('cpfilters/users') },
-	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
+	results: { label: "Filtered Results"|t, url: url('cpfilters/entries') },
 	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
 
-{% set selectedTab = craft.app.request.getSegment(2) ?: 'saved-filters' %}
+{% set selectedTab = 'saved-filters' %}
+{% set selectedSubnavItem = craft.app.request.getSegment(2) != 'saved-filters' ? craft.app.request.getSegment(2) : null %}
 
 {# Load the JS and CSS needed for this page. #}
 {% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}

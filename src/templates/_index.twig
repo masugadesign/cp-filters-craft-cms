@@ -1,24 +1,21 @@
 {% extends "_layouts/cp" %}
 {% set title = "CP Filters" %}
 
+{% set selectedSubnavItem = craft.app.request.getSegment(2) ?: 'entries' %}
+
 {% set tabs = {
-	entries: { label: "Entries"|t, url: url('cpfilters/entries') },
-	assets: { label: "Assets"|t, url: url('cpfilters/assets') },
-	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
-	users: { label: "Users"|t, url: url('cpfilters/users') },
-	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
+	results: { label: "Filtered Results"|t, url: url('cpfilters/' ~ selectedSubnavItem) },
 	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
 } %}
 
-{% set selectedSubnavItem = craft.app.request.getSegment(2) ?: 'entries' %}
-{% set selectedTab = craft.app.request.getSegment(2) ?: 'entries' %}
+{% set selectedTab = craft.app.request.getSegment(2) == 'saved-filters' ? 'saved-filters' : 'results' %}
 
 {# Load the JS and CSS needed for this page. #}
 {% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
 
 
 {# We extract this from the URI to determine which element type we are working with. #}
-{% set elementTypeKey = selectedTab %}
+{% set elementTypeKey = selectedSubnavItem %}
 {% set elementClass = craft.cpfilters.getElementClass(elementTypeKey) %}
 {# Set variables for all currently available query string parameters. #}
 {% set groupId = craft.app.request.getParam('groupId') ?: null %}
@@ -103,7 +100,7 @@ window.csrfTokenValue = "{{ craft.app.request.getCsrfToken }}";
 
 	<form id="filtersForm" method="get" accept-charset="UTF-8" autocomplete="off" >
 		<input type="hidden" id="elementTypeKey" value="{{ elementTypeKey }}" >
-		<input type="hidden" name="elementType" value="{{ selectedTab }}">
+		<input type="hidden" name="elementType" value="{{ selectedSubnavItem }}">
 		{# Some hidden fields we can use to stash some dynamic information. #}
 		<input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
 		<input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
