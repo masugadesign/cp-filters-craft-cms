@@ -92,16 +92,15 @@ OUTPUT
 
 {% block content %}
 
-<input type="hidden" id="elementTypeKey" value="{{ elementTypeKey }}" >
-{# Some hidden fields we can use to stash some dynamic information. #}
-<input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
-<input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
-<input type="hidden" name="completeUrl" value="{{ url(craft.app.request.queryString) }}">
-
 {# Craft CMS hates bottom margins. #}
 <div id="fields" style="margin-bottom:5rem" >
 
 	<form id="filtersForm" method="get" accept-charset="UTF-8" autocomplete="off" >
+		<input type="hidden" id="elementTypeKey" value="{{ elementTypeKey }}" >
+		<input type="hidden" name="elementType" value="{{ selectedTab }}">
+		{# Some hidden fields we can use to stash some dynamic information. #}
+		<input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
+		<input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
 
 		{% include 'cpfilters/_partials/select-group' with {
 			'typeKey' : elementTypeKey,
@@ -159,20 +158,19 @@ OUTPUT
 	</form>
 
 	{# Save Filter Modal #}
-	<form id="saveFilterModal" class="fitted" style="display:none;" method="post" accept-charset="UTF-8" autocomplete="off" data-action="{{ url('cpfilters/save-filter') }}">
-		{{ csrfInput() }}
+	<div id="saveFilterModal" class="fitted" style="display:none;">
+		<input type="hidden" name="saveFilterAction" value="{{ url('cpfilters/save-filter') }}">
 		<input type="hidden" name="userId" value="{{ currentUser.id }}">
 		<div class="body">
 			<div class="content">
 				<div class="sidebar hidden"></div>
 				<div class="main">
-					{% set filterUrl = 'cpfilters/' ~ craft.app.request.segments|last ~ '?' ~ craft.app.request.getQueryStringWithoutPath %}
-					<input type="hidden" name="filter-url" id="filterUrl" value="{{ url(filterUrl) }}">
 					<div class="field">
 						<div class="heading">
 							<label>Filter Title</label>
 						</div>
-						<input type="text" class="text" name="filter-title">
+						<input type="text" class="text" name="filterTitle">
+
 					</div>
 				</div>
 			</div>
@@ -184,7 +182,7 @@ OUTPUT
 			</div>
 			<div class="buttons left secondary-buttons"></div>
 		</div>
-	</form>
+	</div>
 
 	<hr>
 

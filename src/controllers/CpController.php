@@ -101,24 +101,21 @@ class CpController extends Controller
 		$request = Craft::$app->getRequest();
 		$groupId = $request->getParam('groupId');
 		$id      = $request->getParam('filterId');
-		$title   = $request->post('filterTitle');
-		$userId  = $request->post('userId');
-		$elementTypeKey = $request->post('elementTypeKey');
-
-		$elementTypeKey = $request->getSegment(2) ?: 'entries';
-		$elementType = $this->plugin->filters->getElementClass($elementTypeKey);
+		$title   = $request->getParam('filterTitle');
+		$userId  = $request->getParam('userId');
+		$elementTypeKey = $request->getParam('elementTypeKey');
+		$filterElementType = $request->getParam('elementType');
 		$filterInput = $request->getParam('filters') ?: [];
 		$criteria = $this->plugin->filters->formatCriteria($filterInput) +
 			$this->plugin->filters->elementGroupCriteria($elementTypeKey, $groupId);
 
 		$fields = [
 			'title' => $title,
-			'filterElementType' => $elementTypeKey,
+			'filterElementType' => $filterElementType,
 			'filterGroupId' => $groupId,
 			'filterCriteria' => json_encode($criteria),
 			'userId' => $userId
 		];
-
 
 		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
 		if ( $savedFilter ) {

@@ -31,8 +31,8 @@ class SavedFilters extends Service
 		}
 		$savedFilter->siteId = Craft::$app->getSites()->currentSite->id;
 		$savedFilter->title = $input['title'];
-		$savedFilter->filterElementType = $input['filterElementType'];
-		$saveFilter->filterGroupId = $input['filterGroupId'];
+		$savedFilter->filterElementType = $input['filterElementType']?? $savedFilter->filterElementType;
+		$saveFilter->filterGroupId = $input['filterGroupId']?? $savedFilter->filterGroupId;
 		$savedFilter->filterCriteria = $input['filterCriteria'] ?? $savedFilter->filterCriteria;
 		$savedFilter->userId = $input['userId'];
 		// On a successful save, return the savedFilter element itself.

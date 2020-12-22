@@ -128,8 +128,19 @@ $("#saveFilterButton").on("click", function(e){
 	// Submit the filter form to make sure all selected filters are saved
 	$("#filtersForm").submit();
 
-	var actionUrl = $("#saveFilterModal").attr('data-action');
-	var formData = $("#saveFilterModal").serializeArray();
+	// Get the userId and filter title onto the main form
+	var userIdInput      = $("input[name='userId']");
+	var filterTitleInput = $("input[name='filterTitle']");
+
+	// Use the primary criteria-creation form,
+	// but submit it with a different action
+	// to run the input through the Filters::formatCriteria($input) method
+	// to create the savedFilter url
+	var actionUrl = $("input[name='saveFilterAction']").val();
+	var formData = $("#filtersForm").serializeArray();
+	formData.push({name: 'userId', value: $(userIdInput).val()}, {name: 'filterTitle', value: $(filterTitleInput).val()});
+
+
 	$.ajax({
 		"type": "POST",
 		"url": actionUrl,
@@ -143,6 +154,7 @@ $("#saveFilterButton").on("click", function(e){
 		}
 	});
 });
+
 
 // Delete filter on click to "Delete Filter" button
 $(".deleteFilterButton").on("click", function(e){
@@ -167,5 +179,3 @@ $(".deleteFilterButton").on("click", function(e){
 		}
 	});
 });
-
-// @TODO: Update #filterUrl val on change to any filters
