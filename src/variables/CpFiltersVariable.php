@@ -217,4 +217,15 @@ class CpFiltersVariable
 		return $this->plugin->savedFilters->savedFilters($criteria);
 	}
 
+	/**
+	 * This method takes a saved filter's information and returns a url to
+	 * use to show the results of that filter.
+	 * @param array $element
+	 * @return array
+	 */
+	public function createFilterUrl($element)
+	{
+		return urlencode($this->plugin->savedFilters->createFilterUrl($element));
+	}
+
 }

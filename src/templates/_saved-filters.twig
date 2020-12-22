@@ -33,7 +33,7 @@
 				<td>{{ element.title }}</td>
 				<td>
 					{% if element.filterCriteria %}
-						<a href="{{ element.filterCriteria|raw }}" class="btn" target="_blank" >View Results
+						<a href="{{ craft.cpfilters.createFilterUrl(element) }}" class="btn" target="_blank" >View Results
 						</a>
 					{% else %}
 						--

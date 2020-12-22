@@ -82,4 +82,37 @@ class SavedFilters extends Service
 			return null;
 		}
 	}
+
+	/**
+	 * This method takes a saved filter's information and returns a url to
+	 * use to show the results of that filter.
+	 * @param int $elementTypeKey
+	 * @param array $criteria
+	 * @param int $groupId
+	 * @return array
+	 */
+	public function createFilterUrl($element)
+	{
+		$elementTypeKey = $element->filterElementType;
+		$criteria = json_decode($element->filterCriteria, true);
+		$groupId = $element->filterGroupId;
+
+		if ($elementTypeKey) {
+			$filterUrl = "?elementType=${elementTypeKey}";
+
+			if ($groupId) {
+				$filterUrl = $filterUrl . "&groupId=${groupId}";
+			}
+
+			$i = 0;
+			foreach ($criteria as $fieldHandle => $filterType) {
+				$filterUrl = $filterUrl . "&filters[${i}][fieldHandle]=${fieldHandle}&filters[${i}][filterType]=${filterType}";
+				$i++;
+			}
+
+			return $filterUrl;
+		} else {
+			return null;
+		}
+	}
 }
