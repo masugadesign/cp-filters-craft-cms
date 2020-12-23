@@ -1,21 +1,8 @@
-{% extends "_layouts/cp" %}
-{% set title = "CP Filters" %}
+{# Get this user's saved filters for this type #}
+{% set elementTypeKey = selectedSubnavItem %}
+{% set savedFilters = craft.cpfilters.savedFilters({ 'userId' : currentUser.id, 'filterElementType': elementTypeKey }).orderBy('dateCreated', 'desc').all() %}
 
-{% set tabs = {
-	results: { label: "Filtered Results"|t, url: url('cpfilters/entries') },
-	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/saved-filters') }
-} %}
 
-{% set selectedTab = 'saved-filters' %}
-{% set selectedSubnavItem = craft.app.request.getSegment(2) != 'saved-filters' ? craft.app.request.getSegment(2) : null %}
-
-{# Load the JS and CSS needed for this page. #}
-{% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
-
-{# Get this user's saved filters #}
-{% set savedFilters = craft.cpfilters.savedFilters({ 'userId' : currentUser.id }).orderBy('dateCreated', 'desc').all() %}
-
-{% block content %}
 {# Craft CMS hates bottom margins. #}
 <div id="fields" style="margin-bottom:5rem" >
 	<table class="data fullwidth fixed-layout filteredTable" dir="ltr" style="margin-bottom:3rem" >
@@ -33,7 +20,7 @@
 				<td>{{ element.title }}</td>
 				<td>
 					{% if element.filterCriteria %}
-						<a href="{{ craft.cpfilters.createFilterUrl(element) }}" class="btn" target="_blank" >View Results
+						<a href="{{ craft.cpfilters.createFilterUrl(element) }}" class="btn">View Results
 						</a>
 					{% else %}
 						--
@@ -53,4 +40,3 @@
 		</tbody>
 	</table>
 </div>
-{% endblock %}

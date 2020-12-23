@@ -50,7 +50,7 @@ class CpController extends Controller
 				'mimeType' => 'text/csv'
 			]);
 		} else {
-			$response = $this->renderTemplate('cpfilters/_index');
+			$response = $this->renderTemplate('cpfilters/_layout');
 		}
 		return $response;
 	}
@@ -145,7 +145,7 @@ class CpController extends Controller
 	 */
 	public function actionGetSavedFilters(): Response
 	{
-		$response = $this->renderTemplate('cpfilters/_saved-filters');
+		$response = $this->renderTemplate('cpfilters/_layout');
 		return $response;
 	}
 
