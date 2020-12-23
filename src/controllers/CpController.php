@@ -106,14 +106,13 @@ class CpController extends Controller
 		$elementTypeKey = $request->getParam('elementTypeKey');
 		$filterElementType = $request->getParam('elementType');
 		$filterInput = $request->getParam('filters') ?: [];
-		$criteria = $this->plugin->filters->formatSavedCriteria($filterInput) +
-			$this->plugin->filters->elementGroupCriteria($elementTypeKey, $groupId);
+		$criteria = json_encode($filterInput);
 
 		$fields = [
 			'title' => $title,
 			'filterElementType' => $filterElementType,
 			'filterGroupId' => $groupId,
-			'filterCriteria' => json_encode($criteria),
+			'filterCriteria' => $criteria,
 			'userId' => $userId
 		];
 

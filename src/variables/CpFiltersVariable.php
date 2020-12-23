@@ -225,7 +225,7 @@ class CpFiltersVariable
 	 */
 	public function createFilterUrl($element)
 	{
-		return urlencode($this->plugin->savedFilters->createFilterUrl($element));
+		return $this->plugin->savedFilters->createFilterUrl($element);
 	}
 
 }

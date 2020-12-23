@@ -6,6 +6,7 @@ use Craft;
 use Exception;
 use craft\helpers\ArrayHelper;
 use craft\helpers\FileHelper;
+use craft\helpers\UrlHelper;
 use Masuga\CpFilters\base\Service;
 use Masuga\CpFilters\elements\SavedFilter;
 use Masuga\CpFilters\elements\db\SavedFilterQuery;
@@ -121,29 +122,15 @@ class SavedFilters extends Service
 	public function createFilterUrl($element): ?string
 	{
 		$elementTypeKey = $element->filterElementType;
-		$criteria = json_decode($element->filterCriteria, true);
+		$criteria = $element->filterCriteria;
 		$groupId = $element->filterGroupId;
 		$filterUrl;
 
-		// No filter without elementType
-		if ($elementTypeKey) {
-			$filterUrl = "?elementType=${elementTypeKey}";
-
-			// groupId is optional; add if present
-			if ($groupId) {
-				$filterUrl = $filterUrl . "&groupId=${groupId}";
-			}
-
-			// Get the decoded field criteria
-			if ($criteria) {
-				$fieldCriteria = $this->parseFieldCriteria($criteria);
-
-				$filterUrl = $filterUrl . $fieldCriteria;
-			}
-
-		} else {
-		}
-
+		$filterUrl = UrlHelper::cpUrl('cpfilters/' . $elementTypeKey, [
+			'elementType' => $elementTypeKey,
+			'groupId' => $groupId,
+			'filters'=> json_decode($criteria)
+		]);
 		return $filterUrl;
 	}
 }
