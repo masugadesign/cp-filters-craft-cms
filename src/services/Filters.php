@@ -179,6 +179,47 @@ class Filters extends Service
 	}
 
 	/**
+	 * Format the filters for saving
+	 */
+	public function formatSavedCriteria($input): array
+	{
+		$criteria = [];
+		foreach($input as &$filter) {
+			$fieldHandle = $filter['fieldHandle'] ?? null;
+			$filterType = $filter['filterType'] ?? null;
+			$value = $filter['value'] ?? null;
+			$newCriteria = [];
+
+			if ( $filterType === 'is assigned' ) {
+				$newCriteria = ['relatedTo' => ['fieldHandle' => $fieldHandle, 'targetElement' => $value]];
+			} else {
+				$newCriteria = ['fieldHandle' => $fieldHandle, 'filterType' => $filterType, 'value' => $value];
+			}
+
+			// In case of multiple "relatedTo" parameters, merge them.
+			if ( isset($newCriteria['relatedTo']) ) {
+				// If we haven't already added the "relatedTo" parameter, we need the "and".
+				if ( ! isset($criteria['relatedTo']) ) {
+					$criteria['relatedTo'] = ['and'];
+				}
+				$criteria['relatedTo'] = array_merge($criteria['relatedTo'], [$newCriteria['relatedTo']]);
+			// Other types of criteria may just be merged as usual.
+			} else {
+				$criteria = array_merge($criteria, $newCriteria);
+			}
+		}
+		// If not filtering by status, make sure Craft doesn't do it either.
+		if ( ! isset($criteria['status']) ) {
+			$criteria['status'] = null;
+		}
+		// If not filtering by siteId, make sure Craft doesn't do it either.
+		if ( ! isset($criteria['siteId']) ) {
+			$criteria['siteId'] = null;
+		}
+		return $criteria;
+	}
+
+	/**
 	 * This method converts an array of elements to a CSV file stored in the Craft
 	 * temp path.
 	 */
