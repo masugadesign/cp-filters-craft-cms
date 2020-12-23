@@ -83,34 +83,6 @@ class SavedFilters extends Service
 		}
 	}
 
-	public function parseFieldCriteria(array $criteria): string
-	{
-		$fieldsString = '';
-		$i = 0;
-		foreach ($criteria as $key => $val) {
-			// Relationships fields have subarrays
-			if ( $key === 'relatedTo' ) {
-				$joiner = $val[0];
-
-				// Get each relationship in that field,
-				// skipping 0 because that's the joiner
-				for ($j=1; $j < count($val) ; $j++) {
-					$field = $val[$j]['field'];
-					$targetElement = $val[$j]['targetElement'];
-					$fieldsString = $fieldsString . "&filters[${i}][fieldHandle]=${field}&filters[${i}][filterType]=is+assigned&filters[${i}][value]=${targetElement}";
-					// increment loop here, too, because each iteration is still another field
-					$i++;
-				}
-			} elseif($val != null) {
-				// @TODO: figure out value encoding for native, custom fields of non-relationship types
-				$fieldsString = $fieldsString . "&filters[${i}][fieldHandle]=${key}&filters[${i}][filterType]=${val}";
-				$i++;
-			}
-		}
-
-		return $fieldsString;
-	}
-
 	/**
 	 * This method takes a saved filter's information and returns a url to
 	 * use to show the results of that filter.
