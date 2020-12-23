@@ -66,7 +66,6 @@ class SavedFilters extends Service
 		return $query;
 	}
 
-
 	/**
 	 * This method deletes a filter based on the provided id.
 	 * @param int $elementId
@@ -83,6 +82,34 @@ class SavedFilters extends Service
 		}
 	}
 
+	public function parseFieldCriteria(array $criteria): string
+	{
+		$fieldsString = '';
+		$i = 0;
+		foreach ($criteria as $key => $val) {
+			// Relationships fields have subarrays
+			if ( $key === 'relatedTo' ) {
+				$joiner = $val[0];
+
+				// Get each relationship in that field,
+				// skipping 0 because that's the joiner
+				for ($j=1; $j < count($val) ; $j++) {
+					$field = $val[$j]['field'];
+					$targetElement = $val[$j]['targetElement'];
+					$fieldsString = $fieldsString . "&filters[${i}][fieldHandle]=${field}&filters[${i}][filterType]=is+assigned&filters[${i}][value]=${targetElement}";
+					// increment loop here, too, because each iteration is still another field
+					$i++;
+				}
+			} elseif($val != null) {
+				// @TODO: figure out value encoding for native, custom fields of non-relationship types
+				$fieldsString = $fieldsString . "&filters[${i}][fieldHandle]=${key}&filters[${i}][filterType]=${val}";
+				$i++;
+			}
+		}
+
+		return $fieldsString;
+	}
+
 	/**
 	 * This method takes a saved filter's information and returns a url to
 	 * use to show the results of that filter.
@@ -91,28 +118,32 @@ class SavedFilters extends Service
 	 * @param int $groupId
 	 * @return array
 	 */
-	public function createFilterUrl($element)
+	public function createFilterUrl($element): ?string
 	{
 		$elementTypeKey = $element->filterElementType;
 		$criteria = json_decode($element->filterCriteria, true);
 		$groupId = $element->filterGroupId;
+		$filterUrl;
 
+		// No filter without elementType
 		if ($elementTypeKey) {
 			$filterUrl = "?elementType=${elementTypeKey}";
 
+			// groupId is optional; add if present
 			if ($groupId) {
 				$filterUrl = $filterUrl . "&groupId=${groupId}";
 			}
 
-			$i = 0;
-			foreach ($criteria as $fieldHandle => $filterType) {
-				$filterUrl = $filterUrl . "&filters[${i}][fieldHandle]=${fieldHandle}&filters[${i}][filterType]=${filterType}";
-				$i++;
+			// Get the decoded field criteria
+			if ($criteria) {
+				$fieldCriteria = $this->parseFieldCriteria($criteria);
+
+				$filterUrl = $filterUrl . $fieldCriteria;
 			}
 
-			return $filterUrl;
 		} else {
-			return null;
 		}
+
+		return $filterUrl;
 	}
 }
