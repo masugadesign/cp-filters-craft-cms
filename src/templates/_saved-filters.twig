@@ -1,5 +1,4 @@
 {# Get this user's saved filters for this type #}
-{% set elementTypeKey = selectedSubnavItem %}
 {% set savedFilters = craft.cpfilters.savedFilters({ 'userId' : currentUser.id, 'filterElementType': elementTypeKey }).orderBy('dateCreated', 'desc').all() %}
 
 

@@ -1,10 +1,13 @@
 {% extends "_layouts/cp" %}
-{% set title = "CP Filters" %}
 
 {% set selectedSubnavItem = craft.app.request.getSegment(2) ?: 'entries' %}
+{# We extract this from the URI to determine which element type we are working with. #}
+{% set elementTypeKey = selectedSubnavItem %}
+{% set elementClass = craft.cpfilters.getElementClass(elementTypeKey) %}
+{% set title = "CP Filters: " ~ elementTypeKey|title|t %}
 
 {% set tabs = {
-	results: { label: "Filtered Results"|t, url: url('cpfilters/' ~ selectedSubnavItem) },
+	results: { label: "Filtered " ~ elementTypeKey|title|t, url: url('cpfilters/' ~ selectedSubnavItem) },
 	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/' ~ selectedSubnavItem ~ '/saved-filters') }
 } %}
 
