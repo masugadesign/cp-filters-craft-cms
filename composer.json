@@ -5,7 +5,7 @@
   "type": "craft-plugin",
   "minimum-stability": "stable",
   "require": {
-    "craftcms/cms": "^3.0.0 <3.6"
+    "craftcms/cms": "^3.3.16 <3.6"
   },
   "autoload": {
     "psr-4": {

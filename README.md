@@ -8,7 +8,7 @@
 
 ### Requirements
 
-* Craft CMS v3.3.0+
+* Craft CMS v3.3.16+
 * PHP 7.0+
 
 ### Installation
