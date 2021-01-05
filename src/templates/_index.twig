@@ -1,21 +1,5 @@
-{% extends "_layouts/cp" %}
-{% set title = "CP Filters" %}
-
-{% set tabs = {
-	entries: { label: "Entries"|t, url: url('cpfilters/entries') },
-	assets: { label: "Assets"|t, url: url('cpfilters/assets') },
-	categories: { label: "Categories"|t, url: url('cpfilters/categories') },
-	users: { label: "Users"|t, url: url('cpfilters/users') },
-	tags: { label: "Tags"|t, url: url('cpfilters/tags') },
-} %}
-
-{% set selectedTab = craft.app.request.getSegment(2) ?: 'entries' %}
-
-{# Load the JS and CSS needed for this page. #}
-{% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
-
 {# We extract this from the URI to determine which element type we are working with. #}
-{% set elementTypeKey = selectedTab %}
+{% set elementTypeKey = selectedSubnavItem %}
 {% set elementClass = craft.cpfilters.getElementClass(elementTypeKey) %}
 {# Set variables for all currently available query string parameters. #}
 {% set groupId = craft.app.request.getParam('groupId') ?: null %}
@@ -87,18 +71,20 @@ OUTPUT
 - - - - - - - - - - - - - -
 #}
 
-
-{% block content %}
-
-<input type="hidden" id="elementTypeKey" value="{{ elementTypeKey }}" >
-{# Some hidden fields we can use to stash some dynamic information. #}
-<input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
-<input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
+<script type="text/javascript">
+window.csrfTokenName = "{{ craft.app.config.general.csrfTokenName }}";
+window.csrfTokenValue = "{{ craft.app.request.getCsrfToken }}";
+</script>
 
 {# Craft CMS hates bottom margins. #}
 <div id="fields" style="margin-bottom:5rem" >
 
 	<form id="filtersForm" method="get" accept-charset="UTF-8" autocomplete="off" >
+		<input type="hidden" id="elementTypeKey" value="{{ elementTypeKey }}" >
+		<input type="hidden" name="elementType" value="{{ selectedSubnavItem }}">
+		{# Some hidden fields we can use to stash some dynamic information. #}
+		<input type="hidden" id="fieldFilterOptionsUrl" value="{{ url('cpfilters/field-filter-options') }}" >
+		<input type="hidden" id="valueFieldUrl" value="{{ url('cpfilters/value-field') }}" >
 
 		{% include 'cpfilters/_partials/select-group' with {
 			'typeKey' : elementTypeKey,
@@ -147,13 +133,40 @@ OUTPUT
 			<div class="filterFormControls" >
 				<input type="submit" class="btn submit" value="Refresh Results" >&nbsp;
 				<a href="{{ url(craft.app.request.pathInfo) }}" class="btn" >Clear Filters</a>
+				<a href="#" id="saveFilter" class="btn">Save Filter</a>
 			</div>
 			<div class="filterExportControls" >
 				<input type="submit" class="btn submit" name="exportSubmit" value="Export Total Results" >
 			</div>
 		</div>
-
 	</form>
+
+	{# Save Filter Modal #}
+	<div id="saveFilterModal" class="fitted" style="display:none;">
+		<input type="hidden" name="saveFilterAction" value="{{ url('cpfilters/save-filter') }}">
+		<input type="hidden" name="userId" value="{{ currentUser.id }}">
+		<div class="body">
+			<div class="content">
+				<div class="sidebar hidden"></div>
+				<div class="main">
+					<div class="field">
+						<div class="heading">
+							<label>Filter Title</label>
+						</div>
+						<input type="text" class="text" name="filterTitle">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="buttons right">
+				<button type="button" class="btn" id="closeFilterModal" tabindex="0">Cancel</button>
+				<button type="submit" class="btn submit" id="saveFilterButton">Save Filter</button>
+			</div>
+			<div class="buttons left secondary-buttons"></div>
+		</div>
+	</div>
 
 	<hr>
 
@@ -167,4 +180,3 @@ OUTPUT
 	{{ pagination|raw }}
 
 </div>
-{% endblock %}

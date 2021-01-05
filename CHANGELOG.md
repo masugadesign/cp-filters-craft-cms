@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0 - 2021-01-05
+
+### Added
+- Added "Saved Filters" functionality
+
+### Fixed
+- Replaced the `ucwords` filter to fix deprecation warnings
+
+### Changed
+- Set the minimum version requirement for Craft CMS to **3.3.16**
+
 ## 1.0.2 - 2020-12-10
 
 ### Added

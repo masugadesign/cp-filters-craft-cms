@@ -9,18 +9,21 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\log\FileTarget;
 use craft\services\Dashboard;
+use craft\services\Elements;
 use craft\services\Plugins;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use craft\web\View;
 use Masuga\CpFilters\assetbundles\cp\CpAsset;
 use Masuga\CpFilters\controllers\CpController;
+use Masuga\CpFilters\elements\SavedFilter;
 use Masuga\CpFilters\models\Settings;
 use Masuga\CpFilters\services\AssetVolumes;
 use Masuga\CpFilters\services\EntryTypes;
 use Masuga\CpFilters\services\FieldTypes;
 use Masuga\CpFilters\services\CategoryGroups;
 use Masuga\CpFilters\services\Filters;
+use Masuga\CpFilters\services\SavedFilters;
 use Masuga\CpFilters\services\TagGroups;
 use Masuga\CpFilters\services\UserGroups;
 use Masuga\CpFilters\variables\CpFiltersVariable;
@@ -83,6 +86,37 @@ class CpFilters extends Plugin
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getCpNavItem(): array
+	{
+		$nav = parent::getCpNavItem();
+		$nav['subnav'] = [
+			'entries' => [
+				'label' => Craft::t('app', 'Entries'),
+				'url' => 'cpfilters/entries'
+			],
+			'assets' => [
+				'label' => Craft::t('app', 'Assets'),
+				'url' => 'cpfilters/assets'
+			],
+			'categories' => [
+				'label' => Craft::t('app', 'Categories'),
+				'url' => 'cpfilters/categories'
+			],
+			'users' => [
+				'label' => Craft::t('app', 'Users'),
+				'url' => 'cpfilters/users'
+			],
+			'tags' => [
+				'label' => Craft::t('app', 'Tags'),
+				'url' => 'cpfilters/tags'
+			]
+		];
+		return $nav;
+	}
+
+	/**
 	 * The plugin's initialization function is responsible for registering event
 	 * handlers, routes and other plugin components.
 	 */
@@ -96,9 +130,17 @@ class CpFilters extends Plugin
 			'entryTypes' => EntryTypes::class,
 			'fieldTypes' => FieldTypes::class,
 			'filters' => Filters::class,
+			'savedFilters' => SavedFilters::class,
 			'tagGroups' => TagGroups::class,
 			'userGroups' => UserGroups::class,
 		]);
+		// Register the SavedFilters element type
+		Event::on(Elements::class,
+			Elements::EVENT_REGISTER_ELEMENT_TYPES,
+			function(RegisterComponentTypesEvent $event) {
+				$event->types[] = SavedFilter::class;
+			}
+		);
 		// Register the CP Filters plugin log though we probably won't use this.
 		$fileTarget = new FileTarget([
 			'logFile' => Craft::$app->getPath()->getLogPath().'/cpfilters-craft.log',
@@ -119,6 +161,9 @@ class CpFilters extends Plugin
 			$event->rules['cpfilters/tags'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/field-filter-options'] = 'cpfilters/cp/field-filter-options';
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';
+			$event->rules['cpfilters/<type:entries|assets|categories|users|tags>/saved-filters'] = 'cpfilters/cp/get-saved-filters';
+			$event->rules['cpfilters/save-filter'] = 'cpfilters/cp/save-filter';
+			$event->rules['cpfilters/delete-filter'] = 'cpfilters/cp/delete-filter';
 		});
 	}
 

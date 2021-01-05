@@ -1,0 +1,25 @@
+{% extends "_layouts/cp" %}
+
+{% set selectedSubnavItem = craft.app.request.getSegment(2) ?: 'entries' %}
+{# We extract this from the URI to determine which element type we are working with. #}
+{% set elementTypeKey = selectedSubnavItem %}
+{% set elementClass = craft.cpfilters.getElementClass(elementTypeKey) %}
+{% set title = "CP Filters: " ~ elementTypeKey|title|t %}
+
+{% set tabs = {
+	results: { label: "Filtered " ~ elementTypeKey|title|t, url: url('cpfilters/' ~ selectedSubnavItem) },
+	'saved-filters': { label: "Saved Filters"|t, url: url('cpfilters/' ~ selectedSubnavItem ~ '/saved-filters') }
+} %}
+
+{% set selectedTab = craft.app.request.getSegment(3) == 'saved-filters' ? 'saved-filters' : 'results' %}
+
+{# Load the JS and CSS needed for this page. #}
+{% do view.registerAssetBundle("Masuga\\CpFilters\\assetbundles\\cp\\CpAsset") %}
+
+{% block content %}
+	{% if craft.app.request.getSegment(3) == 'saved-filters' %}
+		{% include 'cpfilters/_saved-filters' %}
+	{% else %}
+		{% include 'cpfilters/_index' %}
+	{% endif %}
+{% endblock %}

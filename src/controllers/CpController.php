@@ -9,6 +9,7 @@ use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use craft\web\Response;
 use Masuga\CpFilters\CpFilters;
+use Masuga\CpFilters\elements\SavedFilter;
 use yii\web\NotFoundHttpException;
 
 class CpController extends Controller
@@ -49,7 +50,7 @@ class CpController extends Controller
 				'mimeType' => 'text/csv'
 			]);
 		} else {
-			$response = $this->renderTemplate('cpfilters/_index');
+			$response = $this->renderTemplate('cpfilters/_layout');
 		}
 		return $response;
 	}
@@ -88,6 +89,64 @@ class CpController extends Controller
 			'index' => $request->getParam('index'),
 		];
 		return $view->renderTemplate('cpfilters/_partials/value-field', $templateParams);
+	}
+
+	/**
+	 * This method creates a Saved Filter record
+	 * or updates an existing Saved Filter
+	 * @return Response
+	 */
+	public function actionSaveFilter(): Response
+	{
+		$request = Craft::$app->getRequest();
+		$groupId = $request->getParam('groupId');
+		$id      = $request->getParam('filterId');
+		$title   = $request->getParam('filterTitle');
+		$userId  = $request->getParam('userId');
+		$elementTypeKey = $request->getParam('elementTypeKey');
+		$filterElementType = $request->getParam('elementType');
+		$filterInput = $request->getParam('filters') ?: [];
+		$criteria = json_encode($filterInput);
+
+		$fields = [
+			'title' => $title,
+			'filterElementType' => $filterElementType,
+			'filterGroupId' => $groupId,
+			'filterCriteria' => $criteria,
+			'userId' => $userId
+		];
+
+		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);
+		if ( $savedFilter ) {
+			Craft::$app->getSession()->setNotice(Craft::t('cpfilters', 'CP Filters custom filter saved!'));
+			$response = $this->asJson(['url' => $savedFilter->getUrl()]);
+		} else {
+			Craft::$app->getSession()->setError(Craft::t('cpfilters', 'Error saving the CP Filters custom filter.'));
+			$response = $this->asJson(['error' => Craft::t('cpfilters', 'Unable to save filter')]);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * This method deletes a Saved Filter record
+	 * @return bool
+	 */
+	public function actionDeleteFilter(): bool
+	{
+		$request = Craft::$app->getRequest();
+		$elementId = $request->getParam('filterId');
+		return $this->plugin->savedFilters->deleteSavedFilter($elementId);
+	}
+
+	/**
+	 * This controller action loads the user-created saved filters.
+	 * @return YiiResponse
+	 */
+	public function actionGetSavedFilters(): Response
+	{
+		$response = $this->renderTemplate('cpfilters/_layout');
+		return $response;
 	}
 
 }
