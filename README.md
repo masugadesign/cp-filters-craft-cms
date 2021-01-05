@@ -1,6 +1,6 @@
 # CP Filters for Craft CMS
 
-![CP Filters for Craft CMS](https://www.gomasuga.com/uploads/software/cp-filters-demo-101.jpg?v=101)
+![CP Filters for Craft CMS](https://www.gomasuga.com/uploads/software/cpfilters-entries-multiple-filters.jpg)
 
 ### Advanced filtering for Entry elements in the control panel.
 
@@ -68,6 +68,11 @@ Filter options: `contains`, `starts with`, `ends with`, `is equal to`, `is assig
 	'modules\masuga\fields\CategoriesMultipleSources' => ['is assigned', 'is empty', 'is not empty']
 ],
 ```
+
+### Saved Filters
+You can save the set of currently selected filters to easily view the results later. Filters are saved per User.
+
+![Saved Filters](https://www.gomasuga.com/uploads/software/cpfilters-entries-saved-filters.jpg)
 
 ### Planned Features
 
