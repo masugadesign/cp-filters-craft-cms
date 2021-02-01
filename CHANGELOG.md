@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1 - 2021-02-01
+
+### Fixed
+- Fixed the default config values in the `Settings` model.
+
+### Changed
+- Updated composer.json to support Craft 3.6.
+
 ## 1.1.0 - 2021-01-05
 
 ### Added
