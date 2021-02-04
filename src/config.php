@@ -18,5 +18,8 @@ return [
 	'additionalFieldTypes' => [],
 
 	// Should CP Filters include filtering for Craft Commerce?
-	'includeCommerce' => false
+	'includeCommerce' => false,
+
+	// Array of IDS for product types that should be filterable by this plugin.
+	'filterableProductTypeIds' => null
 ];

@@ -43,4 +43,10 @@ class Settings extends Model
 	 */
 	public $includeCommerce = false;
 
+	/**
+	 * An array of product type IDs that should appear as filterable options.
+	 * @var mixed
+	 */
+	public $filterableProductTypeIds = null;
+
 }
