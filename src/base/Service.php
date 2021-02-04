@@ -10,6 +10,9 @@ use craft\elements\Category;
 use craft\elements\Entry;
 use craft\elements\Tag;
 use craft\elements\User;
+use craft\commerce\elements\Product;
+use craft\commerce\elements\Variant;
+use craft\commerce\elements\Order;
 use craft\helpers\FileHelper;
 use Masuga\CpFilters\CpFilters;
 use Masuga\CpFilters\exceptions\InvalidElementTypeException;
@@ -51,6 +54,8 @@ abstract class Service extends Component
 		'entries' => 'craft\elements\Entry',
 		'tags' => 'craft\elements\Tag',
 		'users' => 'craft\elements\User',
+		'products' => 'craft\commerce\elements\Product',
+		'orders' => 'craft\commerce\elements\Order'
 	];
 
 	/**
