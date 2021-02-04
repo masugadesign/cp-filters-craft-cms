@@ -23,6 +23,12 @@ Parameters:
 	{% case 'tags' %}
 		{% set groupLabel = "Tag Group" %}
 		{% set groupInstructions = "Select a Tag Group to filter by custom fields." %}
+	{% case 'orders' %}
+		{% set groupLabel = null %}
+		{% set groupInstructions = null %}
+	{% case 'products' %}
+		{% set groupLabel = "Product Type" %}
+		{% set groupInstructions = "Select a Product Type to filter by custom fields." %}
 {% endswitch %}
 
 {# We don't filter users by groups by default so the options might be empty. #}
