@@ -23,6 +23,8 @@ use Masuga\CpFilters\services\EntryTypes;
 use Masuga\CpFilters\services\FieldTypes;
 use Masuga\CpFilters\services\CategoryGroups;
 use Masuga\CpFilters\services\Filters;
+use Masuga\CpFilters\services\ProductGroups;
+use Masuga\CpFilters\services\OrderGroups;
 use Masuga\CpFilters\services\SavedFilters;
 use Masuga\CpFilters\services\TagGroups;
 use Masuga\CpFilters\services\UserGroups;
@@ -44,6 +46,13 @@ class CpFilters extends Plugin
 	 * @var boolean
 	 */
 	public $hasCpSettings = true;
+
+	/**
+	 * Determine whether or not to show various Commerce-related items
+	 */
+	public function includeCommerce(){
+		return $this->getSettings()->includeCommerce;
+	}
 
 	/**
 	 * The name of the plugin as it appears in the Craft control panel and
@@ -91,6 +100,7 @@ class CpFilters extends Plugin
 	public function getCpNavItem(): array
 	{
 		$nav = parent::getCpNavItem();
+
 		$nav['subnav'] = [
 			'entries' => [
 				'label' => Craft::t('app', 'Entries'),
@@ -113,6 +123,19 @@ class CpFilters extends Plugin
 				'url' => 'cpfilters/tags'
 			]
 		];
+
+		if ($this->includeCommerce()) {
+			$nav['subnav']['products'] = [
+				'label' => Craft::t('app', 'Products'),
+				'url' => 'cpfilters/products'
+			];
+
+			$nav['subnav']['orders'] = [
+				'label' => Craft::t('app', 'Orders'),
+				'url' => 'cpfilters/orders'
+			];
+		}
+
 		return $nav;
 	}
 
@@ -130,6 +153,8 @@ class CpFilters extends Plugin
 			'entryTypes' => EntryTypes::class,
 			'fieldTypes' => FieldTypes::class,
 			'filters' => Filters::class,
+			'productGroups' => ProductGroups::class,
+			'orderGroups' => OrderGroups::class,
 			'savedFilters' => SavedFilters::class,
 			'tagGroups' => TagGroups::class,
 			'userGroups' => UserGroups::class,
@@ -164,6 +189,11 @@ class CpFilters extends Plugin
 			$event->rules['cpfilters/<type:entries|assets|categories|users|tags>/saved-filters'] = 'cpfilters/cp/get-saved-filters';
 			$event->rules['cpfilters/save-filter'] = 'cpfilters/cp/save-filter';
 			$event->rules['cpfilters/delete-filter'] = 'cpfilters/cp/delete-filter';
+
+			if ($this->includeCommerce()) {
+				$event->rules['cpfilters/products'] = 'cpfilters/cp/filters';
+				$event->rules['cpfilters/orders'] = 'cpfilters/cp/filters';
+			}
 		});
 	}
 
