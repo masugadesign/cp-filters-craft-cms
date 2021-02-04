@@ -17,4 +17,6 @@ return [
 	// Additional field types that can be used as filter criteria.
 	'additionalFieldTypes' => [],
 
+	// Should CP Filters include filtering for Craft Commerce?
+	'includeCommerce' => false
 ];

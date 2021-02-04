@@ -37,4 +37,10 @@ class Settings extends Model
 	 */
 	public $additionalFieldTypes = [];
 
+	/**
+	 * A boolean determining whether or not to include Craft Commerce-related
+	 * filters in this site.
+	 */
+	public $includeCommerce = false;
+
 }
