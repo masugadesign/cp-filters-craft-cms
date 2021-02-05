@@ -49,7 +49,7 @@ PAGINATION
 <div class="filterPagination" >
 	{# Show the "previous page" link if we have an offset greater than 0. #}
 	{% if offset > 0 %}
-		<a href="{{ url('cpfilters/entries', {
+		<a href="{{ url('cpfilters/' ~ elementTypeKey, {
 			'groupId' : groupId,
 			'filters' : filtersParam,
 			'limit' : limit,
@@ -57,7 +57,7 @@ PAGINATION
 	{% endif %}
 	{# Only show the next page if the current results count matches the limit. #}
 	{% if currentResults == limit %}
-		<a href="{{ url('cpfilters/entries', {
+		<a href="{{ url('cpfilters/' ~ elementTypeKey, {
 			'groupId' : groupId,
 			'filters' : filtersParam,
 			'limit' : limit,
