@@ -78,6 +78,8 @@ class FieldTypes extends Service
 	const NATIVE_FIELD_MAPS = [
 		'id' => 'craft\fields\Number',
 		'username' => 'craft\fields\PlainText',
+		'firstName' => 'craft\fields\PlainText',
+		'lastName' => 'craft\fields\PlainText',
 		'email' => 'craft\fields\PlainText',
 		//'groupId' => 'craft\fields\Number',
 		'filename' => 'craft\fields\PlainText',
@@ -99,15 +101,15 @@ class FieldTypes extends Service
 	{
 		$excludes = [];
 		if ( $typeKey === 'entries' ) {
-			$excludes = ['username','email','filename','groupId'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId'];
 		} elseif ( $typeKey === 'assets' ) {
-			$excludes = ['username','email','groupId','postDate','status'];
+			$excludes = ['username','firstName','lastName','email','groupId','postDate','status'];
 		} elseif ( $typeKey === 'users' ) {
 			$excludes = ['title','filename','postDate'];
 		} elseif ( $typeKey === 'categories' ) {
-			$excludes = ['username','email','filename','groupId','postDate'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate'];
 		} elseif ( $typeKey === 'tags') {
-			$excludes = ['username','email','filename','groupId','postDate'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate'];
 		}
 		return $excludes;
 	}
