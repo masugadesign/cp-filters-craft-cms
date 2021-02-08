@@ -32,10 +32,12 @@ QUERIES
 {% set criteria = craft.cpfilters.elementGroupCriteria(elementTypeKey, groupId) %}
 {# Add any available filter criteria to the entry query. #}
 {% set criteria = filtersParam ? criteria|merge( craft.cpfilters.formatFilterCriteria(filtersParam) ) : criteria %}
+{# Orders are sorted differently #}
+{% set orderByParam = elementTypeKey == 'orders' ? 'dateOrdered desc' : 'dateCreated desc' %}
 {# Get the TOTAL match count without imposing limits. #}
-{% set filteredMatches = craft.cpfilters.elementQuery(elementClass, criteria).orderBy('dateCreated', 'desc').count() %}
+{% set filteredMatches = craft.cpfilters.elementQuery(elementClass, criteria).orderBy(orderByParam).count() %}
 {# Only fetch a limited number of results. #}
-{% set filteredElements = craft.cpfilters.elementQuery(elementClass, criteria).orderBy('dateCreated', 'desc').limit(limit).offset(offset).all() %}
+{% set filteredElements = craft.cpfilters.elementQuery(elementClass, criteria).orderBy(orderByParam).limit(limit).offset(offset).all() %}
 
 {#
 PAGINATION
