@@ -4,6 +4,7 @@ namespace Masuga\CpFilters\services;
 
 use Craft;
 use Exception;
+use craft\commerce\Plugin as CommercePlugin;
 use craft\commerce\elements\Order;
 use craft\helpers\ArrayHelper;
 use Masuga\CpFilters\CpFilters;
@@ -65,7 +66,17 @@ class OrderGroups extends Service
 	 */
 	public function statusOptions(): array
 	{
-		$options = array_merge(['' => 'Select Status...'], Order::statuses());
+		$values = [];
+		$allStatuses = CommercePlugin::getInstance()->getOrderStatuses()->getAllOrderStatuses();
+
+		// Switching the status handle and ID since PHP doesn't like numeric array keys
+		foreach ($allStatuses as $status) {
+			$key = (string) $status['id'];
+			$value = $status['name'];
+			$values[$value] = $key;
+		}
+
+		$options = array_merge(['Select Status...' => ''], $values);
 		return $options;
 	}
 
