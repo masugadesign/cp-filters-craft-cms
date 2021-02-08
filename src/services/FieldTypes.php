@@ -114,7 +114,7 @@ class FieldTypes extends Service
 		} elseif ( $typeKey === 'tags') {
 			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate','orderStatus','dateOrdered'];
 		} elseif ( $typeKey == 'orders' ) {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','status','dateCreated'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId','status','dateCreated','postDate'];
 		} elseif ( $typeKey == 'products' ) {
 			$excludes = ['username','firstName','lastName','email','filename','groupId','orderStatus','dateOrdered'];
 		}
