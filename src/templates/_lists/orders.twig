@@ -16,14 +16,11 @@
 	{% for element in filteredElements %}
 		<tr>
 			<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.reference }}</a></td>
-			<td>{{ element.status|title|e }}</td>
-			<td>{{ element.status|title|e }}</td>
-			<td>{{ element.dateOrdered|date('Y-m-d g:i a') }}</td>
+			<td>{{ element.orderStatus|title|e }}</td>
+			<td>{{ element.paidStatus|title|e }}</td>
+			<td>{{ element.dateCreated|date('Y-m-d g:i a') }}</td>
 			<td>{{ element.totalPrice|title|currency }}</td>
-			<td>
-				{% set customer = craft.commerce.customers.customer(element.customer) %}
-				{{ customer.email }}
-			</td>
+			<td>{{ element.customer.email }}</td>
 			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
 			{# Preview values may contain links so perform a "raw" output. #}
 			<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
