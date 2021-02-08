@@ -19,7 +19,6 @@
 {# Fetch the field options by handle. #}
 {% if fieldHandle == 'status' or fieldHandle == 'orderStatus' %}
 	{% set fieldOptions = craft.cpfilters.statusOptions(elementTypeKey) %}
-{% elseif fieldHandle == 'paidStatus' %}
 {% else %}
 	{% set fieldOptions = fieldHandle ? craft.cpfilters.fieldOptions(fieldHandle) : [] %}
 {% endif %}
