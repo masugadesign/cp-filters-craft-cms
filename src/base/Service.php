@@ -88,6 +88,12 @@ abstract class Service extends Component
 	 */
 	public function elementQuery($class, $criteria): Query
 	{
+		// Add the 'isCompleted' criteria to Orders so that
+		// we don't end up with a bunch of Carts
+		if ($class == 'craft\commerce\elements\Order') {
+			$criteria['isCompleted'] = 1;
+		}
+
 		if ( ! is_subclass_of($class, Element::class) ) {
 			throw new InvalidElementTypeException();
 		}
