@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1.1 - 2021-05-20
+
+### Added
+- Added `firstName` and `lastName` field filters to `User` element filtering.
+
+### Fixed
+- Fixed pagination links that were linking to entries element type by default.
+
 ## 1.1.1 - 2021-02-01
 
 ### Fixed
