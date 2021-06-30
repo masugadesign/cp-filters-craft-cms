@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1.2 - 2021-06-30
+
+### Fixed
+- Fixed element criteria formatting when multiple criteria are applied to a single field.
+
 ## 1.1.1.1 - 2021-05-20
 
 ### Added
