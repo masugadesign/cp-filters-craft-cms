@@ -164,7 +164,22 @@ class Filters extends Service
 				$criteria['relatedTo'] = array_merge($criteria['relatedTo'], [$newCriteria['relatedTo']]);
 			// Other types of criteria may just be merged as usual.
 			} else {
-				$criteria = array_merge($criteria, $newCriteria);
+				// Combine criteria for the same field into an array.
+				if ( isset($criteria[$fieldHandle]) ) {
+					// It might already be an "and where" array. Append this criteria to it.
+					if ( is_array($criteria[$fieldHandle]) ) {
+						$criteria[$fieldHandle][] = $newCriteria;
+					// Convert criteria into an array "and where" condition.
+					} else {
+						$originalCriteria = $criteria[$fieldHandle];
+						// We don't need the field key again. Just get the array value.
+						$criteriaOnly = end($newCriteria);
+						$criteria[$fieldHandle] = ['and', $originalCriteria, $criteriaOnly];
+					}
+				// No criteria was previously defined for this field so add it as usual.
+				} else {
+					$criteria = array_merge($criteria, $newCriteria);
+				}
 			}
 		}
 		// If not filtering by status, make sure Craft doesn't do it either.
