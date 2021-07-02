@@ -1,4 +1,6 @@
 
+refreshSlimSelects();
+
 // An index of added filters. We'll never subtract from it (to avoid index collisions).
 var filterCount = $(".filterField").length;
 
@@ -22,12 +24,17 @@ $(".filterFields").on("mouseup touchup", "[data-add-filter]", function() {
 	var currentFilter = $(this).parent();
 	var newFilter = currentFilter.clone();
 	// Increment the index values in the field attributes.
-	$(newFilter).find("input, select, textarea").each(function() {
+	$(newFilter).find("input[type='text'], input[type='number'], select, textarea").each(function() {
 		var newName = $(this).attr("name").replace(/(\d+)/g, filterCount);
 		$(this).attr("name", newName);
 		//$(this).attr("data-idx", filterCount);
 		$(this).val("");
 		$(this).prop('readonly', false);
+	});
+	// The copied filter value select should have options removed to avoid confusion.
+	$(newFilter).find("select[data-filter-value]").each(function() {
+		$(this).html("");
+		$(this).css('display', 'block');
 	});
 	// Increment all the data-idx attributes found in this new filter block.
 	$(newFilter).find("[data-idx]").each(function() {
@@ -35,6 +42,8 @@ $(".filterFields").on("mouseup touchup", "[data-add-filter]", function() {
 	});
 	// Clear the filter type options from the middle field.
 	$(newFilter).find("[data-select-filter-type]").html('<option value="" > -- </option>');
+	// Remove any existing instances of SlimSelect.
+	$(newFilter).find(".ss-main").remove();
 	$(newFilter).insertAfter(currentFilter);
 });
 
@@ -79,6 +88,7 @@ $(".filterFields").on("change", "[data-select-field]", function() {
 					'success' : function(data, textStats, jqXHR) {
 						$(this).html(data);
 						toggleValueFieldReadonly(index);
+						refreshSlimSelects();
 					}
 				});
 			}
@@ -105,6 +115,19 @@ function toggleValueFieldReadonly(index)
 	} else {
 		valueField.attr('readonly', false);
 		valueField.prop('disabled', false);
+	}
+}
+
+// Initialize SlimSelect on filter value selects that don't already have ssid.
+function refreshSlimSelects()
+{
+	if ( $("select[data-filter-value]:not([data-ssid])").length ) {
+		new SlimSelect({
+			select: 'select[data-filter-value]:not([data-ssid])',
+			placeholder: 'Select...',
+			showSearch: true,
+			searchText: 'No matches found.'
+		});
 	}
 }
 

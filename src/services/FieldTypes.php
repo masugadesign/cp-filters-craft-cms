@@ -259,20 +259,120 @@ class FieldTypes extends Service
 		}
 		// No generalized way to query sources on ElementQuery so we need to be specific with our elements here.
 		if ( $elementType === 'craft\elements\Asset' ) {
-			$elements = Asset::find()->volumeId($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
+			$elements = $this->queryAssetOptions($actualSources);
 		} elseif ( $elementType === 'craft\elements\Category' ) {
-			$elements = Category::find()->group($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
+			$elements = $this->queryCategoryOptions($actualSources);
 		} elseif ( $elementType === 'craft\elements\Entry' ) {
-			$elements = Entry::find()->section($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
+			$elements = $this->queryEntryOptions($actualSources);
 		} elseif ( $elementType === 'craft\elements\Tag' ) {
-			$elements = Tag::find()->groupId($actualSources)->anyStatus()->orderBy('title')->limit(300)->all();
+			$elements = $this->queryTagOptions($actualSources);
 		} elseif ( $elementType === 'craft\elements\User' ) {
-			$elements = User::find()->groupId($actualSources)->anyStatus()->orderBy('username')->limit(300)->all();
+			$elements = $this->queryUserOptions($actualSources);
 		}
 		foreach($elements as &$element) {
 			$options[ $element->id ] = $element->title ?? $element->username ?? "ID: {$element->id}";
 		}
 		return ['' => 'Select Value...'] + $options;
+	}
+
+	/**
+	 * This method queries basic Asset element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryAssetOptions(array $sources): array
+	{
+		return Asset::find()
+			->select([
+				'{{%elements}}.id',
+				'{{%assets}}.filename',
+				'{{%assets}}.folderId',
+				'{{%assets}}.volumeId',
+				'{{%content}}.title'
+			])
+			->volumeId($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic Category element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryCategoryOptions(array $sources): array
+	{
+		return Category::find()
+			->select([
+				'{{%elements}}.id',
+				'{{%content}}.title',
+				'{{%categories}}.groupId'
+			])
+			->group($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic Entry element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryEntryOptions(array $sources): array
+	{
+		return Entry::find()
+			->select([
+				'{{%elements}}.id',
+				'{{%content}}.title',
+				'{{%entries}}.typeId',
+				'{{%entries}}.sectionId'
+			])
+			->section($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic Tag element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryTagOptions(array $sources): array
+	{
+		return Tag::find()
+			->select([
+				'{{%elements}}.id',
+				'{{%content}}.title',
+				'{{%tags}}.groupId'
+			])
+			->groupId($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic User element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryUserOptions(array $sources): array
+	{
+		return User::find()
+			->select([
+				'{{%elements}}.id',
+				'{{%users}}.firstName',
+				'{{%users}}.lastName',
+				'{{%users}}.username'
+			])
+			->groupId($sources)
+			->anyStatus()
+			->orderBy('username')
+			->limit(null)
+			->all();
 	}
 
 	/**
