@@ -54,9 +54,14 @@
 	float:right;
 }
 
+.ss-main {
+	height: 34px;
+}
+
 .ss-main .ss-single-selected {
 	display: block;
 	position: relative;
+	height: 34px;
 	padding: 7px 22px 7px 10px;
 	max-width: 100%;
 	border: none;
@@ -69,12 +74,12 @@
 	white-space: pre;
 }
 
-/*
+
 .ss-main .ss-single-selected .placeholder {
-	font-size: 14px;
+	/* font-size: 14px; */
 	line-height: 20px;
 }
-*/
+
 
 .ss-main::after {
 	display: block;
