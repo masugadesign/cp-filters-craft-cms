@@ -21,10 +21,12 @@ class CpAsset extends AssetBundle
 		];
 
 		$this->js = [
-			'js/cp.js',
+			'slimselect/slimselect.min.js',
+			'js/cp.js'
 		];
 
 		$this->css = [
+			'slimselect/slimselect.min.css',
 			'css/cp.css'
 		];
 
