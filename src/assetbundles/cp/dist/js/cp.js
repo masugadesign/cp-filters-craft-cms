@@ -122,11 +122,13 @@ function toggleValueFieldReadonly(index)
 function refreshSlimSelects()
 {
 	if ( $("select[data-filter-value]:not([data-ssid])").length ) {
-		new SlimSelect({
-			select: 'select[data-filter-value]:not([data-ssid])',
-			placeholder: 'Select...',
-			showSearch: true,
-			searchText: 'No matches found.'
+		$("select[data-filter-value]:not([data-ssid])").each(function() {
+			new SlimSelect({
+				select: '#'+$(this).attr('id'),
+				placeholder: 'Select...',
+				showSearch: true,
+				searchText: 'No matches found.'
+			});
 		});
 	}
 }
