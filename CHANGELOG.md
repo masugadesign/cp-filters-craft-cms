@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.2 - 2021-07-15
+
+### Added
+- Added support for Craft 3.7.
+
+## 1.1.1.3 - 2021-07-07
+
+### Added
+- Added SlimSelect for searching and selecting multi-option filter values.
+
+### Fixed
+- Filter value select options quantity is no longer limited.
+
 ## 1.1.1.2 - 2021-06-30
 
 ### Fixed
