@@ -283,6 +283,111 @@ class FieldTypes extends Service
 	}
 
 	/**
+	 * This method queries basic Asset element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryAssetOptions(array $sources): array
+	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
+		return Asset::find()
+			->select([
+				'elements.id',
+				'assets.filename',
+				'assets.folderId',
+				'assets.volumeId',
+				'content.title'
+			])
+			->volumeId($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic Category element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryCategoryOptions(array $sources): array
+	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
+		return Category::find()
+			->select([
+				'elements.id',
+				'content.title',
+				'categories.groupId'
+			])
+			->group($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic Entry element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryEntryOptions(array $sources): array
+	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
+		return Entry::find()
+			->select([
+				'elements.id',
+				'content.title',
+				'entries.typeId',
+				'entries.sectionId'
+			])
+			->section($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic Tag element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryTagOptions(array $sources): array
+	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
+		return Tag::find()
+			->select([
+				'elements.id',
+				'content.title',
+				'tags.groupId'
+			])
+			->groupId($sources)
+			->anyStatus()
+			->orderBy('title')
+			->limit(null)->all();
+	}
+
+	/**
+	 * This method queries basic User element data beonging to an array of
+	 * sources.
+	 * @param array $sources
+	 */
+	protected function queryUserOptions(array $sources): array
+	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
+		return User::find()
+			->select([
+				'elements.id',
+				'users.firstName',
+				'users.lastName',
+				'users.username'
+			])
+			->groupId($sources)
+			->anyStatus()
+			->orderBy('username')
+			->limit(null)
+			->all();
+	}
+
+	/**
 	 * This method generates a single piece of element criteria for a given
 	 * field handle, filter type and optional value.
 	 * @param string $fieldHandle,
