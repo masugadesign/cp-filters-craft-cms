@@ -34,15 +34,17 @@ class EntryTypes extends Service
 			$filterableTypeIds = [];
 			$allEntryTypes = $sectionsService->getAllEntryTypes();
 			foreach($allEntryTypes as &$entryType) {
-				$types[(string) $entryType->name] = $entryType;
+				$key = "{$entryType->section->name} - {$entryType->name}";
+				$types[$key] = $entryType;
 			}
 		} else {
 			foreach($filterableTypeIds as &$id) {
 				$entryType = $sectionsService->getEntryTypeById($id);
-				$types[(string) $entryType->name] = $entryType;
+				$key = "{$entryType->section->name} - {$entryType->name}";
+				$types[$key] = $entryType;
 			}
 		}
-		// Sort the resulting array by type name (keys).
+		// Sort the resulting array by section/type name (keys).
 		ksort($types);
 		return $types;
 	}
@@ -56,11 +58,12 @@ class EntryTypes extends Service
 	{
 		$types = $this->fetchFilterableGroups();
 		$options = [];
-		foreach($types as &$type) {
+		foreach($types as $sectionTypeKey => &$type) {
 			// We'll add the section name if the type name is different.
 			$typeName = (string) $type->name;
 			$sectionName = (string) $type->getSection()->name;
-			$label = ($typeName !== $sectionName) ? "{$sectionName} - {$typeName}" : $typeName;
+			// As of Craft 3.7, the default entry type name/handle are Default/default. *sigh*
+			$label = ( $typeName === $sectionName ) ? $sectionName : $sectionTypeKey;
 			$options[(int) $type->id] = $label;
 		}
 		asort($options);

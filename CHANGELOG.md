@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3 - 2021-08-25
+
+### Fixed
+- Fixed element query select statements where the table names were being prefixed but Craft automatically aliases the table names in the query.
+- Fixed entry types select options to account for redundant "default" entry types in Craft 3.7+.
+
 ## 1.1.2 - 2021-07-15
 
 ### Added

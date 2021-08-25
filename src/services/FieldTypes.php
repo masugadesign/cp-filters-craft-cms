@@ -282,13 +282,14 @@ class FieldTypes extends Service
 	 */
 	protected function queryAssetOptions(array $sources): array
 	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
 		return Asset::find()
 			->select([
-				'{{%elements}}.id',
-				'{{%assets}}.filename',
-				'{{%assets}}.folderId',
-				'{{%assets}}.volumeId',
-				'{{%content}}.title'
+				'elements.id',
+				'assets.filename',
+				'assets.folderId',
+				'assets.volumeId',
+				'content.title'
 			])
 			->volumeId($sources)
 			->anyStatus()
@@ -303,11 +304,12 @@ class FieldTypes extends Service
 	 */
 	protected function queryCategoryOptions(array $sources): array
 	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
 		return Category::find()
 			->select([
-				'{{%elements}}.id',
-				'{{%content}}.title',
-				'{{%categories}}.groupId'
+				'elements.id',
+				'content.title',
+				'categories.groupId'
 			])
 			->group($sources)
 			->anyStatus()
@@ -322,12 +324,13 @@ class FieldTypes extends Service
 	 */
 	protected function queryEntryOptions(array $sources): array
 	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
 		return Entry::find()
 			->select([
-				'{{%elements}}.id',
-				'{{%content}}.title',
-				'{{%entries}}.typeId',
-				'{{%entries}}.sectionId'
+				'elements.id',
+				'content.title',
+				'entries.typeId',
+				'entries.sectionId'
 			])
 			->section($sources)
 			->anyStatus()
@@ -342,11 +345,12 @@ class FieldTypes extends Service
 	 */
 	protected function queryTagOptions(array $sources): array
 	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
 		return Tag::find()
 			->select([
-				'{{%elements}}.id',
-				'{{%content}}.title',
-				'{{%tags}}.groupId'
+				'elements.id',
+				'content.title',
+				'tags.groupId'
 			])
 			->groupId($sources)
 			->anyStatus()
@@ -361,12 +365,13 @@ class FieldTypes extends Service
 	 */
 	protected function queryUserOptions(array $sources): array
 	{
+		// Craft uses table aliases for each table in these queries. Don't add prefix!
 		return User::find()
 			->select([
-				'{{%elements}}.id',
-				'{{%users}}.firstName',
-				'{{%users}}.lastName',
-				'{{%users}}.username'
+				'elements.id',
+				'users.firstName',
+				'users.lastName',
+				'users.username'
 			])
 			->groupId($sources)
 			->anyStatus()
