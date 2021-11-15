@@ -69,6 +69,15 @@ Filter options: `contains`, `starts with`, `ends with`, `is equal to`, `is assig
 ],
 ```
 
+#### includeCommerce
+
+Specify whether or not Craft Commerce is installed on this site and should be available to CP Filters.
+**Note**: Currently, the only filterable "objects" from Craft Commerce that are available to CP Filters are Products and Orders.
+
+#### filterableProductTypeIds
+
+Specify an array of Product Type IDs to restrict which types are filterable.
+
 ### Saved Filters
 You can save the set of currently selected filters to easily view the results later. Filters are saved per User.
 

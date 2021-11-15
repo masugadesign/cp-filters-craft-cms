@@ -48,7 +48,8 @@ class OrderGroups extends Service
 		$fields = [];
 		// Get an array of supported field type from the plugin's FieldTypes service.
 		$fieldTypes = $this->plugin->fieldTypes->getSupportedFieldTypes();
-		$layout = Order::getFieldLayout();
+		$order = new Order;
+		$layout = $order->getFieldLayout();
 		$fields = $layout->getFields();
 		// Loop through each field and make sure it is a supported field type.
 		foreach($fields as $index => &$field) {

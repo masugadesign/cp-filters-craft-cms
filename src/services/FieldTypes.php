@@ -218,8 +218,8 @@ class FieldTypes extends Service
 				$options = $this->getRelationFieldOptionsByField($field);
 			} elseif ( $field instanceof Lightswitch ) {
 				$options = [
-					'1' => $field->onLabel,
-					'0' => $field->offLabel
+					'1' => property_exists($field, 'onLabel') && $field->onLabel ? $field->onLabel : '1',
+					'0' => property_exists($field, 'offLabel') && $field->offLabel ? $field->offLabel : '0'
 				];
 			} else {
 				$fieldOptions = $field->options ?? [];
