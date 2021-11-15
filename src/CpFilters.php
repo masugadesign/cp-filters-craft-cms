@@ -186,7 +186,7 @@ class CpFilters extends Plugin
 			$event->rules['cpfilters/tags'] = 'cpfilters/cp/filters';
 			$event->rules['cpfilters/field-filter-options'] = 'cpfilters/cp/field-filter-options';
 			$event->rules['cpfilters/value-field'] = 'cpfilters/cp/value-field';
-			$event->rules['cpfilters/<type:entries|assets|categories|users|tags>/saved-filters'] = 'cpfilters/cp/get-saved-filters';
+			$event->rules['cpfilters/<type:entries|assets|categories|users|tags|products|orders>/saved-filters'] = 'cpfilters/cp/get-saved-filters';
 			$event->rules['cpfilters/save-filter'] = 'cpfilters/cp/save-filter';
 			$event->rules['cpfilters/delete-filter'] = 'cpfilters/cp/delete-filter';
 
