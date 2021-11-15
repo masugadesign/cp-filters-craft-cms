@@ -37,4 +37,16 @@ class Settings extends Model
 	 */
 	public $additionalFieldTypes = [];
 
+	/**
+	 * A boolean determining whether or not to include Craft Commerce-related
+	 * filters in this site.
+	 */
+	public $includeCommerce = false;
+
+	/**
+	 * An array of product type IDs that should appear as filterable options.
+	 * @var mixed
+	 */
+	public $filterableProductTypeIds = null;
+
 }

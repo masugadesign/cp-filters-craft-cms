@@ -1,0 +1,31 @@
+<table class="data fullwidth fixed-layout filteredTable" dir="ltr" style="margin-bottom:3rem" >
+	<thead>
+		<tr>
+			<th>Order Number</th>
+			<th>Order Status</th>
+			<th>Paid Status</th>
+			<th>Date Ordered</th>
+			<th>Total Paid</th>
+			<th>Customer</th>
+			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
+			<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% for element in filteredElements %}
+		<tr>
+			<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.reference }}</a></td>
+			<td>{{ element.orderStatus|title|e }}</td>
+			<td>{{ element.paidStatus|title|e }}</td>
+			<td>{{ element.dateCreated|date('Y-m-d g:i a') }}</td>
+			<td>{{ element.totalPaid|title|currency }}</td>
+			<td>{{ element.customer.email }}</td>
+			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
+			{# Preview values may contain links so perform a "raw" output. #}
+			<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>

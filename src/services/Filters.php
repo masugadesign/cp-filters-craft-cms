@@ -19,7 +19,7 @@ class Filters extends Service
 	 */
 	public function groupParamKey($typeKey): string
 	{
-		if ( $typeKey === 'entries' ) {
+		if ( $typeKey === 'entries' || $typeKey == 'products' ) {
 			$key = 'typeId';
 		} elseif ( $typeKey === 'assets' ) {
 			$key = 'volumeId';
@@ -48,6 +48,10 @@ class Filters extends Service
 			$options = $this->plugin->categoryGroups->groupOptions();
 		} elseif ( $typeKey === 'tags') {
 			$options = $this->plugin->tagGroups->groupOptions();
+		} elseif ( $typeKey == 'orders' ) {
+			$options = [];
+		} elseif ( $typeKey == 'products' ) {
+			$options = $this->plugin->productGroups->groupOptions();
 		}
 		return $options;
 	}
@@ -70,6 +74,10 @@ class Filters extends Service
 			$ids = $this->plugin->getSettings()->filterableCategoryGroupIds;
 		} elseif ( $typeKey === 'tags') {
 			$ids = $this->plugin->getSettings()->filterableTagGroupIds;
+		} elseif ($typeKey == 'orders') {
+			$ids = '*';
+		} elseif ($typeKey == 'products') {
+			$ids = $this->plugin->getSettings()->filterableProductTypeIds;
 		}
 		return $ids;
 	}
@@ -92,6 +100,8 @@ class Filters extends Service
 			$criteria['typeId'] = $groupId ?: $fallBackIds;
 		} elseif ( $typeKey === 'tags' ) {
 			$criteria['groupId'] = $groupId ?: $fallBackIds;
+		} elseif ($typeKey == 'products') {
+			$criteria['typeId'] = $groupId ?: $fallBackIds;
 		}
 		return $criteria;
 	}
@@ -116,6 +126,10 @@ class Filters extends Service
 			$fields = $groupId ? $this->plugin->categoryGroups->fields($groupId) : [];
 		} elseif ( $typeKey === 'tags') {
 			$fields = $groupId ? $this->plugin->tagGroups->fields($groupId) : [];
+		} elseif ( $typeKey == 'orders' ) {
+			$fields = $this->plugin->orderGroups->fields();
+		} elseif ( $typeKey == 'products' ) {
+			$fields = $groupId ? $this->plugin->productGroups->fields($groupId) : [];
 		}
 		return $fields;
 	}
@@ -138,6 +152,10 @@ class Filters extends Service
 			$options = $this->plugin->categoryGroups->statusOptions();
 		} elseif ( $typeKey === 'tags') {
 			$options = $this->plugin->tagGroups->statusOptions();
+		} elseif ( $typeKey == 'orders' ) {
+			$options = $this->plugin->orderGroups->statusOptions();
+		} elseif ( $typeKey == 'products' ) {
+			$options = $this->plugin->productGroups->statusOptions();
 		}
 		return $options;
 	}

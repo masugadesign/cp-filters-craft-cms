@@ -1,0 +1,51 @@
+<table class="data fullwidth fixed-layout filteredTable" dir="ltr" style="margin-bottom:3rem" >
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Status</th>
+			<th>Variants</th>
+			<th>Post Date</th>
+			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
+			<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% for element in filteredElements %}
+		<tr>
+			<td>{{ element.id }}</td>
+			<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.title|e }}</a></td>
+			<td>{{ element.status|title|e }}</td>
+			<td>
+				{% set variants = craft.variants.product(element).all() %}
+				{% if variants %}
+					{% for variant in variants %}
+						<div
+							class="element small hasstatus"
+							data-type="craft\commerce\elements\Variant"
+							data-id="{{ variant.id }}"
+							data-status="{{ variant.status }}"
+							data-label="{{ variant.title|e }}"
+							title="{{ variant.title|e }}"
+						>
+							<span class="status {{ variant.status }}"></span>
+							<div class="label">
+								<span class="title">
+									<a href="{{ element.getCpEditUrl() ~ '?variant=' ~ variant.id }}">{{ variant.title|e }}</a>
+								</span>
+							</div>
+						</div>
+					{% endfor %}
+				{% else %}
+				{% endif %}
+			</td>
+			<td>{{ element.postDate|date('Y-m-d g:i a') }}</td>
+			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
+			{# Preview values may contain links so perform a "raw" output. #}
+			<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>

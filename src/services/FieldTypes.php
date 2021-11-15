@@ -67,7 +67,8 @@ class FieldTypes extends Service
 		'craft\fields\Tags' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\fields\Users' => ['is assigned', 'is empty', 'is not empty'],
 		'craft\redactor\Field' => ['contains', 'is empty', 'is not empty'],
-		'STATUS' => ['is equal to']
+		'STATUS' => ['is equal to'],
+		'ORDERSTATUS' => ['is equal to']
 	];
 
 	/**
@@ -90,6 +91,8 @@ class FieldTypes extends Service
 		'postDate' => 'craft\fields\Date',
 		'dateCreated' => 'craft\fields\Date',
 		'dateUpdated' => 'craft\fields\Date',
+		'orderStatus' => 'ORDERSTATUS',
+		'dateOrdered' => 'craft\fields\Date'
 	];
 
 	/**
@@ -101,15 +104,19 @@ class FieldTypes extends Service
 	{
 		$excludes = [];
 		if ( $typeKey === 'entries' ) {
-			$excludes = ['username','firstName','lastName','email','filename','groupId'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'assets' ) {
-			$excludes = ['username','firstName','lastName','email','groupId','postDate','status'];
+			$excludes = ['username','firstName','lastName','email','groupId','postDate','status','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'users' ) {
-			$excludes = ['title','filename','postDate'];
+			$excludes = ['title','filename','postDate','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'categories' ) {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'tags') {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate'];
+			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate','orderStatus','dateOrdered'];
+		} elseif ( $typeKey == 'orders' ) {
+			$excludes = ['username','firstName','lastName','email','filename','groupId','status','dateCreated','postDate'];
+		} elseif ( $typeKey == 'products' ) {
+			$excludes = ['username','firstName','lastName','email','filename','groupId','orderStatus','dateOrdered'];
 		}
 		return $excludes;
 	}
@@ -211,8 +218,8 @@ class FieldTypes extends Service
 				$options = $this->getRelationFieldOptionsByField($field);
 			} elseif ( $field instanceof Lightswitch ) {
 				$options = [
-					'1' => $field->onLabel,
-					'0' => $field->offLabel
+					'1' => property_exists($field, 'onLabel') && $field->onLabel ? $field->onLabel : '1',
+					'0' => property_exists($field, 'offLabel') && $field->offLabel ? $field->offLabel : '0'
 				];
 			} else {
 				$fieldOptions = $field->options ?? [];
@@ -392,7 +399,9 @@ class FieldTypes extends Service
 	{
 		// Be careful of "garbage in".
 		if ( $fieldHandle && $filterType ) {
-			if ( $filterType === 'is assigned' ) {
+			if ( $fieldHandle == 'orderStatus' ) {
+				$criteria = [ 'orderStatusId' => str_replace('[value]', $value, self::FILTER_TYPES[$filterType]) ];
+			} elseif ( $filterType === 'is assigned' ) {
 				$criteria = ['relatedTo' => ['field' => $fieldHandle, 'targetElement' => $value]];
 			} elseif ( $filterType === 'assigned count less than' ) {
 

@@ -17,7 +17,7 @@
 
 
 {# Fetch the field options by handle. #}
-{% if fieldHandle == 'status' %}
+{% if fieldHandle == 'status' or fieldHandle == 'orderStatus' %}
 	{% set fieldOptions = craft.cpfilters.statusOptions(elementTypeKey) %}
 {% else %}
 	{% set fieldOptions = fieldHandle ? craft.cpfilters.fieldOptions(fieldHandle) : [] %}
@@ -28,9 +28,18 @@
 {% else %}
 	<div class="select" >
 		<select class="filterValue" id="filterSelect{{ index }}" name="filters[{{ index }}][value]" {% if 'empty' in filterType %}readonly="readonly"{% endif %} data-filter-value="select" data-idx="{{ index }}" >
-		{% for opValue,opLabel in fieldOptions %}
-			<option value="{{ opValue }}" {% if opValue|t is same as(fieldValue|t) %}selected="selected"{% endif %} >{{ opLabel|e }}</option>
-		{% endfor %}
+			{# The order of the status id and handle are reversed for orderStatus
+				since it's difficult to use non-sequential numbers as array keys
+			#}
+			{% if fieldHandle == 'orderStatus' %}
+				{% for opValue,opLabel in fieldOptions %}
+					<option value="{{ opLabel }}" {% if opValue|t is same as(fieldValue|t) %}selected="selected"{% endif %} >{{ opValue|e }}</option>
+				{% endfor %}
+			{% else %}
+				{% for opValue,opLabel in fieldOptions %}
+					<option value="{{ opValue }}" {% if opValue|t is same as(fieldValue|t) %}selected="selected"{% endif %} >{{ opLabel|e }}</option>
+				{% endfor %}
+			{% endif %}
 		</select>
 	</div>
 {% endif %}

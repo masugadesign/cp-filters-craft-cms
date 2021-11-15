@@ -16,7 +16,7 @@
 Add the following to your composer.json requirements. Be sure to adjust the version number to match the version you wish to install.
 
 ```
-"masugadesign/cpfilters": "1.1.3",
+"masugadesign/cpfilters": "1.2.0",
 ```
 
 ### Config
@@ -68,6 +68,15 @@ Filter options: `contains`, `starts with`, `ends with`, `is equal to`, `is assig
 	'modules\masuga\fields\CategoriesMultipleSources' => ['is assigned', 'is empty', 'is not empty']
 ],
 ```
+
+#### includeCommerce
+
+Specify whether or not Craft Commerce is installed on this site and should be available to CP Filters.
+**Note**: Currently, the only filterable "objects" from Craft Commerce that are available to CP Filters are Products and Orders.
+
+#### filterableProductTypeIds
+
+Specify an array of Product Type IDs to restrict which types are filterable.
 
 ### Saved Filters
 You can save the set of currently selected filters to easily view the results later. Filters are saved per User.
