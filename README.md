@@ -16,7 +16,7 @@
 Add the following to your composer.json requirements. Be sure to adjust the version number to match the version you wish to install.
 
 ```
-"masugadesign/cpfilters": "1.2.0",
+"masugadesign/cpfilters": "1.3.0",
 ```
 
 ### Config

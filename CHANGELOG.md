@@ -1,12 +1,17 @@
 # Changelog
 
+## 1.3.0 - 2022-03-25
+
+### Added
+- Added `Saved Filters` field type to establish relationships between CP Filters `SavedFilter` elements and other Craft elements.
+
 ## 1.2.0 - 2021-11-15
+
 ### Added
 - Added support for Craft Commerce Products and Orders.
 
 ### Fixed
 - Fixed lightswitch "onLabel" and "offLabel" support for pre-3.5.4 Craft versions.
-
 
 ## 1.1.3 - 2021-08-25
 
