@@ -85,6 +85,7 @@ class SavedFilter extends Element
 				'defaultSort' => ['elements.dateCreated', 'desc']
 			],
 		];
+		return $sources;
 	}
 
 	/**
@@ -96,6 +97,21 @@ class SavedFilter extends Element
 		$query = Craft::createObject(SavedFilterQuery::class, [static::class]);
 		$query->where(['cpfilters_savedfilters.dateDeleted' => null]);
 		return $query;
+	}
+
+	/**
+	 * Returns the attributes that can be shown/sorted by in table views.
+	 * @param string|null $source
+	 * @return array
+	 */
+	public static function defineTableAttributes($source = null): array
+	{
+		$tableAttributes = [
+			'title' => Craft::t('cpfilters', 'Filter Title'),
+			'id' => Craft::t('cpfilters', 'ID'),	
+			'dateCreated' => Craft::t('cpfilters', 'Date Created')
+		];
+		return $tableAttributes;
 	}
 
 	/**
@@ -113,7 +129,7 @@ class SavedFilter extends Element
 	{
 		return [
 			'elements.dateCreated' => Craft::t('app', 'Date Created'),
-			'title' => Craft::t('CpFilters', 'Title')
+			'title' => Craft::t('cpfilters', 'Title')
 		];
 	}
 

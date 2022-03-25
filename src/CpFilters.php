@@ -10,6 +10,7 @@ use craft\events\RegisterUrlRulesEvent;
 use craft\log\FileTarget;
 use craft\services\Dashboard;
 use craft\services\Elements;
+use craft\services\Fields;
 use craft\services\Plugins;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
@@ -17,6 +18,7 @@ use craft\web\View;
 use Masuga\CpFilters\assetbundles\cp\CpAsset;
 use Masuga\CpFilters\controllers\CpController;
 use Masuga\CpFilters\elements\SavedFilter;
+use Masuga\CpFilters\fields\SavedFilters as SavedFiltersField;
 use Masuga\CpFilters\models\Settings;
 use Masuga\CpFilters\services\AssetVolumes;
 use Masuga\CpFilters\services\EntryTypes;
@@ -171,6 +173,9 @@ class CpFilters extends Plugin
 			'logFile' => Craft::$app->getPath()->getLogPath().'/cpfilters-craft.log',
 			'categories' => ['cpfilters']
 		]);
+		Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
+			$event->types[] = SavedFiltersField::class;
+		});
 		// Load the template variables class.
 		Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function (Event $event) {
 			$variable = $event->sender;

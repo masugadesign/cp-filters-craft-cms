@@ -1,0 +1,12 @@
+{% extends "_components/fieldtypes/elementfieldsettings" %}
+
+{% import "_includes/forms" as forms %}
+
+{% set isMatrix = 'craft\\fields\\Matrix' in craft.app.view.getNamespace() %}
+
+{% block fieldSettings %}
+	{% block sourcesField %}{% endblock %}
+	{{ block('limitField') }}
+	{{ block('viewModeField') }}
+	{{ block('selectionLabelField') }}
+{% endblock %}
