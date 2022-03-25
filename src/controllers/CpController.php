@@ -20,7 +20,7 @@ class CpController extends Controller
 	 */
 	private $plugin = null;
 
-	public function init()
+	public function init(): void
 	{
 		parent::init();
 		$this->plugin = CpFilters::getInstance();

@@ -16,7 +16,7 @@ class SavedFilterQuery extends ElementQuery
 	 * Public properties
 	 */
 	public $userId = null;
-	public $title = null;
+	public mixed $title = null;
 	public $filterElementType = null;
 	public $filterGroupId = null;
 	public $filterCriteria = null;
@@ -30,7 +30,7 @@ class SavedFilterQuery extends ElementQuery
 	/**
 	* @inheritdoc
 	*/
-	protected $defaultOrderBy = ['cpfilters_savedfilters.dateCreated' => SORT_DESC];
+	protected array $defaultOrderBy = ['cpfilters_savedfilters.dateCreated' => SORT_DESC];
 
 	/**
 	 * Override the established __set() method so we can add properties on-the-fly
@@ -55,7 +55,7 @@ class SavedFilterQuery extends ElementQuery
 		}
 	}
 
-	public function init()
+	public function init(): void
 	{
 		parent::init();
 		$this->plugin = CpFilters::getInstance();
@@ -64,7 +64,7 @@ class SavedFilterQuery extends ElementQuery
 	/**
 	 * @inheritdoc
 	 */
-	public function with($value)
+	public function with($value): \craft\elements\db\ElementQuery
 	{
 		$this->with = $value;
 		return $this;

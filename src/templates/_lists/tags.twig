@@ -4,8 +4,10 @@
 			<th>ID</th>
 			<th>Title</th>
 			<th>Date Updated</th>
-			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
-			<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
+			{% for i,filterData in filtersParam %}
+				{% if filterData.fieldHandle is not empty %}
+				<th>{{ craft.cpfilters.toWords(filterData.fieldHandle)|e }}</th>
+				{% endif %}
 			{% endfor %}
 		</tr>
 	</thead>
@@ -15,9 +17,11 @@
 			<td>{{ element.id }}</td>
 			<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.title|e }}</a></td>
 			<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
-			{% for i,filterData in filtersParam if filterData.fieldHandle is not empty %}
-			{# Preview values may contain links so perform a "raw" output. #}
-			<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
+			{% for i,filterData in filtersParam %}
+				{% if filterData.fieldHandle is not empty %}
+				{# Preview values may contain links so perform a "raw" output. #}
+				<td class="filtered">{{ craft.cpfilters.previewValue(element, filterData.fieldHandle)|raw }}</td>
+				{% endif %}
 			{% endfor %}
 		</tr>
 	{% endfor %}

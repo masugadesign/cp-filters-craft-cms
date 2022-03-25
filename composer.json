@@ -1,11 +1,11 @@
 {
   "name": "masugadesign/cpfilters",
   "description": "Advanced filtering for elements in the control panel.",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "type": "craft-plugin",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "require": {
-    "craftcms/cms": "^3.3.16 <3.8"
+    "craftcms/cms": "^4.0.0-beta.1"
   },
   "autoload": {
     "psr-4": {
@@ -26,5 +26,12 @@
     "developerUrl": "https://gomasuga.com",
     "changelogUrl": "https://raw.githubusercontent.com/masugadesign/cp-filters-craft-cms/master/CHANGELOG.md",
 	"class": "Masuga\\CpFilters\\CpFilters"
+  },
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
   }
 }

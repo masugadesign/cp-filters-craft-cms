@@ -7,7 +7,6 @@ use craft\base\Plugin;
 use craft\events\PluginEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
-use craft\log\FileTarget;
 use craft\services\Dashboard;
 use craft\services\Elements;
 use craft\services\Fields;
@@ -41,13 +40,13 @@ class CpFilters extends Plugin
 	 * index template by default.
 	 * @var boolean
 	 */
-	public $hasCpSection = true;
+	public bool $hasCpSection = true;
 
 	/**
 	 * Enables the plugin settings form.
 	 * @var boolean
 	 */
-	public $hasCpSettings = true;
+	public bool $hasCpSettings = true;
 
 	/**
 	 * Determine whether or not to show various Commerce-related items
@@ -80,7 +79,7 @@ class CpFilters extends Plugin
 	 * This method returns the plugin's Settings model instance.
 	 * @return Settings
 	 */
-	protected function createSettingsModel(): Settings
+	protected function createSettingsModel(): ?\craft\base\Model
 	{
 		return new Settings();
 	}
@@ -89,7 +88,7 @@ class CpFilters extends Plugin
 	 * This method returns the settings form HTML content.
 	 * @return string
 	 */
-	protected function settingsHtml(): string
+	protected function settingsHtml(): ?string
 	{
 		return Craft::$app->getView()->renderTemplate('cpfilters/_settings', [
 			'settings' => $this->getSettings()
@@ -99,7 +98,7 @@ class CpFilters extends Plugin
 	/**
 	 * @inheritdoc
 	 */
-	public function getCpNavItem(): array
+	public function getCpNavItem(): ?array
 	{
 		$nav = parent::getCpNavItem();
 
@@ -168,11 +167,6 @@ class CpFilters extends Plugin
 				$event->types[] = SavedFilter::class;
 			}
 		);
-		// Register the CP Filters plugin log though we probably won't use this.
-		$fileTarget = new FileTarget([
-			'logFile' => Craft::$app->getPath()->getLogPath().'/cpfilters-craft.log',
-			'categories' => ['cpfilters']
-		]);
 		Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
 			$event->types[] = SavedFiltersField::class;
 		});
