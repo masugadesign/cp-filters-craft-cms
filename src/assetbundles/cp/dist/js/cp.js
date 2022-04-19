@@ -112,9 +112,15 @@ function toggleValueFieldReadonly(index)
 		valueField.val('');
 		valueField.attr('readonly', true);
 		valueField.prop('disabled', true);
+		if ( typeof valueField[0].slim !== "undefined" ) {
+			valueField[0].slim.disable();
+		}
 	} else {
 		valueField.attr('readonly', false);
 		valueField.prop('disabled', false);
+		if ( typeof valueField[0].slim !== "undefined" ) {
+			valueField[0].slim.enable();
+		}
 	}
 }
 
