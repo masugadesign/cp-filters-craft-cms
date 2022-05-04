@@ -520,8 +520,8 @@ class FieldTypes extends Service
 	public function getAssetsFieldSourceOptions(Assets &$field): array
 	{
 		$volumes = [];
-		if ( $field->singleUploadLocationSource ) {
-			$volumes[] = $field->singleUploadLocationSource;
+		if ( $field->restrictedLocationSource ) {
+			$volumes[] = $field->restrictedLocationSource;
 		} elseif ( $field->source ) {
 			$volumes[] = $field->source;
 		} else {

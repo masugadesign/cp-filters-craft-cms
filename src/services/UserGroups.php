@@ -66,7 +66,7 @@ class UserGroups extends Service
 		$fieldTypes = $this->plugin->fieldTypes->getSupportedFieldTypes();
 		$fieldsService = Craft::$app->getFields();
 		$layout = $fieldsService->getLayoutByType(User::class);
-		$fields = $layout->getFields();
+		$fields = $layout->getCustomFields();
 		// Loop through each field and make sure it is a supported field type.
 		foreach($fields as $index => &$field) {
 			if ( ! in_array(get_class($field), $fieldTypes) ) {

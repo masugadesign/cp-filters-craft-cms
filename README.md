@@ -8,15 +8,15 @@
 
 ### Requirements
 
-* Craft CMS v3.3.16+
-* PHP 7.0+
+* Craft CMS v4.0.0+
+* PHP 8.0.2+
 
 ### Installation
 
 Add the following to your composer.json requirements. Be sure to adjust the version number to match the version you wish to install.
 
 ```
-"masugadesign/cpfilters": "1.3.0",
+"masugadesign/cpfilters": "2.0.0",
 ```
 
 ### Config

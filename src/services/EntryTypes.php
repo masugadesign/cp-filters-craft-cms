@@ -84,7 +84,7 @@ class EntryTypes extends Service
 			// Get an array of supported field type from the plugin's FieldTypes service.
 			$fieldTypes = $this->plugin->fieldTypes->getSupportedFieldTypes();
 			$layout = $entryType->fieldLayout;
-			$fields = $layout->getFields();
+			$fields = $layout->getCustomFields();
 			// Loop through each field and make sure it is a supported field type.
 			foreach($fields as $index => &$field) {
 				if ( ! in_array(get_class($field), $fieldTypes) ) {

@@ -13,12 +13,12 @@ class SavedFilters extends BaseRelationField
 	/**
      * @inheritdoc
      */
-    protected $settingsTemplate = 'cpfilters/_savedFiltersField/settings';
+    protected string $settingsTemplate = 'cpfilters/_savedFiltersField/settings';
 
     /**
      * @inheritdoc
      */
-    protected $inputTemplate = 'cpfilters/_savedFiltersField/input';
+    protected string $inputTemplate = 'cpfilters/_savedFiltersField/input';
 
 	/**
 	 * @inheritdoc
@@ -31,7 +31,7 @@ class SavedFilters extends BaseRelationField
 	/**
 	 * @inheritdoc
 	 */
-	protected static function elementType(): string
+	public static function elementType(): string
 	{
 		return SavedFilter::class;
 	}
