@@ -3,7 +3,7 @@
 ## 2.0.0
 
 ### Changed
-- Updated to support Craft 4.
+- Updated to support Craft 4.0.
 
 ## 1.3.0 - 2022-03-25
 
