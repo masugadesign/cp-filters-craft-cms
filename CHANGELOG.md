@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 - 2023-04-12
+
+### Changed
+- Added support for Craft 3.8.
+
 ## 1.3.0 - 2022-03-25
 
 ### Added
