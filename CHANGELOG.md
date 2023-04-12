@@ -4,7 +4,7 @@
 
 ### Fixed
 - Fixed missing release date in changelog.
-- Updated dependencies to address a composer/composer 2.0-2.2.11 vulnerabilty.
+- Updated dependencies to address a composer/composer 2.0-2.2.11 vulnerability.
 
 ## 2.0.0 - 2022-05-04
 
