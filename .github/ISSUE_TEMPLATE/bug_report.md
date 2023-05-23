@@ -1,14 +1,14 @@
 ---	
-name: Bug report	
+name: Issue report	
 about: Create a report to help us improve	
 title: ''	
-labels: 'bug'	
+labels: 'issue'	
 assignees: 'benjaminkohl, ryanmasuga'	
 
 ---
 
-**Describe the bug**  
-A clear and concise description of what the bug is.
+**Describe the issue**  
+A clear and concise description of the issue.
 
 **Craft Version & Installed Plugin Version**  
 Craft:   
