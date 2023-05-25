@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0 - 2023
+
+- Added ability to include drafts in results.
+- Added ability to filter entries by authorId or authorEmail.
+
 ## 2.0.1 - 2022-05-05
 
 ### Fixed
