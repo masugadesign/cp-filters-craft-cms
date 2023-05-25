@@ -20,6 +20,7 @@ class SavedFilterQuery extends ElementQuery
 	public $filterElementType = null;
 	public $filterGroupId = null;
 	public $filterCriteria = null;
+	public $includeDrafts = null;
 
 	/**
 	 * The instance of the CP Filters plugin.
@@ -91,7 +92,8 @@ class SavedFilterQuery extends ElementQuery
 			'cpfilters_savedfilters.title',
 			'cpfilters_savedfilters.filterElementType',
 			'cpfilters_savedfilters.filterGroupId',
-			'cpfilters_savedfilters.filterCriteria'
+			'cpfilters_savedfilters.filterCriteria',
+			'cpfilters_savedfilters.includeDrafts'
 		];
 		$this->query->select($selectsArray);
 
@@ -109,6 +111,9 @@ class SavedFilterQuery extends ElementQuery
 		}
 		if ($this->filterCriteria) {
 			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.filterCriteria', $this->filterCriteria));
+		}
+		if ($this->includeDrafts) {
+			$this->subQuery->andWhere(Db::parseParam('cpfilters_savedfilters.includeDrafts', $this->includeDrafts));
 		}
 		return parent::beforePrepare();
 	}

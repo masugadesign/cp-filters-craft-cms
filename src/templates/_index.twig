@@ -5,6 +5,7 @@
 {% set groupId = craft.app.request.getParam('groupId') ?: null %}
 {# Fetch an existing batch of filters from the query string or initialize an empty set. #}
 {% set filtersParam = craft.app.request.getParam('filters') ?: {0 : {'fieldHandle' : '', 'filterType' : '', 'value' : '' } } %}
+{% set includeDrafts = craft.app.request.getParam('includeDrafts') == 'y' ? true : false %}
 {% set limit = groupId ? 50 : 25 %}
 {% set offset = craft.app.request.getParam('offset') ?: 0 %}
 
@@ -32,6 +33,7 @@ QUERIES
 {% set criteria = craft.cpfilters.elementGroupCriteria(elementTypeKey, groupId) %}
 {# Add any available filter criteria to the entry query. #}
 {% set criteria = filtersParam ? criteria|merge( craft.cpfilters.formatFilterCriteria(filtersParam) ) : criteria %}
+{% set criteria = includeDrafts ? criteria|merge({'drafts' : null}) : criteria %}
 {# Orders are sorted differently #}
 {% set orderByParam = elementTypeKey == 'orders' ? 'dateOrdered desc' : 'dateCreated desc' %}
 {# Get the TOTAL match count without imposing limits. #}
@@ -129,6 +131,16 @@ window.csrfTokenValue = "{{ craft.app.request.getCsrfToken }}";
 				<a href="#" class="btn" data-add-filter >+</a>
 			</div>
 		{% endfor %}
+		{% if elementTypeKey == 'entries' %}
+			<div class="field" >
+				<input type="checkbox"
+					class="checkbox"
+					id="includeDrafts"
+					name="includeDrafts"
+					{% if includeDrafts %}checked="checked"{% endif %}
+					value="y" ><label for="includeDrafts" >Include drafts in the results?</label>
+			</div>
+		{% endif %}
 		</div>
 
 		<div class="filterControls" >

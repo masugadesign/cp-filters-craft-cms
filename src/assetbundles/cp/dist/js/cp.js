@@ -162,6 +162,7 @@ $("#saveFilterButton").on("click", function(e){
 	// Get the userId and filter title onto the main form
 	var userIdInput      = $("input[name='userId']");
 	var filterTitleInput = $("input[name='filterTitle']");
+	var includeDrafts    = $("input[name='includeDrafts']:checked").length == 1 ? 'y' : '';
 
 	// Use the primary criteria-creation form,
 	// but submit it with a different action
@@ -172,7 +173,8 @@ $("#saveFilterButton").on("click", function(e){
 	formData.push(
 		{name: 'userId', value: $(userIdInput).val()},
 		{name: 'filterTitle', value: $(filterTitleInput).val()},
-		{'name' : window.csrfTokenName, 'value' : window.csrfTokenValue}
+		{name : window.csrfTokenName, value : window.csrfTokenValue},
+		{name : 'includeDrafts', value : includeDrafts}
 	);
 
 	$.ajax({

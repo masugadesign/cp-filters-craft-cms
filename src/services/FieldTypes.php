@@ -87,6 +87,8 @@ class FieldTypes extends Service
 		'title' => 'craft\fields\PlainText',
 		'slug' => 'craft\fields\PlainText',
 		'siteId' => 'craft\fields\Number',
+		'authorId' => 'craft\fields\Number',
+		//'author' => 'craft\fields\PlainText',
 		'status' => 'STATUS',
 		'postDate' => 'craft\fields\Date',
 		'dateCreated' => 'craft\fields\Date',
@@ -106,17 +108,17 @@ class FieldTypes extends Service
 		if ( $typeKey === 'entries' ) {
 			$excludes = ['username','firstName','lastName','email','filename','groupId','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'assets' ) {
-			$excludes = ['username','firstName','lastName','email','groupId','postDate','status','orderStatus','dateOrdered'];
+			$excludes = ['username','firstName','lastName','email','authorId','groupId','postDate','status','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'users' ) {
 			$excludes = ['title','filename','postDate','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'categories' ) {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate','orderStatus','dateOrdered'];
+			$excludes = ['username','firstName','lastName','email','authorId','filename','groupId','postDate','orderStatus','dateOrdered'];
 		} elseif ( $typeKey === 'tags') {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','postDate','orderStatus','dateOrdered'];
+			$excludes = ['username','firstName','lastName','email','authorId','filename','groupId','postDate','orderStatus','dateOrdered'];
 		} elseif ( $typeKey == 'orders' ) {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','status','dateCreated','postDate'];
+			$excludes = ['username','firstName','lastName','email','authorId','filename','groupId','status','dateCreated','postDate'];
 		} elseif ( $typeKey == 'products' ) {
-			$excludes = ['username','firstName','lastName','email','filename','groupId','orderStatus','dateOrdered'];
+			$excludes = ['username','firstName','lastName','email','authorId','filename','groupId','orderStatus','dateOrdered'];
 		}
 		return $excludes;
 	}

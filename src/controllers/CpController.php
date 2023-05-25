@@ -106,6 +106,7 @@ class CpController extends Controller
 		$elementTypeKey = $request->getParam('elementTypeKey');
 		$filterElementType = $request->getParam('elementType');
 		$filterInput = $request->getParam('filters') ?: [];
+		$includeDrafts = $request->getParam('includeDrafts') === 'y' ? 'y' : '';
 		$criteria = json_encode($filterInput);
 
 		$fields = [
@@ -113,7 +114,8 @@ class CpController extends Controller
 			'filterElementType' => $filterElementType,
 			'filterGroupId' => $groupId,
 			'filterCriteria' => $criteria,
-			'userId' => $userId
+			'userId' => $userId,
+			'includeDrafts' => $includeDrafts
 		];
 
 		$savedFilter = $this->plugin->savedFilters->saveFilter($fields, $id);

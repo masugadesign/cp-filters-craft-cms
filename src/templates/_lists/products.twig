@@ -18,7 +18,7 @@
 		<tr>
 			<td>{{ element.id }}</td>
 			<td><a href="{{ element.getCpEditUrl() }}" target="_blank" >{{ element.title|e }}</a></td>
-			<td>{{ element.status|title|e }}</td>
+			<td>{{ element.status|title|e }}{% if element.draftId %} (Draft{% if element.canonicalId and element.canonicalId != element.id %} of {{ element.canonicalId }}{% endif %}){% endif %}</td>
 			<td>
 				{% set variants = craft.variants.product(element).all() %}
 				{% if variants %}

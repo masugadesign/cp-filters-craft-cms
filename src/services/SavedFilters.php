@@ -32,9 +32,10 @@ class SavedFilters extends Service
 		}
 		$savedFilter->siteId = Craft::$app->getSites()->currentSite->id;
 		$savedFilter->title = $input['title'];
-		$savedFilter->filterElementType = $input['filterElementType']?? $savedFilter->filterElementType;
-		$savedFilter->filterGroupId = $input['filterGroupId']?? $savedFilter->filterGroupId;
+		$savedFilter->filterElementType = $input['filterElementType'] ?? $savedFilter->filterElementType;
+		$savedFilter->filterGroupId = $input['filterGroupId'] ?? $savedFilter->filterGroupId;
 		$savedFilter->filterCriteria = $input['filterCriteria'] ?? $savedFilter->filterCriteria;
+		$savedFilter->includeDrafts = $input['includeDrafts'] ?? $savedFilter->filterCriteria;
 		$savedFilter->userId = $input['userId'];
 		// On a successful save, return the savedFilter element itself.
 		return Craft::$app->getElements()->saveElement($savedFilter) ? $savedFilter : null;
@@ -101,7 +102,8 @@ class SavedFilters extends Service
 		$filterUrl = UrlHelper::cpUrl('cpfilters/' . $elementTypeKey, [
 			'elementType' => $elementTypeKey,
 			'groupId' => $groupId,
-			'filters'=> json_decode($criteria)
+			'filters' => json_decode($criteria),
+			'includeDrafts' => $element->includeDrafts
 		]);
 		return $filterUrl;
 	}

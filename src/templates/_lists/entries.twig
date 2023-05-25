@@ -25,7 +25,7 @@
 				--
 			{% endif %}
 			</td>
-			<td>{{ element.status|title|e }}</td>
+			<td>{{ element.status|title|e }}{% if element.draftId %} (Draft{% if element.canonicalId and element.canonicalId != element.id %} of {{ element.canonicalId }}{% endif %}){% endif %}</td>
 			<td>{{ element.dateUpdated|date('Y-m-d g:i a') }}</td>
 			{% for i,filterData in filtersParam %}
 				{% if filterData.fieldHandle is not empty %}

@@ -26,6 +26,7 @@ class SavedFilter extends Element
 	public $filterElementType = null;
 	public $filterGroupId = null;
 	public $filterCriteria = null;
+	public $includeDrafts = null;
 	private $_user;
 
 	/**
@@ -210,6 +211,7 @@ class SavedFilter extends Element
 		$record->filterElementType = $this->filterElementType;
 		$record->filterGroupId = $this->filterGroupId;
 		$record->filterCriteria = $this->filterCriteria;
+		$record->includeDrafts = $this->includeDrafts;
 
 		$status = $record->save();
 		parent::afterSave($isNew);
