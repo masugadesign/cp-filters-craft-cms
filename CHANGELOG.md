@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1 - 2023
+
+- Fixed issue with includeDrafts column not being created on fresh install.
+
 ## 2.1.0 - 2023
 
 - Added ability to include drafts in results.
