@@ -12,6 +12,7 @@ class Install extends Migration
 				'id' => $this->primaryKey(),
 				'userId' => $this->integer(),
 				'title' => $this->string(255),
+				'includeDrafts' => $this->string(10),
 				'filterElementType' => $this->string(255),
 				'filterGroupId' => $this->integer(),
 				'filterCriteria' => $this->text(),
