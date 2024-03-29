@@ -1,6 +1,8 @@
 # CP Filters for Craft CMS
 
-![CP Filters for Craft CMS](https://www.gomasuga.com/uploads/software/cpfilters-entries-multiple-filters.jpg)
+> [!WARNING]
+> This is a discontinued commercial plugin and should not be installed without a previously purchased license.
+> For more information, see: https://www.gomasuga.com/blog/discontinuing-craft-plugin-sales
 
 ### Advanced filtering for Entry elements in the control panel.
 
